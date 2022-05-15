@@ -1,19 +1,10 @@
 import User from '@/models/User'
-
-// TODO probably extend IUser from User schema
-export interface IUser {
-  _id?: string
-  firstName: string
-  lastName: string
-  id: string
-}
+import type { IUser } from '@/models/User'
 
 // call .exec() on queries to convert to promise
 
-export const createUser = ({
-  firstName,
-  lastName,
-}: Omit<IUser, 'id'>): Promise<IUser> => User.create({ firstName, lastName })
+export const createUser = ({ firstName, lastName }: IUser): Promise<IUser> =>
+  User.create({ firstName, lastName })
 
 export const getUser = ({ id }: { id: string }): Promise<IUser> =>
   User.findById(id).lean().exec()
@@ -25,7 +16,7 @@ export const updateUser = ({
   id,
   firstName,
   lastName,
-}: IUser): Promise<IUser> =>
+}: IUser & { id: string }): Promise<IUser> =>
   User.findByIdAndUpdate(
     id,
     { firstName, lastName },

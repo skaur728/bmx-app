@@ -1,7 +1,7 @@
-import type { Document } from 'mongoose'
 import { Schema, model, models } from 'mongoose'
+import type { User } from 'next-auth'
 
-export interface IUser extends Document {
+export interface IUser extends User {
   firstName: string
   lastName: string
 }

@@ -3,7 +3,7 @@ import Container from '@mui/material/Container'
 import Typography from '@mui/material/Typography'
 import Box from '@mui/material/Box'
 import to from 'await-to-js'
-import type { IUser } from '@/controllers/user'
+import type { IUser } from '@/models/User'
 import dbConnect from '@/utils/store/dbConnect'
 import { getUsers } from '@/controllers/user'
 
