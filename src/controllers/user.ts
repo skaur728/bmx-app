@@ -3,8 +3,10 @@ import type { IUser } from '@/models/User'
 
 // call .exec() on queries to convert to promise
 
-export const createUser = ({ firstName, lastName }: IUser): Promise<IUser> =>
-  User.create({ firstName, lastName })
+export const createUser = ({
+  firstName,
+  lastName,
+}: Partial<IUser>): Promise<IUser> => User.create({ firstName, lastName })
 
 export const getUser = ({ id }: { id: string }): Promise<IUser> =>
   User.findById(id).lean().exec()
@@ -16,7 +18,7 @@ export const updateUser = ({
   id,
   firstName,
   lastName,
-}: IUser & { id: string }): Promise<IUser> =>
+}: Partial<IUser> & { id: string }): Promise<IUser> =>
   User.findByIdAndUpdate(
     id,
     { firstName, lastName },
