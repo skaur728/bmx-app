@@ -25,7 +25,7 @@
       "parserOptions": {
         "project": "./tsconfig.json"
       },
-      "plugins": ["@typescript-eslint", "prettier", "react-hooks"],
+      "plugins": ["prettier", "react-hooks"],
       "rules": {
         "prettier/prettier": [
           "error",

@@ -4,6 +4,7 @@
  * changes _id ObjectId String type
  */
 /* eslint-disable */
+// If someone wants to type this up, be my guest
 module.exports = function mongooseLeanId(schema) {
   schema.post('find', attachId)
   schema.post('findOne', attachId)
