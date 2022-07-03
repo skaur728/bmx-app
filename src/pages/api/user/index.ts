@@ -13,7 +13,6 @@ export default async function handler(
 
   if (method === 'POST') {
     const { firstName, lastName } = body
-
     const [error, user] = await to(createUser({ firstName, lastName }))
     if (error) return res.status(500).send({ error })
     return res.send({ user })
