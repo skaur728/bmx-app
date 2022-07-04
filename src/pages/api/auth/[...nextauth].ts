@@ -31,11 +31,17 @@ export default NextAuth({
           async authorize(credentials, req) {
               const email = credentials.email;
               const password = credentials.password;
-              if (!email) {
-                  throw new Error("Please enter a valid email address")
-              }
-              if (!password) {
-                  throw new Error("Please enter a password")
+              try {
+                  if (!email) {
+                      throw new Error("Please enter a valid email address")
+                  }
+                  if (!password) {
+                      throw new Error("Please enter a password")
+                  }
+              } catch (error) {
+                  let message = 'Unknown Error'
+                  if (error instanceof Error) message = error.message;
+                  console.log(message);
               }
               const client = await connectToDatabase();
               const usersCollection = client.db().collection('users');
@@ -43,7 +49,13 @@ export default NextAuth({
                   email: credentials.email,
               });
               if (!user) {
-                  throw new Error("You haven't registered yet")
+                  try {
+                      throw new Error("You haven't registered yet")
+                  } catch (error) {
+                      let message = 'Unknown Error'
+                      if (error instanceof Error) message = error.message;
+                      console.log(message);
+                  }
               }
               if (user) return signinUser({ password, user })
           }
@@ -52,12 +64,18 @@ export default NextAuth({
 })
 
 const signinUser = async ({ password, user }) => {
-    if (!user.password) {
-        throw new Error("Please enter password")
-    }
-    const isMatch = await compare(password, user.password)
-    if (!isMatch) {
-        throw new Error("Password Incorrect.");
+    try {
+        if (!user.password) {
+            throw new Error("Please enter password")
+        }
+        const isMatch = await compare(password, user.password)
+        if (!isMatch) {
+            throw new Error("Password Incorrect.");
+        }
+    } catch (error) {
+        let message = 'Unknown Error'
+        if (error instanceof Error) message = error.message;
+        console.log(message);
     }
     return user;
 }
