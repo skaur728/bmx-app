@@ -4,34 +4,35 @@ import Link from 'next/link';
 
 
 const AuthExample = () => {
-  const { data: session } = useSession()
+  const { data: session, status } = useSession()
 
   useEffect(() => {
     console.log(session)
   }, [session])
 
-  if (session) {
-    return (
-      <>
-        Signed in as {session?.user?.email} <br />
-        <button type="button" onClick={() => signOut()}>
-          Sign out
-        </button>
-      </>
-    )
-  }
-  return (
-    <>
-      Not signed in <br />
-      <button type="button" onClick={() => signIn()}>
-        Sign in
-      </button>
-      <br />
-      <Link href="/user/auth-form">
-         <a>Sign Up</a>
-      </Link>
-    </>
-  )
+    if (session || status == "authenticated") {
+        return (
+            <>
+                Signed in as {session?.user?.email} <br />
+                <button type="button" onClick={() => signOut()}>
+                    Sign out
+                </button>
+            </>
+        )
+    } else if (status == "unauthenticated") {
+        return (
+            <>
+                Not signed in <br />
+                <button type="button" onClick={() => signIn()}>
+                    Sign in
+                </button>
+                <br />
+                <Link href="/user/auth-form">
+                    <a>Sign Up</a>
+                </Link>
+            </>
+        )
+    }
 }
 
 export default AuthExample

@@ -8,6 +8,7 @@ import { compare } from "bcrypt";
 import { createUser, getUsers } from '@/controllers/user'
 import to from 'await-to-js'
 import { connectToDatabase } from '@/utils/connectDB'
+import { signIn } from 'next-auth/react'
 
 
 export default NextAuth({
@@ -28,6 +29,7 @@ export default NextAuth({
               email: { label: "Username (email)", type: "email"},
               password: { label: "Password", type: "password" }
           },
+
           async authorize(credentials, req) {
               const email = credentials.email;
               const password = credentials.password;
@@ -60,7 +62,10 @@ export default NextAuth({
               if (user) return signinUser({ password, user })
           }
       }),
-  ],
+    ],
+    session: {
+        strategy: 'jwt'
+    }
 })
 
 const signinUser = async ({ password, user }) => {

@@ -1,0 +1,16 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\src",
+    "\\src\\controllers",
+    "\\src\\pages",
+    "\\src\\pages\\api",
+    "\\src\\pages\\api\\auth",
+    "\\src\\pages\\api\\user",
+    "\\src\\pages\\user",
+    "\\src\\utils",
+    "\\src\\utils\\store"
+  ],
+  "SelectedNode": "\\src\\pages\\api\\auth\\[...nextauth].ts",
+  "PreviewInSolutionExplorer": false
+}
