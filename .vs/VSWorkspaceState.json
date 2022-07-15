@@ -11,6 +11,6 @@
     "\\src\\utils",
     "\\src\\utils\\store"
   ],
-  "SelectedNode": "\\src\\pages\\api\\auth\\[...nextauth].ts",
+  "SelectedNode": "\\.env.example",
   "PreviewInSolutionExplorer": false
 }
