@@ -35,4 +35,4 @@ yarn-error.log*
 *.tsbuildinfo
 /.vs/slnx.sqlite
 
-/.vs
+.vs/
