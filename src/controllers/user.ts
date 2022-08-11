@@ -11,6 +11,9 @@ export const createUser = ({
 export const getUser = ({ id }: { id: string }): Promise<IUser> =>
   User.findById(id).lean().exec()
 
+export const getUserByEmail = ({ email }: { email: string }): Promise<IUser> =>
+  User.findOne({ email }).lean().exec()
+
 export const getUsers = (): Promise<IUser[]> =>
   User.find({}).lean().exec() as Promise<IUser[]>
 

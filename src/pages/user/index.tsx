@@ -24,9 +24,9 @@ const UserPage: NextPage<Props> = ({ users }) => (
     >
       <Typography variant="h6">Users</Typography>
       <Box>
-        {users.map(({ firstName, lastName, _id }) => (
+        {users.map(({ name, email, _id }) => (
           <Typography variant="body1" key={_id}>
-            {firstName} {lastName}
+            {name}: {email}
           </Typography>
         ))}
       </Box>
@@ -37,6 +37,7 @@ const UserPage: NextPage<Props> = ({ users }) => (
 export async function getServerSideProps() {
   await dbConnect()
   const [, users] = await to(getUsers())
+  console.log(`Got ${users?.length} users: ${JSON.stringify(users)}`)
   return { props: { users } }
 }
 
