@@ -1,7 +1,8 @@
-import NextAuth from 'next-auth'
 import { MongoDBAdapter } from '@next-auth/mongodb-adapter'
-import GoogleProvider from 'next-auth/providers/google'
+import NextAuth from 'next-auth'
 import AzureADProvider from 'next-auth/providers/azure-ad'
+import GoogleProvider from 'next-auth/providers/google'
+
 import mongoConnect from '@/utils/store/mongoConnect'
 
 export default NextAuth({

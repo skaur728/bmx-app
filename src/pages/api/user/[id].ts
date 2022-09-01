@@ -1,7 +1,9 @@
-import type { NextApiRequest, NextApiResponse } from 'next'
 import to from 'await-to-js'
-import dbConnect from '@/utils/store/dbConnect'
+
 import { deleteUser, getUser, updateUser } from '@/controllers/user'
+import dbConnect from '@/utils/store/dbConnect'
+
+import type { NextApiRequest, NextApiResponse } from 'next'
 
 export default async function handler(
   req: NextApiRequest,
