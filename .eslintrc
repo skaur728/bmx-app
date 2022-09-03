@@ -19,13 +19,16 @@
         "airbnb/hooks",
         "airbnb-typescript",
         "next/core-web-vitals",
-        "prettier"
+        "prettier",
+        "plugin:import/recommended",
+        "plugin:import/typescript"
       ],
       "files": ["**/*.ts", "**/*.tsx"],
+      "parser": "@typescript-eslint/parser",
       "parserOptions": {
         "project": "./tsconfig.json"
       },
-      "plugins": ["prettier", "react-hooks"],
+      "plugins": ["@typescript-eslint", "prettier", "react-hooks", "import"],
       "rules": {
         "prettier/prettier": [
           "error",
@@ -49,8 +52,46 @@
         "@typescript-eslint/comma-dangle": "off", // Avoid conflict rule between Eslint and Prettier
         "@typescript-eslint/consistent-type-imports": "error", // Ensure `import type` is used when it's necessary
         "import/prefer-default-export": "off", // Named export is easier to refactor automatically
-        "@typescript-eslint/no-unused-vars": "warn"
+        "@typescript-eslint/no-unused-vars": "warn",
+        "sort-imports": [
+          "error",
+          {
+            "ignoreCase": false,
+            "ignoreDeclarationSort": true,
+            "ignoreMemberSort": false,
+            "memberSyntaxSortOrder": ["none", "all", "multiple", "single"],
+            "allowSeparatedGroups": true
+          }
+        ],
+        "import/order": [
+          "error",
+          {
+            "groups": [
+              "builtin", // Built-in imports (come from NodeJS native) go first
+              "external", // <- External imports
+              "internal", // <- Absolute imports
+              ["sibling", "parent"], // <- Relative imports, the sibling and parent types they can be mingled together
+              "index", // <- index imports
+              "unknown", // <- unknown imports
+              "type" // <- type imports
+            ],
+            "newlines-between": "always",
+            "alphabetize": {
+              /* sort in ascending order. Options: ["ignore", "asc", "desc"] */
+              "order": "asc",
+              /* ignore case. Options: [true, false] */
+              "caseInsensitive": true
+            }
+          }
+        ]
       }
     }
-  ]
+  ],
+  "settings": {
+    "import/resolver": {
+      "typescript": {
+        "project": "./tsconfig.json"
+      }
+    }
+  }
 }

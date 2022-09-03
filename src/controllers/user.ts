@@ -1,4 +1,5 @@
 import User from '@/models/User'
+
 import type { IUser } from '@/models/User'
 
 // call .exec() on queries to convert to promise

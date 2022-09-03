@@ -1,6 +1,7 @@
-import type { FC } from 'react'
-import type { ButtonProps } from '@mui/material'
 import { Button, styled } from '@mui/material'
+
+import type { ButtonProps } from '@mui/material'
+import type { FC } from 'react'
 
 const StyledButton = styled(Button)({})
 

@@ -1,4 +1,5 @@
 import { Schema, model, models } from 'mongoose'
+
 import type { User } from 'next-auth'
 
 export interface IUser extends User {
