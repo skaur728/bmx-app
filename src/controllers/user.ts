@@ -28,5 +28,8 @@ export const updateUser = ({
     .lean()
     .exec()
 
+export const findUserByEmail = ({ email }: { email: string }): Promise<IUser> =>
+  User.findOne({ email }).lean().exec()
+
 export const deleteUser = ({ id }: { id: string }): Promise<IUser> =>
   User.findByIdAndDelete(id).lean().exec()

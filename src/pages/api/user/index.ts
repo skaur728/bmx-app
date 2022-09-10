@@ -1,6 +1,6 @@
 import to from 'await-to-js'
 
-import { createUser, getUsers } from '@/controllers/user'
+import { createUser, findUserByEmail, getUsers } from '@/controllers/user'
 import dbConnect from '@/utils/store/dbConnect'
 
 import type { NextApiRequest, NextApiResponse } from 'next'
@@ -21,10 +21,20 @@ export default async function handler(
     return res.send({ user })
   }
   if (method === 'GET') {
-    const [error, users] = await to(getUsers())
-    if (error) return res.status(500).send({ error })
+    // If there is an email query parameter, search by that
+    if ('email' in req.query) {
+      const [error, user] = await to(
+        findUserByEmail({ email: req.query.email as string })
+      )
+      if (error) return res.status(500).send({ error })
 
-    return res.send({ users })
+      return res.send({ user })
+    } else {
+      const [error, users] = await to(getUsers())
+      if (error) return res.status(500).send({ error })
+
+      return res.send({ users })
+    }
   }
   return res.status(405).send({ message: 'Only POST & GET requests allowed' })
 }
