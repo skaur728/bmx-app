@@ -14,6 +14,8 @@ type Props = {
   providers: Provider
 }
 
+const DEFAULT_CALLBACK = '/dashboard'
+
 const SignIn = ({ providers }: Props) => {
   const { query } = useRouter()
 
@@ -24,7 +26,7 @@ const SignIn = ({ providers }: Props) => {
           <button
             onClick={() =>
               signIn(provider.id, {
-                callbackUrl: query?.redirect as string,
+                callbackUrl: (query?.redirect as string) || DEFAULT_CALLBACK,
               })
             }
             type="button"
