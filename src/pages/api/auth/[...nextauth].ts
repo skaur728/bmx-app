@@ -18,4 +18,7 @@ export default NextAuth({
       tenantId: process.env.AZURE_AD_TENANT_ID,
     }),
   ],
+  pages: {
+    signIn: '/auth/signin',
+  },
 })
