@@ -7,6 +7,7 @@ const Landing: NextPage = () => (
   <Box
     sx={{
       height: '100vh',
+      // background: 'linear-gradient(#1c2a3e 60%,  #ebdcbe)',
       backgroundImage: 'url(/images/main/gradient.svg)',
       backgroundRepeat: 'no-repeat',
       backgroundSize: 'cover',
@@ -16,20 +17,47 @@ const Landing: NextPage = () => (
     <Box
       sx={{
         backgroundImage: 'url(/images/main/stars.svg)',
-        backgroundRepeat: 'no-repeat',
-        backgroundSize: 'fill',
+        backgroundRepeat: 'repeat',
+        backgroundSize: 'contain',
         backgroundPosition: 'center',
-        height: '50vh',
+        height: '60vh',
+        width: '100%',
+        position: 'absolute',
+        top: 0,
+        left: '50%',
+        transform: 'translate(-50%)',
       }}
     />
-    {/* <Image
-      src="/images/main/stars.svg"
-      layout="responsive"
-      width={500}
-      height={500}
-      alt="stars"
-    /> */}
-    {/* <Image src="/images/main/tent.svg" layout="fill" alt="landing background" /> */}
+    <Box
+      sx={{
+        position: 'absolute',
+        bottom: 0,
+        left: '50%',
+        transform: 'translateX(-50%)',
+        width: '60vw',
+        minWidth: '300px',
+      }}
+    >
+      <Image
+        src="/images/main/tent.svg"
+        layout="responsive"
+        width={300}
+        height={137}
+        priority
+        alt="landing background"
+      />
+    </Box>
+
+    <Box sx={{ textAlign: 'center', color: '#ffe8c9', pt: 2 }}>
+      <Typography variant="h1">Come one, come all</Typography>
+      <Typography variant="h1" sx={{ fontFamily: 'Copperplate, sans-serif' }}>
+        Boilermake IX
+      </Typography>
+      <Typography variant="h2">
+        Purdue University | January{' '}
+        <span style={{ fontFamily: 'PlayFair' }}>20-22, 2023</span>
+      </Typography>
+    </Box>
   </Box>
 )
 

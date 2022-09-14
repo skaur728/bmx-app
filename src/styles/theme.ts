@@ -1,6 +1,5 @@
-import { createTheme } from '@mui/material/styles'
+import { createTheme, responsiveFontSizes } from '@mui/material/styles'
 
-// import Colombia from '../../public/assets/fonts/Colombia'
 // Create a theme instance.
 const theme = createTheme({
   components: {
@@ -14,16 +13,42 @@ const theme = createTheme({
         html: {
           scrollBehavior: 'smooth',
         },
-
         '@font-face': {
-          fontFamily: 'Colombina',
+          fontFamily: 'SpringFair',
           fontStyle: 'normal',
           fontDisplay: 'swap',
           fontWeight: 500,
-          src: 'url("/assets/fonts/Colombina.ttf")',
-          unicodeRange:
-            'U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF',
+          src: 'url("/assets/fonts/SpringFair.ttf")',
         },
+        fallbacks: [
+          {
+            '@font-face': {
+              fontFamily: 'Colombina',
+              fontStyle: 'normal',
+              fontDisplay: 'swap',
+              fontWeight: 500,
+              src: 'url("/assets/fonts/Colombina.ttf") format("truetype")',
+            },
+          },
+          {
+            '@font-face': {
+              fontFamily: 'PlayFair',
+              fontStyle: 'normal',
+              fontDisplay: 'swap',
+              fontWeight: 'normal',
+              src: 'url("https://fonts.googleapis.com/css2?family=Playfair+Display&display=swap")',
+            },
+          },
+          {
+            '@font-face': {
+              fontFamily: 'Copperplate',
+              fontStyle: 'normal',
+              fontDisplay: 'swap',
+              fontWeight: 'normal',
+              src: 'url("/assets/fonts/Copperplate.ttf") format("truetype")',
+            },
+          },
+        ],
       },
     },
   },
@@ -33,4 +58,4 @@ const theme = createTheme({
   },
 })
 
-export default theme
+export default responsiveFontSizes(theme)

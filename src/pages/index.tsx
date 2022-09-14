@@ -5,7 +5,7 @@ import type { NextPage } from 'next'
 
 const Home: NextPage = () => (
   <>
-    <Navbar />
+    {/* <Navbar /> */}
     <Landing />
     <About />
     <FAQ />
