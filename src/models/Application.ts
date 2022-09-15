@@ -1,5 +1,5 @@
 import { Schema, model, models } from 'mongoose'
-import type { User } from 'next-auth'
+//import { IUser } from './User'
 
 enum Decision {
   'Rejected',
@@ -12,7 +12,7 @@ enum Gender {
   'Other',
 }
 
-export interface IUser extends User {
+export interface IApplication {
   decision: string
   emailed_decision: boolean
   rsvp: boolean
@@ -37,7 +37,7 @@ export interface IUser extends User {
   points: number
 }
 
-const ApplicationSchema = new Schema<IUser>({
+const ApplicationSchema = new Schema<IApplication>({
   decision: Decision,
   emailed_decision: Boolean,
   rsvp: Boolean,
@@ -64,4 +64,4 @@ const ApplicationSchema = new Schema<IUser>({
 
 ApplicationSchema.plugin(require('@/utils/store/leanObjectIdToString'))
 export default models.Application ||
-  model<IUser>('Application', ApplicationSchema)
+  model<IApplication>('Application', ApplicationSchema)
