@@ -14,7 +14,7 @@ type Props = {
   providers: Provider
 }
 
-const DEFAULT_CALLBACK = '/dashboard'
+const DEFAULT_CALLBACK = '/user/profile'
 
 const SignIn = ({ providers }: Props) => {
   const { query } = useRouter()
