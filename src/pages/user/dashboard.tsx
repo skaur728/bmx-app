@@ -20,7 +20,8 @@ const UserProfileDashboardPage: NextPage<Props> = ({}) => {
   }
 
   // If the profile info is not set, then go to /user/info
-  if (!!user?.profile_info) {
+  const hasProfileInfo = user?.profile_info ?? false
+  if (!hasProfileInfo) {
     router.push('/user/info')
   }
 
