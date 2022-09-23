@@ -1,5 +1,6 @@
 import { Schema, model, models } from 'mongoose'
-//import { IUser } from './User'
+
+import type { Model } from 'mongoose'
 
 enum Decision {
   'Rejected',
@@ -38,7 +39,10 @@ export interface IApplication {
 }
 
 const ApplicationSchema = new Schema<IApplication>({
-  decision: Decision,
+  decision: {
+    type: String,
+    enum: Decision,
+  },
   emailed_decision: Boolean,
   rsvp: Boolean,
   accepted_at: String,
@@ -50,7 +54,10 @@ const ApplicationSchema = new Schema<IApplication>({
   last_name: String,
   resume: String,
   phone: String,
-  gender: Gender,
+  gender: {
+    type: String,
+    enum: Gender,
+  },
   github: String,
   location: String,
   is_first_hackathon: Boolean,
@@ -63,5 +70,6 @@ const ApplicationSchema = new Schema<IApplication>({
 })
 
 ApplicationSchema.plugin(require('@/utils/store/leanObjectIdToString'))
-export default models.Application ||
+
+export default (models.Application as Model<IApplication>) ||
   model<IApplication>('Application', ApplicationSchema)
