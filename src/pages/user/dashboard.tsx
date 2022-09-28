@@ -23,7 +23,7 @@ const checkProfileInfo = () => {
     if (!hasProfileInfo) {
       router.push({ pathname: '/user/info' })
     }
-  })
+  }, [user])
 
   return user;
 }
