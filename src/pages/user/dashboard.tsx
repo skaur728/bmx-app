@@ -1,30 +1,40 @@
 import useAuthUser from '@/hooks/useAuthUser'
 import { Box, Container, Typography } from '@mui/material'
 import { NextPage } from 'next'
+import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/router'
+import { useEffect } from 'react'
+
+const checkProfileInfo = () => {
+  const { user, error } = useAuthUser()
+  const router = useRouter()
+
+  useEffect(() => {
+    if (error) {
+      // TODO redirect to error page
+      console.error(error)
+    }
+  
+    if (!user) {
+      console.error('No user for this account exists')
+    }
+  
+    const hasProfileInfo = user?.profile_info ?? false
+    if (!hasProfileInfo) {
+      router.push({ pathname: '/user/info' })
+    }
+  })
+
+  return user;
+}
 
 interface Props {}
 
 const UserProfileDashboardPage: NextPage<Props> = ({}) => {
   // Redirect logic time
-  const { user, error } = useAuthUser()
-  const router = useRouter()
-
-  if (error) {
-    // TODO handle this more gracefully...
-    console.error(error)
-  }
-
-  if (!user) {
-    console.error('No user for this account exists!!')
-  }
+  const authUser = checkProfileInfo()
 
   // If the profile info is not set, then go to /user/info
-  const hasProfileInfo = user?.profile_info ?? false
-  if (!hasProfileInfo) {
-    router.push('/user/info')
-  }
-
   // If user has not applied, then redirect to application page
   // TODO don't really have a check for this quite yet
 
