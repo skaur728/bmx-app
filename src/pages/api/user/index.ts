@@ -3,6 +3,7 @@ import dbConnect from '@/utils/store/dbConnect'
 
 import type { NextApiRequest, NextApiResponse } from 'next'
 import { ReasonPhrases, StatusCodes } from 'http-status-codes'
+import { getToken } from 'next-auth/jwt'
 
 async function handleGet(req: NextApiRequest, res: NextApiResponse) {
   await dbConnect()
@@ -24,8 +25,19 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
+  const token = await getToken({ req })
+  if (token) {
+    // Signed in
+    console.log("JSON Web Token", JSON.stringify(token, null, 2))
+  } else {
+    // Not Signed in
+    res.status(401).end()
+    return
+  }
+
+
   if (req.method === 'GET') {
-    handleGet(req, res)
+    await handleGet(req, res)
   } else {
     return res
       .status(StatusCodes.METHOD_NOT_ALLOWED)
