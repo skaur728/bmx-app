@@ -1,12 +1,15 @@
 import { getUserByEmail, getUsers } from '@/controllers/user'
 import dbConnect from '@/utils/store/dbConnect'
 
-import type { NextApiRequest, NextApiResponse } from 'next'
+import type { NextApiResponse } from 'next'
 import { ReasonPhrases, StatusCodes } from 'http-status-codes'
-import { getToken } from 'next-auth/jwt'
+import { NextApiRequestWithUser, withAuthenticatedUser } from '@/api-middleware/withAuthenticatedUser'
 
-async function handleGet(req: NextApiRequest, res: NextApiResponse) {
+async function handleGet(req: NextApiRequestWithUser, res: NextApiResponse) {
   await dbConnect()
+
+  console.log('existing user:')
+  console.log(req.user)
 
   // Check if there are query params
   if ('email' in req.query) {
@@ -21,21 +24,10 @@ async function handleGet(req: NextApiRequest, res: NextApiResponse) {
   res.status(StatusCodes.OK).json(allUsers)
 }
 
-export default async function handler(
-  req: NextApiRequest,
+async function handler(
+  req: NextApiRequestWithUser,
   res: NextApiResponse
 ) {
-  const token = await getToken({ req })
-  if (token) {
-    // Signed in
-    console.log("JSON Web Token", JSON.stringify(token, null, 2))
-  } else {
-    // Not Signed in
-    res.status(401).end()
-    return
-  }
-
-
   if (req.method === 'GET') {
     await handleGet(req, res)
   } else {
@@ -44,3 +36,5 @@ export default async function handler(
       .send({ message: ReasonPhrases.METHOD_NOT_ALLOWED })
   }
 }
+
+export default withAuthenticatedUser(handler)

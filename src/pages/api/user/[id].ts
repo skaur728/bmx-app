@@ -4,22 +4,12 @@ import { deleteUser, getUser, updateUser } from '@/controllers/user'
 import dbConnect from '@/utils/store/dbConnect'
 
 import type { NextApiRequest, NextApiResponse } from 'next'
-import { getToken } from 'next-auth/jwt'
+import { NextApiRequestWithUser, withAuthenticatedUser } from '@/api-middleware/withAuthenticatedUser'
 
-export default async function handler(
-  req: NextApiRequest,
+async function handler(
+  req: NextApiRequestWithUser,
   res: NextApiResponse
 ) {
-  const token = await getToken({ req })
-  if (token) {
-    // Signed in
-    console.log("JSON Web Token", JSON.stringify(token, null, 2))
-  } else {
-    // Not Signed in
-    res.status(401).end()
-    return
-  }
-
   const {
     body,
     method,
@@ -56,3 +46,5 @@ export default async function handler(
     .status(405)
     .send({ message: 'Only GET/PATCH/DELETE requests allowed' })
 }
+
+export default withAuthenticatedUser(handler)
