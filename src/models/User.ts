@@ -1,8 +1,6 @@
 import { Schema, model, models } from 'mongoose'
 
-import type { IApplication } from './Application'
-import type { Model, Types } from 'mongoose'
-import type { User } from 'next-auth'
+import type { Document, LeanDocument, Model, Types } from 'mongoose'
 
 enum Role {
   'Applicant',
@@ -11,19 +9,19 @@ enum Role {
   'Sponsor',
 }
 
-export type Applications = Record<string, Types.ObjectId>
-
-export interface IUser extends User {
-  firstName: string
-  lastName: string
-  role: Role
-  profile_info: boolean
-  applications: Applications
-  getApplicationByYear: (year: number) => Promise<IApplication>
-  addApplication: (year: number, id: Types.ObjectId) => void
+interface IUserMethods {
+  getApplication: (
+    year?: number | string
+  ) => Promise<IApplication | IApplication[] | null>
 }
 
-const UserSchema = new Schema<IUser>({
+interface IUserModel extends Model<IUser, {}, IUserMethods> {}
+
+export interface IUserDocument extends Document<ObjectId, any, IUser> {}
+
+export type LeanedUser = LeanDocument<IUser & { _id: Types.ObjectId }>
+
+const UserSchema = new Schema<IUser, IUserModel>({
   firstName: String,
   lastName: String,
   role: {
@@ -32,7 +30,6 @@ const UserSchema = new Schema<IUser>({
   },
   profile_info: Boolean,
   applications: {
-    default: {},
     type: Map,
     of: {
       type: Schema.Types.ObjectId,
@@ -41,21 +38,26 @@ const UserSchema = new Schema<IUser>({
   },
 })
 
+UserSchema.method(
+  'getApplication',
+  async function getApplication(this: IUserDocument, year: number | string) {
+    try {
+      const user = await this.populate<{
+        applications: Map<string, IApplication>
+      }>('applications.$*')
+
+      if (!year) return user.applications
+
+      return user.applications?.get(String(year))
+    } catch (e) {
+      return Promise.reject(e)
+    }
+  }
+)
+
 // must load plugin before model creation
 // we can't use a global plugin since we can't guarantee that it'll be loaded before model compilation
 UserSchema.plugin(require('@/utils/store/leanObjectIdToString'))
 
-UserSchema.methods.addApplication = function addApplication(
-  year: number,
-  id: Types.ObjectId
-) {
-  this.applications.set(String(year), id)
-}
-
-UserSchema.methods.getApplicationByYear = async function getApplicationByYear(
-  year: number
-) {
-  return (await this.populate('applications.$*')).applications.get(String(year))
-}
-
-export default (models.User as Model<IUser>) || model<IUser>('User', UserSchema)
+export default (models.User as IUserModel) ||
+  model<IUserDocument, IUserModel>('User', UserSchema)

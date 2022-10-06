@@ -4,12 +4,8 @@ import { deleteUser, getUser, updateUser } from '@/controllers/user'
 import dbConnect from '@/utils/store/dbConnect'
 
 import type { NextApiRequest, NextApiResponse } from 'next'
-import { NextApiRequestWithUser, withAuthenticatedUser } from '@/api-middleware/withAuthenticatedUser'
 
-async function handler(
-  req: NextApiRequestWithUser,
-  res: NextApiResponse
-) {
+async function handler(req: NextApiRequest, res: NextApiResponse) {
   const {
     body,
     method,
@@ -36,7 +32,7 @@ async function handler(
   }
 
   if (method === 'GET') {
-    const [error, user] = await to(getUser({ id: <string>id }))
+    const [error, user] = await to(getUser(id, { lean: true }))
     if (error) return res.status(500).send({ error })
 
     return res.send({ user })
@@ -47,4 +43,4 @@ async function handler(
     .send({ message: 'Only GET/PATCH/DELETE requests allowed' })
 }
 
-export default withAuthenticatedUser(handler)
+export default handler

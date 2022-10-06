@@ -1,9 +1,10 @@
-import { Container, Typography, Box } from '@mui/material'
-import { NextPage } from 'next'
+import { Box, Container, Typography } from '@mui/material'
+
+import type { NextPage } from 'next'
 
 interface Props {}
 
-const BMApplicationFormPage: NextPage<Props> = ({}) => (
+const BMApplicationFormPage: NextPage<Props> = () => (
   <Container>
     <Box
       sx={{
