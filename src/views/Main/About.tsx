@@ -1,12 +1,11 @@
-import Box from '@mui/material/Box'
-import Container from '@mui/material/Container'
+import { Box, Typography } from '@mui/material'
 
 import type { NextPage } from 'next'
 
 const About: NextPage = () => (
-  <Container maxWidth="lg">
-    <Box />
-  </Container>
+  <Box sx={{ height: '5000px', border: '1px solid black' }}>
+    <Typography id="about">hi2</Typography>
+  </Box>
 )
 
 export default About
