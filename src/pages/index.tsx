@@ -1,3 +1,7 @@
+import { Box, Stack } from '@mui/material'
+import { useEffect, useState } from 'react'
+
+import HorizontalScroller from '@/components/HorizontalScroller'
 import { Navbar } from '@/components/Navbar'
 import { About, FAQ, Landing, Sponsors, Team, Testimonial } from '@/views/Main'
 
@@ -6,12 +10,14 @@ import type { NextPage } from 'next'
 const Home: NextPage = () => (
   <>
     {/* <Navbar /> */}
-    <Landing />
-    <About />
-    <FAQ />
-    <Testimonial />
-    <Team />
-    <Sponsors />
+    <HorizontalScroller>
+      <Landing />
+      <About />
+      {/* <FAQ />
+      <Testimonial />
+      <Team />
+      <Sponsors /> */}
+    </HorizontalScroller>
   </>
 )
 

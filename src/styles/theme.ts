@@ -11,8 +11,12 @@ const theme = createTheme({
     MuiCssBaseline: {
       styleOverrides: {
         html: {
-          scrollBehavior: 'smooth',
+          overscrollBehavior: 'none',
+          textRendering: 'optimizeLegibility',
+          WebkitFontSmoothing: 'antialiased',
+          MoxOsxFontSmoothing: 'grayscale',
         },
+
         '@font-face': {
           fontFamily: 'SpringFair',
           fontStyle: 'normal',
@@ -20,41 +24,12 @@ const theme = createTheme({
           fontWeight: 500,
           src: 'url("/assets/fonts/SpringFair.ttf")',
         },
-        fallbacks: [
-          {
-            '@font-face': {
-              fontFamily: 'Colombina',
-              fontStyle: 'normal',
-              fontDisplay: 'swap',
-              fontWeight: 500,
-              src: 'url("/assets/fonts/Colombina.ttf") format("truetype")',
-            },
-          },
-          {
-            '@font-face': {
-              fontFamily: 'PlayFair',
-              fontStyle: 'normal',
-              fontDisplay: 'swap',
-              fontWeight: 'normal',
-              src: 'url("https://fonts.googleapis.com/css2?family=Playfair+Display&display=swap")',
-            },
-          },
-          {
-            '@font-face': {
-              fontFamily: 'Copperplate',
-              fontStyle: 'normal',
-              fontDisplay: 'swap',
-              fontWeight: 'normal',
-              src: 'url("/assets/fonts/Copperplate.ttf") format("truetype")',
-            },
-          },
-        ],
       },
     },
   },
   typography: {
     button: { textTransform: 'none' },
-    fontFamily: 'Colombina',
+    fontFamily: '"Smythe", cursive',
   },
 })
 
