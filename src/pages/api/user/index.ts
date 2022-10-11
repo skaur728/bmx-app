@@ -1,8 +1,9 @@
+import { ReasonPhrases, StatusCodes } from 'http-status-codes'
+
 import { getUserByEmail, getUsers } from '@/controllers/user'
 import dbConnect from '@/utils/store/dbConnect'
 
 import type { NextApiRequest, NextApiResponse } from 'next'
-import { ReasonPhrases, StatusCodes } from 'http-status-codes'
 
 async function handleGet(req: NextApiRequest, res: NextApiResponse) {
   await dbConnect()
@@ -20,15 +21,14 @@ async function handleGet(req: NextApiRequest, res: NextApiResponse) {
   res.status(StatusCodes.OK).json(allUsers)
 }
 
-export default async function handler(
-  req: NextApiRequest,
-  res: NextApiResponse
-) {
+async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method === 'GET') {
-    handleGet(req, res)
-  } else {
-    return res
-      .status(StatusCodes.METHOD_NOT_ALLOWED)
-      .send({ message: ReasonPhrases.METHOD_NOT_ALLOWED })
+    return await handleGet(req, res)
   }
+
+  return res
+    .status(StatusCodes.METHOD_NOT_ALLOWED)
+    .send({ message: ReasonPhrases.METHOD_NOT_ALLOWED })
 }
+
+export default handler

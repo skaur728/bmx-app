@@ -1,22 +1,42 @@
+import axios from 'axios'
 import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/router'
-import { useEffect } from 'react'
+import { useEffect, useMemo } from 'react'
+import useSWR from 'swr'
+
+import type { AxiosError } from 'axios'
+
+const fetcher = (url: string) => axios.get(url).then((res) => res.data)
 
 const useAuth = () => {
   const { status, data: session } = useSession()
   const router = useRouter()
 
+  const { data, error, isValidating } = useSWR<{ user: IUser }, AxiosError>(
+    () => (session?.user?.id ? `/api/user/${session.user.id}` : null),
+    fetcher
+  )
+
+  const user = useMemo(() => data?.user, [data])
+
   useEffect(() => {
-    if (status === 'unauthenticated')
+    if (isValidating) return
+
+    if (error) {
+      console.error(error)
+    }
+
+    if (status === 'unauthenticated') {
       router.push({
         pathname: '/auth/signin',
         query: {
           redirect: router.asPath,
         },
       })
-  }, [status])
+    }
+  }, [status, error, isValidating])
 
-  return { status, session }
+  return { status, session, user, error }
 }
 
 export default useAuth
