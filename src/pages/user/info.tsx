@@ -1,9 +1,10 @@
 import { Box, Container, Typography } from '@mui/material'
-import { NextPage } from 'next'
+
+import type { NextPage } from 'next'
 
 interface Props {}
 
-const UserInfoFormPage: NextPage<Props> = ({}) => (
+const UserInfoFormPage: NextPage<Props> = () => (
   <Container maxWidth="lg">
     <Box
       sx={{

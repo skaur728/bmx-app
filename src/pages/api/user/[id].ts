@@ -5,10 +5,7 @@ import dbConnect from '@/utils/store/dbConnect'
 
 import type { NextApiRequest, NextApiResponse } from 'next'
 
-export default async function handler(
-  req: NextApiRequest,
-  res: NextApiResponse
-) {
+async function handler(req: NextApiRequest, res: NextApiResponse) {
   const {
     body,
     method,
@@ -35,7 +32,7 @@ export default async function handler(
   }
 
   if (method === 'GET') {
-    const [error, user] = await to(getUser({ id: <string>id }))
+    const [error, user] = await to(getUser(id, { lean: true }))
     if (error) return res.status(500).send({ error })
 
     return res.send({ user })
@@ -45,3 +42,5 @@ export default async function handler(
     .status(405)
     .send({ message: 'Only GET/PATCH/DELETE requests allowed' })
 }
+
+export default handler

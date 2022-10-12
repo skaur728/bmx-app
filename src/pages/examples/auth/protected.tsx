@@ -1,5 +1,7 @@
 import { Container, Typography } from '@mui/material'
+import axios from 'axios'
 import { signOut } from 'next-auth/react'
+import { useEffect } from 'react'
 
 import useAuth from '@/hooks/useAuth'
 
@@ -10,7 +12,17 @@ import useAuth from '@/hooks/useAuth'
  */
 
 const ProtectedPage = () => {
-  const { session, status } = useAuth()
+  const { session, status, user } = useAuth()
+
+  useEffect(() => {
+    console.log({ session, status, user })
+  }, [session, status, user])
+
+  const onAppClick = async () => {
+    await axios.post('/api/application', {
+      application: { first_name: 'hi' },
+    })
+  }
 
   // NOTE!!! You should still check status and session to see if the user is logged in to conditionally render
   return (
@@ -29,6 +41,10 @@ const ProtectedPage = () => {
               Sign out
             </button>
           )}
+
+          <button onClick={onAppClick} type="button">
+            Add App
+          </button>
         </>
       )}
     </Container>

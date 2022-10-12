@@ -1,6 +1,6 @@
 import { Schema, model, models } from 'mongoose'
 
-import type { Model } from 'mongoose'
+import type { Document, LeanDocument, Model, Types } from 'mongoose'
 
 enum Decision {
   'Rejected',
@@ -13,32 +13,25 @@ enum Gender {
   'Other',
 }
 
-export interface IApplication {
-  decision: string
-  emailed_decision: boolean
-  rsvp: boolean
-  accepted_at: string
-  checked_in_at: string
-  school: string
-  major: string
-  grad_year: string
-  first_name: string
-  last_name: string
-  resume: string
-  phone: string
-  gender: string
-  github: string
-  location: string
-  is_first_hackathon: boolean
-  why_bm: string
-  project_idea: string
-  is_18_or_up: boolean
-  MLH_code_conduct: boolean
-  checked_in: boolean
-  points: number
-}
+interface IApplicationModel extends Model<IUser> {}
 
-const ApplicationSchema = new Schema<IApplication>({
+export interface IApplicationDocument extends Document<ObjectId, any, IUser> {}
+
+export type LeanedApplication = LeanDocument<
+  IApplication & { _id: Types.ObjectId }
+>
+
+const ApplicationSchema = new Schema<IApplication, IApplicationModel>({
+  user: {
+    type: Schema.Types.ObjectId,
+    ref: 'User',
+    required: true,
+  },
+  year: {
+    type: Number,
+    required: true,
+  },
+
   decision: {
     type: String,
     enum: Decision,
@@ -71,5 +64,5 @@ const ApplicationSchema = new Schema<IApplication>({
 
 ApplicationSchema.plugin(require('@/utils/store/leanObjectIdToString'))
 
-export default (models.Application as Model<IApplication>) ||
-  model<IApplication>('Application', ApplicationSchema)
+export default (models.Application as IApplicationModel) ||
+  model('Application', ApplicationSchema)

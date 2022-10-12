@@ -1,3 +1,4 @@
+/* eslint-disable no-param-reassign */
 import { MongoDBAdapter } from '@next-auth/mongodb-adapter'
 import NextAuth from 'next-auth'
 import AzureADProvider from 'next-auth/providers/azure-ad'
@@ -20,5 +21,24 @@ export default NextAuth({
   ],
   pages: {
     signIn: '/auth/signin',
+  },
+  session: {
+    strategy: 'jwt',
+  },
+  callbacks: {
+    async session({ session, token }) {
+      ;(<any>session).user.id = token.id
+      session.accessToken = token.accessToken
+      return session
+    },
+    async jwt({ token, account, user }) {
+      if (user) {
+        token.id = user.id
+      }
+      if (account) {
+        token.accessToken = account.access_token
+      }
+      return token
+    },
   },
 })
