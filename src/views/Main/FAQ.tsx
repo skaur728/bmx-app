@@ -28,6 +28,7 @@ const FAQ: NextPage = () => (
         left: '50%',
         transform: 'translateX(-50%)',
         width: '80vw',
+        maxWidth: '1000px',
       }}
     >
       <Image
