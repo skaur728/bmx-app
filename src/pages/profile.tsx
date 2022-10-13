@@ -4,7 +4,7 @@ import type { NextPage } from 'next'
 
 interface Props {}
 
-const UserInfoFormPage: NextPage<Props> = () => (
+const UserProfile: NextPage<Props> = () => (
   <Container maxWidth="lg">
     <Box
       sx={{
@@ -26,4 +26,4 @@ const UserInfoFormPage: NextPage<Props> = () => (
   </Container>
 )
 
-export default UserInfoFormPage
+export default UserProfile

@@ -16,6 +16,7 @@ const clientSideEmotionCache = createEmotionCache()
 
 interface MyAppProps extends AppProps {
   emotionCache?: EmotionCache
+  pageProps: any
 }
 
 const MyApp: FC<MyAppProps> = ({

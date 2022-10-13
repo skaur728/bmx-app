@@ -4,7 +4,7 @@ import type { NextPage } from 'next'
 
 interface Props {}
 
-const BMApplicationFormPage: NextPage<Props> = () => (
+const Application: NextPage<Props> = () => (
   <Container>
     <Box
       sx={{
@@ -24,4 +24,4 @@ const BMApplicationFormPage: NextPage<Props> = () => (
   </Container>
 )
 
-export default BMApplicationFormPage
+export default Application

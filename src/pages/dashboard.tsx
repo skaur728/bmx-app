@@ -27,11 +27,11 @@ const UserProfileDashboardPage: NextPage<Props> = () => {
 
     const hasProfileInfo = user?.profile_info ?? false
     if (!hasProfileInfo) {
-      router.push({ pathname: '/user/info' })
+      router.push({ pathname: '/profile' })
     }
   }, [user, error, status])
 
-  // If the profile info is not set, then go to /user/info
+  // If the profile info is not set, then go to /profile
   // If user has not applied, then redirect to application page
   // TODO don't really have a check for this quite yet
 
