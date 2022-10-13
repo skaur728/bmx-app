@@ -19,12 +19,16 @@ const HorizontalScroller = ({ children }: Props) => {
   }, [scrollRef])
 
   const onResize = useCallback((entries: ResizeObserverEntry[]) => {
-    entries.forEach((entry) => setViewportW(entry.contentRect.width))
+    entries.forEach((entry) => {
+      setScrollRange(entry.contentRect.width)
+    })
+
+    setViewportW(document.documentElement.clientWidth)
   }, [])
 
   useLayoutEffect(() => {
     const resizeObserver = new ResizeObserver((entries) => onResize(entries))
-    if (ghostRef.current) resizeObserver.observe(ghostRef.current)
+    if (scrollRef.current) resizeObserver.observe(scrollRef.current)
     return () => resizeObserver.disconnect()
   }, [onResize])
 
@@ -34,6 +38,7 @@ const HorizontalScroller = ({ children }: Props) => {
     [0, 1],
     [0, -scrollRange + viewportW]
   )
+
   const physics = { damping: 15, mass: 0.5, stiffness: 50 }
   const spring = useSpring(transform, physics)
 

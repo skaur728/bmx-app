@@ -1,7 +1,24 @@
-import { Box, Typography } from '@mui/material'
+import { Box, Button, Typography, styled } from '@mui/material'
 import Image from 'next/image'
 
 import type { NextPage } from 'next'
+
+const StyledButton = styled(Button)({
+  padding: '10px 40px',
+  borderRadius: '50px',
+  backgroundColor: '#893422',
+  color: '#ffe8c9',
+  boxShadow:
+    'rgb(0 0 0 / 20%) 0px 3px 3px -2px, rgb(0 0 0 / 14%) 0px 3px 4px 0px, rgb(0 0 0 / 12%) 0px 1px 8px 0px',
+  transition: 'transform 0.25s ease',
+  '&:hover': {
+    backgroundColor: '#792d1e',
+    transform: 'scale(1.04)',
+  },
+  '&:active': {
+    transform: 'scale(1)',
+  },
+})
 
 const Landing: NextPage = () => (
   <Box
@@ -39,27 +56,8 @@ const Landing: NextPage = () => (
     <Box
       sx={{
         height: '100%',
-        background: 'linear-gradient(#1c2a3e 60%,  #ebdcbe)',
-        // backgroundImage: 'url(/images/main/gradient.svg)',
-        // backgroundRepeat: 'no-repeat',
-        // backgroundSize: 'cover',
-        // backgroundPosition: 'center',
       }}
     >
-      <Box
-        sx={{
-          backgroundImage: 'url(/images/main/stars.svg)',
-          backgroundRepeat: 'repeat',
-          backgroundSize: 'contain',
-          backgroundPosition: 'center',
-          height: '60vh',
-          width: '100%',
-          position: 'absolute',
-          top: 0,
-          left: '50%',
-          transform: 'translate(-50%)',
-        }}
-      />
       <Box
         sx={{
           position: 'absolute',
@@ -78,6 +76,18 @@ const Landing: NextPage = () => (
           priority
           alt="landing background"
         />
+        <Box
+          sx={{
+            position: 'absolute',
+            top: '50%',
+            left: '50%',
+            transform: 'translate(-50%, -30%)',
+          }}
+        >
+          <StyledButton onClick={() => {}}>
+            <Typography variant="h3">Apply</Typography>
+          </StyledButton>
+        </Box>
       </Box>
     </Box>
   </Box>
