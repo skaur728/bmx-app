@@ -13,9 +13,9 @@ const Home: NextPage = () => (
     {/* <Navbar /> */}
     <Background />
     <HorizontalScroller>
-      {/* <Landing />
+      <Landing />
       <About />
-      <FAQ /> */}
+      <FAQ />
       <Testimonial />
       {/* <Team /> */}
       {/* <Sponsors /> */}
