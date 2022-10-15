@@ -51,10 +51,9 @@ declare global {
   }
 
   interface IUser extends User {
-    firstName: string
-    lastName: string
+    preferredName: string
     role: string
-    profile_info: boolean
+    hasFilledProfile: boolean
     applications: Record<string, Application>
   }
 }

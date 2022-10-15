@@ -22,13 +22,12 @@ export interface IUserDocument extends Document<ObjectId, any, IUser> {}
 export type LeanedUser = LeanDocument<IUser & { _id: Types.ObjectId }>
 
 const UserSchema = new Schema<IUser, IUserModel>({
-  firstName: String,
-  lastName: String,
+  preferredName: String,
   role: {
     type: String,
     enum: Role,
   },
-  profile_info: Boolean,
+  hasFilledProfile: Boolean,
   applications: {
     type: Map,
     of: {

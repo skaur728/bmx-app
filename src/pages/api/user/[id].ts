@@ -15,11 +15,8 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
   await dbConnect()
 
   if (method === 'PATCH') {
-    const { firstName, lastName } = body
-
-    const [error, user] = await to(
-      updateUser({ id: <string>id, firstName, lastName })
-    )
+    const { payload }: { payload: Partial<IUser> } = body
+    const [error, user] = await to(updateUser({ id: <string>id, ...payload }))
     if (error) return res.status(500).send({ error })
     return res.send({ user })
   }
