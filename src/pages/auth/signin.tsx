@@ -53,23 +53,30 @@ const SignIn = ({ providers }: Props) => {
                   left: '50%',
                   transform: 'translate(-50%)'
               }}>
-                  <div style={{ transform: 'translate(45%)', marginTop:'250px' }}>
-      {Object.values(providers).map((provider) => (
-          <div key={provider.name}>
-              <br />
-              <StyledButton
-            onClick={() =>
-              signIn(provider.id, {
-                callbackUrl: (query?.redirect as string) || DEFAULT_CALLBACK,
-              })
-            }
-            type="button"
-          >
-                  Sign in with {provider.name}
-              </StyledButton
-              >
-        </div>
-      ))}
+                  <div style={{
+                      marginLeft: '555px', marginTop: '200px', background:'white', height:'40vh', width:'50vh', borderRadius:'20px'
+                  }}>
+                      <Typography
+                          sx={{ fontSize: '50px', textAlign:'center' }}
+                      >
+                          Sign In
+                      </Typography>
+                      {Object.values(providers).map((provider) => (
+                          <div key={provider.name} style={{ textAlign: 'center' }}>
+                              <br />
+                              <StyledButton
+                            onClick={() =>
+                              signIn(provider.id, {
+                                callbackUrl: (query?.redirect as string) || DEFAULT_CALLBACK,
+                              })
+                            }
+                            type="button"
+                          >
+                                  Sign in with {provider.name}
+                              </StyledButton
+                              >
+                        </div>
+                      ))}
                       </div>
                   </div>
               </div>
