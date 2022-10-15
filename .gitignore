@@ -33,3 +33,5 @@ yarn-error.log*
 
 # typescript
 *.tsbuildinfo
+/.vs/bmx-app/v16
+/.vs
