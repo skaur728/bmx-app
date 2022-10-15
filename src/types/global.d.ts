@@ -54,6 +54,9 @@ declare global {
     preferredName: string
     role: string
     hasFilledProfile: boolean
+    major: string
+    gender: string
+    gradYear: string
     applications: Record<string, Application>
   }
 }

@@ -28,6 +28,9 @@ const UserSchema = new Schema<IUser, IUserModel>({
     enum: Role,
   },
   hasFilledProfile: Boolean,
+  major: String,
+  gradYear: String,
+  gender: String,
   applications: {
     type: Map,
     of: {

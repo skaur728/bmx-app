@@ -14,26 +14,20 @@ const UserProfileDashboardPage: NextPage<Props> = () => {
   const router = useRouter()
 
   useEffect(() => {
-    if (status === 'loading') return
+    if (status === 'loading' || !user) return
 
     if (error) {
       // TODO redirect to error page
       console.error(error)
+      return
     }
 
-    if (!user) {
-      console.error('No user for this account exists')
-    }
-
-    const hasProfileInfo = user?.profile_info ?? false
-    if (!hasProfileInfo) {
+    if (!user?.hasFilledProfile) {
       router.push({ pathname: '/profile' })
     }
+    // else if
+    // navigate to /application if user.applications[year] doesn't exist
   }, [user, error, status])
-
-  // If the profile info is not set, then go to /profile
-  // If user has not applied, then redirect to application page
-  // TODO don't really have a check for this quite yet
 
   return (
     <Container>
