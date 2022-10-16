@@ -24,7 +24,7 @@ export const createApplication = async (
   }
 
   const [creationError, app] = await to<IApplicationDocument, Error>(
-    Application.create({ ...application, user })
+    Application.create({ ...application, user, year })
   )
   if (creationError || !app) {
     throw !app ? new Error('No Application Created') : new Error(creationError)

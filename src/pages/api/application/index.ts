@@ -29,7 +29,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
     if (error) {
       return res
         .status(StatusCodes.BAD_REQUEST)
-        .send({ message: 'Application already exists' })
+        .send({ message: error.message })
     }
     return res.send({ application: app })
   }

@@ -31,7 +31,7 @@ const UserProfile: NextPage<Props> = () => {
   // boolean to check if they've filled profile out before
   const isFirst = useMemo(() => !user?.hasFilledProfile, [user])
 
-  const [loadingUpdate, setLoadingUpdate] = useState(false)
+  const [loadingSubmission, setLoadingSubmission] = useState(false)
   const [name, setName] = useState('')
   const [major, setMajor] = useState('')
   const [gender, setGender] = useState('')
@@ -57,7 +57,7 @@ const UserProfile: NextPage<Props> = () => {
     // save boolean since updating user will change isFirst
     const shouldRedirect = isFirst
 
-    setLoadingUpdate(true)
+    setLoadingSubmission(true)
     const [error, res] = await to(
       axios.patch(`/api/user/${user._id}`, {
         payload: {
@@ -76,7 +76,7 @@ const UserProfile: NextPage<Props> = () => {
     }
 
     setTimeout(() => {
-      setLoadingUpdate(false)
+      setLoadingSubmission(false)
     }, 750)
   }
 
@@ -290,7 +290,7 @@ const UserProfile: NextPage<Props> = () => {
                     type="submit"
                     sx={{
                       fontSize: '1.2rem',
-                      ...(loadingUpdate && {
+                      ...(loadingSubmission && {
                         backgroundColor: '#157822',
                         pointerEvents: 'none',
                       }),
@@ -298,8 +298,8 @@ const UserProfile: NextPage<Props> = () => {
                   >
                     {(() => {
                       if (isFirst)
-                        return loadingUpdate ? 'Submitted!' : 'Submit'
-                      return loadingUpdate ? 'Updated!' : 'Update'
+                        return loadingSubmission ? 'Submitted!' : 'Submit'
+                      return loadingSubmission ? 'Updated!' : 'Update'
                     })()}
                   </Button>
                 </Stack>

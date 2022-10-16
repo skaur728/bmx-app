@@ -50,7 +50,9 @@ UserSchema.method(
 
       if (!year) return user.applications
 
-      return user.applications?.get(String(year))
+      if (!user.applications) return null
+
+      return { [year]: user.applications.get(String(year)) }
     } catch (e) {
       return Promise.reject(e)
     }
