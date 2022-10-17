@@ -26,6 +26,7 @@
     "mongoose": "^6.6.5",
     "next": "^12.3.1",
     "next-auth": "^4.3.4",
+    "next-s3-upload": "^0.2.3",
     "next-useragent": "^2.8.0",
     "nodemailer": "^6.7.5",
     "react": "18.1.0",

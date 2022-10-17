@@ -2,7 +2,7 @@ import { Box, Container, Typography } from '@mui/material'
 import { useRouter } from 'next/router'
 import { useEffect } from 'react'
 
-import useAuth from '@/hooks/useAuth'
+import useApplication from '@/hooks/useApplication'
 
 import type { NextPage } from 'next'
 
@@ -10,11 +10,11 @@ interface Props {}
 
 const UserProfileDashboardPage: NextPage<Props> = () => {
   // Redirect logic time
-  const { user, error, status, session } = useAuth()
+  const { user, error, applications, loading } = useApplication()
   const router = useRouter()
 
   useEffect(() => {
-    if (status === 'loading' || !user) return
+    if (loading || !user) return
 
     if (error) {
       // TODO redirect to error page
@@ -22,12 +22,14 @@ const UserProfileDashboardPage: NextPage<Props> = () => {
       return
     }
 
-    if (!user?.hasFilledProfile) {
+    if (!user.hasFilledProfile) {
       router.push({ pathname: '/profile' })
     }
-    // else if
-    // navigate to /application if user.applications[year] doesn't exist
-  }, [user, error, status])
+
+    if (!applications['2023']) {
+      router.push({ pathname: '/application' })
+    }
+  }, [user, error, loading, applications])
 
   return (
     <Container>

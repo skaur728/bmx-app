@@ -10,6 +10,19 @@ type Mapped<T, LeanedDoc, Doc> = T extends true
   ? Promise<Doc>
   : never
 
+// export enum Decision {
+//   Pending,
+//   Rejected,
+//   Accepted,
+//   Waitlisted,
+// }
+
+// export enum Gender {
+//   Male,
+//   Female,
+//   Other,
+// }
+
 declare global {
   var mongoose: { conn: ?Mongoose; promise: ?Promise<Mongoose> }
 
@@ -22,21 +35,20 @@ declare global {
   // declare general interfaces for Application and User
   // then extends these interfaces to be document types
 
+  enum Decision {
+    Pending = 'Pending',
+    Rejected = 'Rejected',
+    Accepted = 'Accepted',
+    Waitlisted = 'Waitlisted',
+  }
+
   interface IApplication {
-    decision: string
-    emailed_decision: boolean
-    rsvp: boolean
-    accepted_at: string
-    checked_in_at: string
-    school: string
-    phone: string
-    gender: string
-    github: string
-    is_first_hackathon: boolean
+    decision: Decision
     why_bm: string
     project_idea: string
     is_18_or_up: boolean
     MLH_code_conduct: boolean
+    resume: string
 
     user?: ObjectId
     year?: number
@@ -49,6 +61,7 @@ declare global {
     major: string
     gender: string
     gradYear: string
+    school: string
     applications: Record<string, Application>
   }
 }
