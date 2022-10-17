@@ -36,6 +36,7 @@ const UserProfile: NextPage<Props> = () => {
   const [major, setMajor] = useState('')
   const [gender, setGender] = useState('')
   const [gradYear, setGradYear] = useState('')
+  const [school, setSchool] = useState('')
 
   useEffect(() => {
     if (!user) return
@@ -44,6 +45,7 @@ const UserProfile: NextPage<Props> = () => {
     setMajor(user.major || '')
     setGender(user.gender || '')
     setGradYear(user.gradYear || '')
+    setSchool(user.school || '')
   }, [user])
 
   const onFormSubmit = async (e: FormEvent<HTMLFormElement>) => {
@@ -52,7 +54,9 @@ const UserProfile: NextPage<Props> = () => {
 
     const _name = name.trim()
     const _major = major.trim()
-    if (!_name || !_major) return
+    const _gender = gender.trim()
+    const _school = school.trim()
+    if (!_name || !_major || _gender || _school) return
 
     // save boolean since updating user will change isFirst
     const shouldRedirect = isFirst
@@ -65,6 +69,8 @@ const UserProfile: NextPage<Props> = () => {
           hasFilledProfile: true,
           gradYear,
           major: _major,
+          gender: _gender,
+          school: _school,
         },
       })
     )
@@ -121,14 +127,22 @@ const UserProfile: NextPage<Props> = () => {
   return (
     <Box
       sx={{
-        height: '100vh',
-        width: '100vw',
-        overflow: 'hidden',
-        position: 'relative',
-        background: 'linear-gradient(#1c2634 60%,  #694028)',
+        py: 10,
+        px: { xs: 3, sm: 4, md: 8 },
       }}
     >
-      {/* <Box
+      <Box
+        sx={{
+          height: '100vh',
+          width: '100vw',
+          overflow: 'hidden',
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          background: 'linear-gradient(#1c2634 60%,  #694028)',
+        }}
+      >
+        {/* <Box
         sx={{ position: 'absolute', width: '180px', bottom: -15, right: -45 }}
       >
         <Image
@@ -140,53 +154,54 @@ const UserProfile: NextPage<Props> = () => {
         />
       </Box> */}
 
-      <Box
-        sx={{
-          position: 'absolute',
-          width: '30vw',
-          minWidth: '300px',
-          bottom: '-10%',
-          right: 30,
-        }}
-      >
-        <Image
-          src="/images/profile/balloons.svg"
-          alt="balloons"
-          width={103}
-          height={150}
-          layout="responsive"
-        />
-      </Box>
+        <Box
+          sx={{
+            position: 'absolute',
+            width: '30vw',
+            minWidth: '300px',
+            bottom: '-10%',
+            right: 30,
+          }}
+        >
+          <Image
+            src="/images/profile/balloons.svg"
+            alt="balloons"
+            width={103}
+            height={150}
+            layout="responsive"
+          />
+        </Box>
 
-      <Box
-        sx={{
-          position: 'absolute',
-          width: '80vw',
-          maxWidth: '1200px',
-          bottom: '-50%',
-          left: '40%',
-          transform: 'translateX(-50%)',
-        }}
-      >
-        <Image
-          src="/images/profile/ferris-wheel.svg"
-          alt="ferris wheel"
-          width={159}
-          height={150}
-          layout="responsive"
-        />
+        <Box
+          sx={{
+            position: 'absolute',
+            width: '80vw',
+            maxWidth: '1200px',
+            bottom: '-50%',
+            left: '40%',
+            transform: 'translateX(-50%)',
+          }}
+        >
+          <Image
+            src="/images/profile/ferris-wheel.svg"
+            alt="ferris wheel"
+            width={159}
+            height={150}
+            layout="responsive"
+          />
+        </Box>
       </Box>
-
       {user && (
         <Stack
           alignItems="center"
           sx={{
-            position: 'absolute',
-            left: '50%',
-            top: '50%',
-            transform: 'translate(-50%, -50%)',
+            // position: 'absolute',
+            // left: '50%',
+            // top: '50%',
+            // transform: 'translate(-50%, -50%)',
             maxWidth: '900px',
-            width: '80vw',
+            width: '100%',
+            mx: 'auto',
           }}
         >
           <Stack
@@ -194,8 +209,10 @@ const UserProfile: NextPage<Props> = () => {
             sx={{
               backgroundColor: '#ffffff',
               py: 5,
+              px: { xs: 3, sm: 5 },
               width: '100%',
               zIndex: 2,
+              height: '3000px',
             }}
           >
             <Typography variant="h1">
@@ -207,14 +224,18 @@ const UserProfile: NextPage<Props> = () => {
               sx={{ width: 120, height: 120, fontSize: '3rem' }}
             >
               {/* get initials if image doesn't exist */}
-              {user.image
+              {user.image || !name
                 ? ''
-                : `${name.split(' ')[0][0]} ${
-                    name.split(' ')[name.split(' ').length - 1][0]
+                : `${name.trim().split(' ')[0][0]} ${
+                    name.trim().split(' ')[name.trim().split(' ').length - 1][0]
                   }`}
             </Avatar>
-            <form onSubmit={onFormSubmit}>
-              <Stack spacing={2} mt={1.5}>
+            <form onSubmit={onFormSubmit} style={{ width: '100%' }}>
+              <Stack
+                spacing={2}
+                mt={1.5}
+                sx={{ maxWidth: '400px', mx: 'auto' }}
+              >
                 <TextField
                   variant="standard"
                   label="Preferred Full Name"
@@ -229,6 +250,7 @@ const UserProfile: NextPage<Props> = () => {
                   value={user.email}
                   disabled
                 />
+
                 {/* TODO prob have select for gender */}
                 <TextField
                   variant="standard"
@@ -238,6 +260,16 @@ const UserProfile: NextPage<Props> = () => {
                   autoComplete="off"
                   required
                 />
+
+                <TextField
+                  variant="standard"
+                  label="University"
+                  value={school}
+                  onChange={(e) => setSchool(e.target.value)}
+                  autoComplete="off"
+                  required
+                />
+
                 <TextField
                   variant="standard"
                   label="Major"
@@ -246,7 +278,7 @@ const UserProfile: NextPage<Props> = () => {
                   autoComplete="off"
                   required
                 />
-                {/* TODO maybe have select for years */}
+
                 <FormControl
                   fullWidth
                   required
@@ -258,6 +290,7 @@ const UserProfile: NextPage<Props> = () => {
                     '& .MuiInputLabel-root': {
                       fontSize: '1.4rem',
                     },
+                    flex: 1,
                   }}
                 >
                   <InputLabel sx={{ fontSize: '1.5rem' }}>
@@ -277,13 +310,6 @@ const UserProfile: NextPage<Props> = () => {
                     <MenuItem value="2028">2028</MenuItem>
                   </Select>
                 </FormControl>
-                {/* <TextField
-                  variant="standard"
-                  label="Graduation Year"
-                  value={gradYear}
-                  onChange={(e) => setGradYear(e.target.value)}
-                  autoComplete="off"
-                /> */}
 
                 <Stack alignItems="center" pt={2}>
                   <Button

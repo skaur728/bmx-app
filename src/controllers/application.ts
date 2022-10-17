@@ -37,6 +37,18 @@ export const createApplication = async (
   }).exec()
 }
 
+export const updateApplication = ({
+  id,
+  ...fields
+}: Partial<IApplication> & { id: string }): Promise<LeanedApplication | null> =>
+  Application.findByIdAndUpdate(
+    id,
+    { $set: { ...fields } },
+    { returnDocument: 'after' }
+  )
+    .lean()
+    .exec()
+
 export const getApplications = async (
   userId: ObjectId,
   year?: number | string

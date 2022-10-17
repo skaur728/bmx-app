@@ -1,12 +1,14 @@
 import { Avatar, Box, Container, Stack, Typography } from '@mui/material'
 import to from 'await-to-js'
 import axios from 'axios'
+import { useS3Upload } from 'next-s3-upload'
 import { useRouter } from 'next/router'
 import { useEffect, useMemo, useState } from 'react'
 
 import useApplication from '@/hooks/useApplication'
 import { Button, TextField } from '@/styles/custom'
 
+import type { AxiosResponse } from 'axios'
 import type { NextPage } from 'next'
 import type { FormEvent } from 'react'
 
@@ -14,33 +16,63 @@ interface Props {}
 
 const Application: NextPage<Props> = () => {
   const { user, applications, loading } = useApplication()
+  const { FileInput, openFileDialog, uploadToS3 } = useS3Upload()
+
   const router = useRouter()
 
   const [loadingSubmission, setLoadingSubmission] = useState(false)
+  const [resumeFile, setResumeFile] = useState<File | null>(null)
 
-  const application = useMemo(
-    () => (user?.applications || ({} as IUser))['2023'],
+  const isFirst = useMemo(
+    () => !(user?.applications || ({} as IUser))['2023'],
     [user]
   )
+
+  const application = useMemo(
+    () => (applications || ({} as Record<string, IApplication>))['2023'],
+    [applications]
+  )
+
+  const handleFileChange = async (file: File) => {
+    setResumeFile(file)
+  }
 
   const onFormSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
 
-    if (!user) return
+    if (!user || !resumeFile) return
 
-    // redirect if user has no application yet
-    const shouldRedirect = !application
-    const [err, res] = await to(
-      axios.post<{ application: IApplication }>('/api/application', {
-        application: {
-          // todo fields
+    // upload resume first, and get url
+    const { url } = await uploadToS3(resumeFile, {
+      endpoint: {
+        request: {
+          headers: {},
+          body: {
+            id: user._id,
+          },
         },
-      })
-    )
+      },
+    })
 
-    // go to dashboard after finishing application for first time
-    if (!err && shouldRedirect) {
-      router.push({ pathname: '/dashboard' })
+    if (isFirst) {
+      const [err, res] = await to(
+        axios.post<
+          { application: IApplication },
+          AxiosResponse<{ application: IApplication }>,
+          { application: IApplication }
+        >('/api/application', {
+          application: {
+            // todo fields
+            resume: url,
+          },
+        })
+      )
+
+      // go to dashboard after finishing application for first time
+      if (!err) {
+        router.push({ pathname: '/dashboard' })
+      }
+
       return
     }
 
@@ -81,7 +113,7 @@ const Application: NextPage<Props> = () => {
             }}
           >
             <Typography variant="h1">
-              {user && !application ? 'Create ' : ''}Application
+              {isFirst ? 'Create ' : ''}Application
             </Typography>
 
             <form onSubmit={onFormSubmit}>
@@ -92,6 +124,10 @@ const Application: NextPage<Props> = () => {
                   required
                   autoComplete="off"
                 />
+
+                <FileInput onChange={handleFileChange} />
+
+                <Button onClick={openFileDialog}>Upload file</Button>
 
                 <Stack alignItems="center" pt={2}>
                   <Button
@@ -105,7 +141,7 @@ const Application: NextPage<Props> = () => {
                     }}
                   >
                     {(() => {
-                      if (!application)
+                      if (isFirst)
                         return loadingSubmission ? 'Submitted!' : 'Submit'
                       return loadingSubmission ? 'Updated!' : 'Update'
                     })()}

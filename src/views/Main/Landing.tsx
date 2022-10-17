@@ -1,7 +1,10 @@
 import { Box, Button, Typography, styled } from '@mui/material'
+import { useUserAgent } from 'next-useragent'
 import Image from 'next/image'
 
-import type { NextPage } from 'next'
+import TentImg from '../../../public/images/main/tent.svg'
+
+import type { NextPageContext } from 'next'
 
 const StyledButton = styled(Button)({
   padding: '10px 40px',
@@ -20,77 +23,90 @@ const StyledButton = styled(Button)({
   },
 })
 
-const Landing: NextPage = () => (
-  <Box
-    sx={{
-      height: '100vh',
-      width: '100vw',
-      position: 'relative',
-    }}
-  >
+const Landing = ({ uaString }: { uaString?: string }) => {
+  const ua = useUserAgent(uaString || window.navigator.userAgent)
+
+  return (
     <Box
       sx={{
-        textAlign: 'center',
-        color: '#ffe8c9',
-        pt: 2,
-        position: 'absolute',
-        left: '50%',
-        transform: 'translateX(-50%)',
-        width: '100%',
-        zIndex: 1,
-      }}
-    >
-      <Typography variant="h1" sx={{ fontSize: '6vw' }}>
-        Come one, come all
-      </Typography>
-      <Typography
-        variant="h1"
-        sx={{ fontFamily: 'SpringFair, sans-serif', fontSize: '7vw' }}
-      >
-        Boilermake X
-      </Typography>
-      <Typography variant="h2" sx={{ fontSize: '6vw' }}>
-        Purdue University | January 20-22, 2023
-      </Typography>
-    </Box>
-    <Box
-      sx={{
-        height: '100%',
+        height: '100vh',
+        width: '100vw',
+        position: 'relative',
+        overflow: 'hidden',
       }}
     >
       <Box
         sx={{
+          textAlign: 'center',
+          color: '#ffe8c9',
+          pt: 2,
           position: 'absolute',
-          bottom: 0,
           left: '50%',
           transform: 'translateX(-50%)',
-          width: '60vw',
-          minWidth: '300px',
+          width: '100%',
+          zIndex: 1,
         }}
       >
-        <Image
-          src="/images/main/tent.png"
-          layout="responsive"
-          width={769}
-          height={351}
-          priority
-          alt="landing background"
-        />
+        {ua.isDesktop && (
+          <Typography variant="h1" sx={{ fontSize: '6vw' }}>
+            Come one, come all
+          </Typography>
+        )}
+        <Typography
+          variant="h1"
+          sx={{ fontFamily: 'SpringFair, sans-serif', fontSize: '7vw' }}
+        >
+          Boilermake X
+        </Typography>
+        <Typography variant="h2" sx={{ fontSize: '6vw' }}>
+          Purdue University | January 20-22, 2023
+        </Typography>
+      </Box>
+      <Box
+        sx={{
+          height: '100%',
+        }}
+      >
         <Box
           sx={{
             position: 'absolute',
-            top: '50%',
+            bottom: 0,
             left: '50%',
-            transform: 'translate(-50%, -30%)',
+            transform: 'translateX(-50%)',
+            width: '60vw',
+            minWidth: '300px',
           }}
         >
-          <StyledButton onClick={() => {}}>
-            <Typography variant="h3">Apply</Typography>
-          </StyledButton>
+          <Image
+            src={TentImg}
+            layout="responsive"
+            priority
+            alt="landing background"
+          />
+          <Box
+            sx={{
+              position: 'absolute',
+              top: '50%',
+              left: '50%',
+              transform: 'translate(-50%, -30%)',
+            }}
+          >
+            <StyledButton onClick={() => {}}>
+              <Typography variant="h3">Apply</Typography>
+            </StyledButton>
+          </Box>
         </Box>
       </Box>
     </Box>
-  </Box>
-)
+  )
+}
 
 export default Landing
+
+export function getServerSideProps(context: NextPageContext) {
+  return {
+    props: {
+      uaString: context?.req?.headers['user-agent'],
+    },
+  }
+}

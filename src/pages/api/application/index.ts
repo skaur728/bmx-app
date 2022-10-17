@@ -33,6 +33,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
     }
     return res.send({ application: app })
   }
+
   if (req.method === 'GET') {
     await dbConnect()
 
