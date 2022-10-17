@@ -33,7 +33,5 @@ yarn-error.log*
 
 # typescript
 *.tsbuildinfo
-/.vs/bmx-app/v16/.suo
-/.vs/ProjectSettings.json
-/.vs/slnx.sqlite
-/.vs/VSWorkspaceState.json
+/.vs/bmx-app/v16
+/.vs
