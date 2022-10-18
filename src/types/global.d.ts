@@ -62,7 +62,7 @@ declare global {
     gender: string
     gradYear: string
     school: string
-    is_18_or_up: boolean
+    age: number
     applications: Record<string, Application>
   }
 }
