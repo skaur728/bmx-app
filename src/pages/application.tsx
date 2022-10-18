@@ -40,6 +40,13 @@ const Application: NextPage<Props> = () => {
   )
 
   useEffect(() => {
+    // redirect user if they come here before finishing profile
+    if (user && !user.hasFilledProfile) {
+      router.push({ pathname: '/profile' })
+    }
+  }, [user])
+
+  useEffect(() => {
     if (!application) return
 
     // set the states here
