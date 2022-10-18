@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/naming-convention */
 import { Avatar, Box, Container, Stack, Typography } from '@mui/material'
 import to from 'await-to-js'
 import axios from 'axios'
@@ -23,6 +24,11 @@ const Application: NextPage<Props> = () => {
   const [loadingSubmission, setLoadingSubmission] = useState(false)
   const [resumeFile, setResumeFile] = useState<File | null>(null)
 
+  // field states
+  const [whyBM, setWhyBM] = useState('')
+  const [projectIdea, setProjectIdea] = useState('')
+  const [codeConduct, setCodeConduct] = useState(false)
+
   const isFirst = useMemo(
     () => !(user?.applications || ({} as IUser))['2023'],
     [user]
@@ -33,6 +39,15 @@ const Application: NextPage<Props> = () => {
     [applications]
   )
 
+  useEffect(() => {
+    if (!application) return
+
+    // set the states here
+    setWhyBM(application.whyBM || '')
+    setProjectIdea(application.projectIdea || '')
+    setCodeConduct(application.codeConduct)
+  }, [application])
+
   const handleFileChange = async (file: File) => {
     setResumeFile(file)
   }
@@ -41,6 +56,12 @@ const Application: NextPage<Props> = () => {
     e.preventDefault()
 
     if (!user || !resumeFile) return
+
+    // trim the fields
+    const _whyBM = whyBM.trim()
+    const _projectIdea = projectIdea.trim()
+
+    if (!_whyBM || !_projectIdea) return
 
     // upload resume first, and get url
     const { url } = await uploadToS3(resumeFile, {
@@ -62,8 +83,11 @@ const Application: NextPage<Props> = () => {
           { application: IApplication }
         >('/api/application', {
           application: {
-            // todo fields
             resume: url,
+            decision: Decision.Pending,
+            whyBM: _whyBM,
+            projectIdea: _projectIdea,
+            codeConduct,
           },
         })
       )

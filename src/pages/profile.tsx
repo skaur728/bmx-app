@@ -212,7 +212,6 @@ const UserProfile: NextPage<Props> = () => {
               px: { xs: 3, sm: 5 },
               width: '100%',
               zIndex: 2,
-              height: '3000px',
             }}
           >
             <Typography variant="h1">

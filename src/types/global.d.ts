@@ -42,12 +42,12 @@ declare global {
     Waitlisted = 'Waitlisted',
   }
 
+  // any new fields should be included in models/Application
   interface IApplication {
     decision: Decision
-    why_bm: string
-    project_idea: string
-    is_18_or_up: boolean
-    MLH_code_conduct: boolean
+    whyBM: string
+    projectIdea: string
+    codeConduct: boolean
     resume: string
 
     user?: ObjectId
@@ -62,6 +62,7 @@ declare global {
     gender: string
     gradYear: string
     school: string
+    is_18_or_up: boolean
     applications: Record<string, Application>
   }
 }

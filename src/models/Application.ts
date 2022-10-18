@@ -32,6 +32,9 @@ const ApplicationSchema = new Schema<IApplication, IApplicationModel>({
     enum: 'Pending' || 'Rejected' || 'Accepted' || 'Waitlisted',
   } as any as SchemaDefinitionProperty<Decision> | undefined,
   resume: String,
+  whyBM: String,
+  projectIdea: String,
+  codeConduct: Boolean,
 })
 
 ApplicationSchema.plugin(require('@/utils/store/leanObjectIdToString'))
