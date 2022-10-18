@@ -56,7 +56,7 @@ const UserProfile: NextPage<Props> = () => {
     const _major = major.trim()
     const _gender = gender.trim()
     const _school = school.trim()
-    if (!_name || !_major || _gender || _school) return
+    if (!_name || !_major || !_gender || !_school) return
 
     // save boolean since updating user will change isFirst
     const shouldRedirect = isFirst

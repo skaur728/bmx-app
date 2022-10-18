@@ -15,6 +15,7 @@ const UserProfileDashboardPage: NextPage<Props> = () => {
 
   useEffect(() => {
     if (loading || !user) return
+    console.log(loading, user)
 
     if (error) {
       // TODO redirect to error page
@@ -43,10 +44,14 @@ const UserProfileDashboardPage: NextPage<Props> = () => {
         }}
       >
         <Typography variant="h6">User dashboard page</Typography>
-        <p>
-          This page shows the current user&apos;s application status. If a user
-          has an application that is in progress, it is visible here.
-        </p>
+        <Box
+          sx={{ width: '300px', height: '300px', border: '1px solid black' }}
+        >
+          <Box
+            sx={{ height: '50%', width: '100%', backgroundColor: 'green' }}
+          />
+          <Box>text</Box>
+        </Box>
       </Box>
     </Container>
   )
