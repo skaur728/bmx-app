@@ -22,12 +22,11 @@ export const getUsers = (): Promise<IUser[]> =>
 
 export const updateUser = ({
   id,
-  firstName,
-  lastName,
+  ...fields
 }: Partial<IUser> & { id: string }): Promise<LeanedUser | null> =>
   User.findByIdAndUpdate(
     id,
-    { firstName, lastName },
+    { $set: { ...fields } },
     { returnDocument: 'after' }
   )
     .lean()

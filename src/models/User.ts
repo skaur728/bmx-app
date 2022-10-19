@@ -22,13 +22,19 @@ export interface IUserDocument extends Document<ObjectId, any, IUser> {}
 export type LeanedUser = LeanDocument<IUser & { _id: Types.ObjectId }>
 
 const UserSchema = new Schema<IUser, IUserModel>({
-  firstName: String,
-  lastName: String,
+  preferredName: String,
   role: {
     type: String,
     enum: Role,
   },
-  profile_info: Boolean,
+  hasFilledProfile: Boolean,
+  major: String,
+  gradYear: String,
+  gender: String,
+  age: Number,
+  school: String,
+  country: String,
+  phone: String,
   applications: {
     type: Map,
     of: {
@@ -48,7 +54,9 @@ UserSchema.method(
 
       if (!year) return user.applications
 
-      return user.applications?.get(String(year))
+      if (!user.applications) return null
+
+      return { [year]: user.applications.get(String(year)) }
     } catch (e) {
       return Promise.reject(e)
     }

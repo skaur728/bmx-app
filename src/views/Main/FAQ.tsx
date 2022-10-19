@@ -1,15 +1,9 @@
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
-import {
-  Accordion,
-  AccordionDetails,
-  AccordionSummary,
-  Box,
-  Grid,
-  Typography,
-} from '@mui/material'
+import { Box } from '@mui/material'
 import Image from 'next/image'
 
 import FAQAccordion from '@/components/FAQ/FAQAccordion'
+
+import BannerImg from '../../../public/images/faq/faq-banner.svg'
 
 import type { NextPage } from 'next'
 
@@ -29,15 +23,10 @@ const FAQ: NextPage = () => (
         transform: 'translateX(-50%)',
         width: '80vw',
         maxWidth: '1000px',
+        maxHeight: '90vh',
       }}
     >
-      <Image
-        src="/images/faq/faq-banner.png"
-        alt="Info Tent"
-        width={1920}
-        height={1615}
-        layout="responsive"
-      />
+      <Image src={BannerImg} alt="Info Tent" layout="responsive" />
       <Box
         sx={{
           position: 'absolute',

@@ -1,13 +1,19 @@
 import { Box } from '@mui/material'
 import { motion, useScroll, useSpring, useTransform } from 'framer-motion'
+import { useUserAgent } from 'next-useragent'
 import React, { useCallback, useLayoutEffect, useRef, useState } from 'react'
 import ResizeObserver from 'resize-observer-polyfill'
 
+import type { NextPageContext } from 'next'
+
 type Props = {
   children: React.ReactNode
+  uaString?: string
 }
 
-const HorizontalScroller = ({ children }: Props) => {
+const HorizontalScroller = ({ children, uaString }: Props) => {
+  const ua = useUserAgent(uaString || window.navigator.userAgent)
+
   const scrollRef = useRef<HTMLElement>(null)
   const ghostRef = useRef<HTMLDivElement>(null)
 
@@ -32,9 +38,9 @@ const HorizontalScroller = ({ children }: Props) => {
     return () => resizeObserver.disconnect()
   }, [onResize])
 
-  const { scrollYProgress } = useScroll()
+  const { scrollYProgress, scrollXProgress } = useScroll()
   const transform = useTransform(
-    scrollYProgress,
+    ua.isMobile ? scrollXProgress : scrollYProgress,
     [0, 1],
     [0, -scrollRange + viewportW]
   )
@@ -73,9 +79,23 @@ const HorizontalScroller = ({ children }: Props) => {
           </Box>
         </motion.section>
       </Box>
-      <Box ref={ghostRef} sx={{ height: scrollRange, width: '100%' }} />
+      <Box
+        ref={ghostRef}
+        sx={{
+          height: ua.isMobile ? '10px' : scrollRange,
+          width: ua.isMobile ? scrollRange : '100%',
+        }}
+      />
     </>
   )
 }
 
 export default HorizontalScroller
+
+export function getServerSideProps(context: NextPageContext) {
+  return {
+    props: {
+      uaString: context?.req?.headers['user-agent'],
+    },
+  }
+}

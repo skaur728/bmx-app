@@ -9,18 +9,18 @@ import Background from '@/views/Main/Background'
 import type { NextPage } from 'next'
 
 const Home: NextPage = () => (
-  <>
+  <Box>
     {/* <Navbar /> */}
     <Background />
     <HorizontalScroller>
       <Landing />
       <About />
       <FAQ />
-      <Testimonial />
+      {/* <Testimonial /> */}
       {/* <Team /> */}
       {/* <Sponsors /> */}
     </HorizontalScroller>
-  </>
+  </Box>
 )
 
 export default Home

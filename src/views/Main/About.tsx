@@ -3,11 +3,13 @@ import { useUserAgent } from 'next-useragent'
 import dynamic from 'next/dynamic'
 import Image from 'next/image'
 
+import InfoTentImg from '../../../public/images/about/info-tent.svg'
+
 import type { NextPage, NextPageContext } from 'next'
 
 const AboutSign = dynamic(() => import('@/components/About/AboutSign'))
 
-const About: NextPage<{ uaString?: string }> = ({ uaString }) => {
+const About = ({ uaString }: { uaString?: string }) => {
   const ua = useUserAgent(uaString || window.navigator.userAgent)
 
   return (
@@ -38,16 +40,11 @@ const About: NextPage<{ uaString?: string }> = ({ uaString }) => {
           transform: ua.isDesktop ? 'none' : 'translateX(50%)',
           width: ua.isDesktop ? '50vw' : '90vw',
           maxWidth: '700px',
+          maxHeight: '90vh',
         }}
       >
         <Box sx={{ position: 'relative', width: '100%', height: '100%' }}>
-          <Image
-            src="/images/about/info-tent.png"
-            alt="Info Tent"
-            width={640}
-            height={836}
-            layout="responsive"
-          />
+          <Image src={InfoTentImg} alt="Info Tent" layout="responsive" />
           <Box
             sx={{
               position: 'absolute',

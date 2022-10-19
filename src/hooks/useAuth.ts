@@ -14,7 +14,10 @@ const useAuth = () => {
 
   const { data, error, isValidating } = useSWR<{ user: IUser }, AxiosError>(
     () => (session?.user?.id ? `/api/user/${session.user.id}` : null),
-    fetcher
+    fetcher,
+    {
+      revalidateOnFocus: false,
+    }
   )
 
   const user = useMemo(() => data?.user, [data])
@@ -36,7 +39,7 @@ const useAuth = () => {
     }
   }, [status, error, isValidating])
 
-  return { status, session, user, error }
+  return { status: isValidating ? 'loading' : status, session, user, error }
 }
 
 export default useAuth
