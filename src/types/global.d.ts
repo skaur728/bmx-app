@@ -63,6 +63,8 @@ declare global {
     gradYear: string
     school: string
     age: number
+    phone: string
+    country: string
     applications: Record<string, Application>
   }
 }

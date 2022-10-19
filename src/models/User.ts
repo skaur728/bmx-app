@@ -33,6 +33,8 @@ const UserSchema = new Schema<IUser, IUserModel>({
   gender: String,
   age: Number,
   school: String,
+  country: String,
+  phone: String,
   applications: {
     type: Map,
     of: {

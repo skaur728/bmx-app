@@ -7,4 +7,7 @@ export default styled(TextField)({
   '& > .MuiInputLabel-root': {
     fontSize: '1.5rem',
   },
+  '& > .MuiFormHelperText-root': {
+    fontSize: '1rem',
+  },
 })

@@ -4,6 +4,7 @@ import {
   Box,
   Container,
   FormControl,
+  FormHelperText,
   InputLabel,
   MenuItem,
   Select,
@@ -15,8 +16,12 @@ import to from 'await-to-js'
 import axios from 'axios'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
-import { useEffect, useMemo, useState } from 'react'
+import { forwardRef, useEffect, useMemo, useState } from 'react'
+import PhoneInput, { isValidPhoneNumber } from 'react-phone-number-input/input'
 
+import GenderSelect from '@/components/GenderSelect'
+import MajorSelect from '@/components/MajorSelect'
+import SchoolSelect from '@/components/SchoolSelect'
 import useAuth from '@/hooks/useAuth'
 import { Button, TextField } from '@/styles/custom'
 
@@ -24,6 +29,17 @@ import type { NextPage } from 'next'
 import type { FormEvent } from 'react'
 
 interface Props {}
+
+// eslint-disable-next-line react/display-name
+const PhoneField = forwardRef((props, ref) => (
+  <TextField
+    variant="standard"
+    label="Phone Number"
+    required
+    inputRef={ref}
+    {...props}
+  />
+))
 
 const UserProfile: NextPage<Props> = () => {
   const { user, status } = useAuth()
@@ -33,19 +49,24 @@ const UserProfile: NextPage<Props> = () => {
 
   const [loadingSubmission, setLoadingSubmission] = useState(false)
   const [name, setName] = useState('')
-  const [major, setMajor] = useState('')
+  const [major, setMajor] = useState<string | null>(null)
   const [gender, setGender] = useState('')
   const [gradYear, setGradYear] = useState('')
-  const [school, setSchool] = useState('')
+  const [school, setSchool] = useState<string | null>(null)
+  const [phone, setPhone] = useState<string>()
+  const [phoneError, setPhoneError] = useState(false)
+  const [age, setAge] = useState('')
 
   useEffect(() => {
     if (!user) return
 
     setName(user.preferredName || user.name || '')
-    setMajor(user.major || '')
-    setGender(user.gender || '')
+    setMajor(user.major || null)
+    setGender(user.gender || 'male')
     setGradYear(user.gradYear || '')
-    setSchool(user.school || '')
+    setSchool(user.school || null)
+    setPhone(user.phone || '')
+    setAge(String(user.age || ''))
   }, [user])
 
   const onFormSubmit = async (e: FormEvent<HTMLFormElement>) => {
@@ -53,10 +74,13 @@ const UserProfile: NextPage<Props> = () => {
     if (!user) return
 
     const _name = name.trim()
-    const _major = major.trim()
     const _gender = gender.trim()
-    const _school = school.trim()
-    if (!_name || !_major || !_gender || !_school) return
+    if (!_name || !major || !_gender || !school || !phone || !age) return
+
+    if (!isValidPhoneNumber(phone)) {
+      setPhoneError(true)
+      return
+    }
 
     // save boolean since updating user will change isFirst
     const shouldRedirect = isFirst
@@ -68,9 +92,11 @@ const UserProfile: NextPage<Props> = () => {
           preferredName: _name,
           hasFilledProfile: true,
           gradYear,
-          major: _major,
+          major,
           gender: _gender,
-          school: _school,
+          school,
+          phone,
+          age,
         },
       })
     )
@@ -195,13 +221,10 @@ const UserProfile: NextPage<Props> = () => {
         <Stack
           alignItems="center"
           sx={{
-            // position: 'absolute',
-            // left: '50%',
-            // top: '50%',
-            // transform: 'translate(-50%, -50%)',
             maxWidth: '900px',
             width: '100%',
             mx: 'auto',
+            backgroundColor: '#ffe8c9',
           }}
         >
           <Stack
@@ -233,7 +256,7 @@ const UserProfile: NextPage<Props> = () => {
               <Stack
                 spacing={2}
                 mt={1.5}
-                sx={{ maxWidth: '400px', mx: 'auto' }}
+                sx={{ maxWidth: '500px', mx: 'auto' }}
               >
                 <TextField
                   variant="standard"
@@ -249,66 +272,108 @@ const UserProfile: NextPage<Props> = () => {
                   value={user.email}
                   disabled
                 />
+                <PhoneInput
+                  defaultCountry="US"
+                  value={phone as any}
+                  onChange={(num) => {
+                    setPhone(num)
+                    setPhoneError(false)
+                  }}
+                  inputComponent={PhoneField as any}
+                  error={phoneError}
+                  helperText={phoneError ? 'Invalid phone number' : ''}
+                />
 
                 {/* TODO prob have select for gender */}
-                <TextField
+                {/* <TextField
                   variant="standard"
                   label="Gender"
                   value={gender}
                   onChange={(e) => setGender(e.target.value)}
                   autoComplete="off"
                   required
-                />
+                /> */}
+                <GenderSelect value={gender} setValue={setGender} />
 
-                <TextField
-                  variant="standard"
-                  label="University"
-                  value={school}
-                  onChange={(e) => setSchool(e.target.value)}
-                  autoComplete="off"
-                  required
-                />
+                <SchoolSelect value={school} setValue={setSchool} />
 
-                <TextField
+                {/* <TextField
                   variant="standard"
                   label="Major"
                   value={major}
                   onChange={(e) => setMajor(e.target.value)}
                   autoComplete="off"
                   required
-                />
+                /> */}
+                <MajorSelect value={major} setValue={setMajor} />
 
-                <FormControl
-                  fullWidth
-                  required
-                  variant="standard"
-                  sx={{
-                    '& .MuiInput-root': {
-                      fontSize: '1.4rem',
-                    },
-                    '& .MuiInputLabel-root': {
-                      fontSize: '1.4rem',
-                    },
-                    flex: 1,
-                  }}
-                >
-                  <InputLabel sx={{ fontSize: '1.5rem' }}>
-                    Graduation Year
-                  </InputLabel>
-                  <Select
-                    value={gradYear}
-                    label="Graduation Year"
-                    onChange={(e) => setGradYear(e.target.value)}
+                <Stack direction="row" spacing={2} pt={2}>
+                  <FormControl
+                    fullWidth
+                    required
+                    variant="standard"
+                    sx={{
+                      '& .MuiInput-root': {
+                        fontSize: '1.4rem',
+                      },
+                      '& .MuiInputLabel-root': {
+                        fontSize: '1.4rem',
+                      },
+                      flex: 1,
+                    }}
                   >
-                    <MenuItem value="2022">2022</MenuItem>
-                    <MenuItem value="2023">2023</MenuItem>
-                    <MenuItem value="2024">2024</MenuItem>
-                    <MenuItem value="2025">2025</MenuItem>
-                    <MenuItem value="2026">2026</MenuItem>
-                    <MenuItem value="2027">2027</MenuItem>
-                    <MenuItem value="2028">2028</MenuItem>
-                  </Select>
-                </FormControl>
+                    <InputLabel sx={{ fontSize: '1.5rem' }}>
+                      Graduation Year
+                    </InputLabel>
+                    <Select
+                      value={gradYear}
+                      label="Graduation Year"
+                      onChange={(e) => setGradYear(e.target.value)}
+                    >
+                      <MenuItem value="2022">2022</MenuItem>
+                      <MenuItem value="2023">2023</MenuItem>
+                      <MenuItem value="2024">2024</MenuItem>
+                      <MenuItem value="2025">2025</MenuItem>
+                      <MenuItem value="2026">2026</MenuItem>
+                      <MenuItem value="2027">2027</MenuItem>
+                      <MenuItem value="2028">2028</MenuItem>
+                    </Select>
+                  </FormControl>
+
+                  <FormControl
+                    fullWidth
+                    required
+                    variant="standard"
+                    sx={{
+                      '& .MuiInput-root': {
+                        fontSize: '1.4rem',
+                      },
+                      '& .MuiInputLabel-root': {
+                        fontSize: '1.4rem',
+                      },
+                      flex: 1,
+                    }}
+                  >
+                    <InputLabel sx={{ fontSize: '1.5rem' }}>Age</InputLabel>
+                    <Select
+                      value={age}
+                      label="Age"
+                      onChange={(e) => setAge(e.target.value)}
+                    >
+                      {Object.keys([...new Array(31)]).map(
+                        (i) =>
+                          parseInt(i, 10) >= 18 && (
+                            <MenuItem key={i} value={i}>
+                              {i}
+                            </MenuItem>
+                          )
+                      )}
+                    </Select>
+                    <FormHelperText sx={{ fontSize: '1rem' }}>
+                      Participants must be 18+
+                    </FormHelperText>
+                  </FormControl>
+                </Stack>
 
                 <Stack alignItems="center" pt={2}>
                   <Button

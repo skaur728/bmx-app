@@ -30,6 +30,7 @@ const ApplicationSchema = new Schema<IApplication, IApplicationModel>({
   decision: {
     type: String,
     enum: 'Pending' || 'Rejected' || 'Accepted' || 'Waitlisted',
+    default: 'Pending',
   } as any as SchemaDefinitionProperty<Decision> | undefined,
   resume: String,
   whyBM: String,

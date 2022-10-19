@@ -18,7 +18,10 @@ const useApplication = () => {
     isValidating,
   } = useSWR<{ applications: Record<string, IApplication> }, AxiosError>(
     () => (user ? [`/api/application`, '2023'] : null),
-    fetcher
+    fetcher,
+    {
+      revalidateOnFocus: false,
+    }
   )
 
   const applications = useMemo(() => data?.applications || {}, [data])

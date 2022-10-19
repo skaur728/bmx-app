@@ -1,4 +1,4 @@
-import { Box, Button, Typography, styled } from '@mui/material'
+import { Box, Button, Stack, Typography, styled } from '@mui/material'
 import { useUserAgent } from 'next-useragent'
 import Image from 'next/image'
 
@@ -32,14 +32,15 @@ const Landing = ({ uaString }: { uaString?: string }) => {
         height: '100vh',
         width: '100vw',
         position: 'relative',
-        overflow: 'hidden',
+        ...(ua.isDesktop && { overflow: 'hidden' }),
+        marginRight: { xs: '37vw', sm: 0 },
       }}
     >
       <Box
         sx={{
           textAlign: 'center',
           color: '#ffe8c9',
-          pt: 2,
+          pt: { xs: 10, sm: 5, md: 3 },
           position: 'absolute',
           left: '50%',
           transform: 'translateX(-50%)',
@@ -47,20 +48,42 @@ const Landing = ({ uaString }: { uaString?: string }) => {
           zIndex: 1,
         }}
       >
-        {ua.isDesktop && (
-          <Typography variant="h1" sx={{ fontSize: '6vw' }}>
-            Come one, come all
-          </Typography>
-        )}
+        <Typography variant="h1" sx={{ fontSize: '6vw' }}>
+          Come one, come all
+        </Typography>
         <Typography
           variant="h1"
           sx={{ fontFamily: 'SpringFair, sans-serif', fontSize: '7vw' }}
         >
-          Boilermake X
+          Boilermake
         </Typography>
-        <Typography variant="h2" sx={{ fontSize: '6vw' }}>
-          Purdue University | January 20-22, 2023
-        </Typography>
+        <Stack
+          direction="row"
+          justifyContent="space-around"
+          alignItems="center"
+        >
+          <Typography
+            variant="h2"
+            component="span"
+            sx={{ fontSize: '1.5rem', width: '150px' }}
+          >
+            Purdue University
+          </Typography>
+          <Typography
+            component="span"
+            variant="h1"
+            sx={{ fontFamily: 'SpringFair, sans-serif' }}
+          >
+            X
+          </Typography>
+          <Typography
+            variant="h2"
+            component="span"
+            sx={{ fontSize: '1.5rem', width: '150px' }}
+          >
+            January 20-22, 2023
+          </Typography>
+        </Stack>
       </Box>
       <Box
         sx={{
@@ -73,7 +96,7 @@ const Landing = ({ uaString }: { uaString?: string }) => {
             bottom: 0,
             left: '50%',
             transform: 'translateX(-50%)',
-            width: '60vw',
+            width: { xs: '200vw', sm: '60vw' },
             minWidth: '300px',
           }}
         >
