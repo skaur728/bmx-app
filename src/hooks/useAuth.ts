@@ -16,7 +16,7 @@ const useAuth = () => {
     () => (session?.user?.id ? `/api/user/${session.user.id}` : null),
     fetcher,
     {
-      revalidateOnMount: true,
+      revalidateOnFocus: false,
     }
   )
 

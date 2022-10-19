@@ -1,4 +1,4 @@
-import { Box, Container, Typography } from '@mui/material'
+import { Box, Container, Stack, Typography } from '@mui/material'
 import { useRouter } from 'next/router'
 import { useEffect } from 'react'
 
@@ -44,14 +44,59 @@ const UserProfileDashboardPage: NextPage<Props> = () => {
         }}
       >
         <Typography variant="h6">User dashboard page</Typography>
-        <Box
-          sx={{ width: '300px', height: '300px', border: '1px solid black' }}
+        <Stack
+          sx={{
+            width: '250px',
+            height: '300px',
+            border: '1px solid black',
+            borderRadius: 4,
+            overflow: 'hidden',
+            position: 'relative',
+          }}
         >
+          <Stack
+            direction="row"
+            sx={{
+              position: 'absolute',
+              top: 10,
+              left: 10,
+              backgroundColor: '#e2e2e2',
+              borderRadius: '40px',
+              padding: '5px 10px',
+            }}
+          >
+            <Box
+              sx={{
+                borderRadius: '50%',
+                width: 25,
+                height: 25,
+                backgroundColor: 'yellow',
+                mr: 2,
+              }}
+            />
+            Pending
+          </Stack>
+          <Box sx={{ flex: 1, backgroundColor: 'green' }} />
           <Box
-            sx={{ height: '50%', width: '100%', backgroundColor: 'green' }}
-          />
-          <Box>text</Box>
-        </Box>
+            sx={{
+              position: 'absolute',
+              top: '50%',
+              left: '50%',
+              transform: 'translate(-50%, -50%)',
+              textAlign: 'center',
+              background: 'aliceblue',
+              borderRadius: '50%',
+              border: '2px solid brown',
+              width: 50,
+              height: 50,
+            }}
+          >
+            circle
+          </Box>
+          <Box sx={{ flex: 1 }}>
+            <Box sx={{ pt: '40px', textAlign: 'center' }}>Jan 21 - 23</Box>
+          </Box>
+        </Stack>
       </Box>
     </Container>
   )

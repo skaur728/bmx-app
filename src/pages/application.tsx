@@ -87,11 +87,10 @@ const Application: NextPage<Props> = () => {
         axios.post<
           { application: IApplication },
           AxiosResponse<{ application: IApplication }>,
-          { application: IApplication }
+          { application: Partial<IApplication> }
         >('/api/application', {
           application: {
             resume: url,
-            decision: Decision.Pending,
             whyBM: _whyBM,
             projectIdea: _projectIdea,
             codeConduct,
@@ -149,11 +148,27 @@ const Application: NextPage<Props> = () => {
 
             <form onSubmit={onFormSubmit}>
               <Stack spacing={2} mt={1.5}>
+                {/* https://mui.com/material-ui/react-textarea-autosize/ */}
                 <TextField
                   variant="standard"
-                  label="temp"
+                  label="WhyBM"
                   required
+                  value={whyBM}
+                  onChange={(e) => setWhyBM(e.target.value)}
                   autoComplete="off"
+                  multiline
+                  rows={4}
+                />
+
+                <TextField
+                  variant="standard"
+                  label="Proj Idea"
+                  required
+                  value={projectIdea}
+                  onChange={(e) => setProjectIdea(e.target.value)}
+                  autoComplete="off"
+                  multiline
+                  rows={4}
                 />
 
                 <FileInput onChange={handleFileChange} />
