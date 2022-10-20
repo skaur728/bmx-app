@@ -22,6 +22,7 @@ import PhoneInput, { isValidPhoneNumber } from 'react-phone-number-input/input'
 import GenderSelect from '@/components/GenderSelect'
 import MajorSelect from '@/components/MajorSelect'
 import SchoolSelect from '@/components/SchoolSelect'
+import TopNav from '@/components/TopNav'
 import useAuth from '@/hooks/useAuth'
 import { Button, TextField } from '@/styles/custom'
 
@@ -49,7 +50,7 @@ const UserProfile: NextPage<Props> = () => {
 
   const [loadingSubmission, setLoadingSubmission] = useState(false)
   const [name, setName] = useState('')
-  const [major, setMajor] = useState<string | null>(null)
+  const [majors, setMajors] = useState<string[]>([])
   const [gender, setGender] = useState('')
   const [gradYear, setGradYear] = useState('')
   const [school, setSchool] = useState<string | null>(null)
@@ -61,7 +62,7 @@ const UserProfile: NextPage<Props> = () => {
     if (!user) return
 
     setName(user.preferredName || user.name || '')
-    setMajor(user.major || null)
+    setMajors(user.majors || [])
     setGender(user.gender || 'male')
     setGradYear(user.gradYear || '')
     setSchool(user.school || null)
@@ -75,7 +76,8 @@ const UserProfile: NextPage<Props> = () => {
 
     const _name = name.trim()
     const _gender = gender.trim()
-    if (!_name || !major || !_gender || !school || !phone || !age) return
+    if (!_name || !majors?.length || !_gender || !school || !phone || !age)
+      return
 
     if (!isValidPhoneNumber(phone)) {
       setPhoneError(true)
@@ -92,7 +94,7 @@ const UserProfile: NextPage<Props> = () => {
           preferredName: _name,
           hasFilledProfile: true,
           gradYear,
-          major,
+          majors,
           gender: _gender,
           school,
           phone,
@@ -112,6 +114,7 @@ const UserProfile: NextPage<Props> = () => {
     }, 750)
   }
 
+  // TODO style loading
   if (status === 'loading') {
     return (
       <Box
@@ -151,24 +154,26 @@ const UserProfile: NextPage<Props> = () => {
   }
 
   return (
-    <Box
-      sx={{
-        py: 10,
-        px: { xs: 3, sm: 4, md: 8 },
-      }}
-    >
+    <>
+      <TopNav />
       <Box
         sx={{
-          height: '100vh',
-          width: '100vw',
-          overflow: 'hidden',
-          position: 'fixed',
-          top: 0,
-          left: 0,
-          background: 'linear-gradient(#1c2634 60%,  #694028)',
+          py: { xs: 5, sm: 10 },
+          px: { xs: 3, sm: 4, md: 8 },
         }}
       >
-        {/* <Box
+        <Box
+          sx={{
+            height: '100vh',
+            width: '100vw',
+            overflow: 'hidden',
+            position: 'fixed',
+            top: 0,
+            left: 0,
+            background: 'linear-gradient(#1c2634 60%,  #694028)',
+          }}
+        >
+          {/* <Box
         sx={{ position: 'absolute', width: '180px', bottom: -15, right: -45 }}
       >
         <Image
@@ -180,225 +185,220 @@ const UserProfile: NextPage<Props> = () => {
         />
       </Box> */}
 
-        <Box
-          sx={{
-            position: 'absolute',
-            width: '30vw',
-            minWidth: '300px',
-            bottom: '-10%',
-            right: 30,
-          }}
-        >
-          <Image
-            src="/images/profile/balloons.svg"
-            alt="balloons"
-            width={103}
-            height={150}
-            layout="responsive"
-          />
-        </Box>
+          <Box
+            sx={{
+              position: 'absolute',
+              width: '30vw',
+              minWidth: '300px',
+              bottom: '-10%',
+              right: 30,
+            }}
+          >
+            <Image
+              src="/images/profile/balloons.svg"
+              alt="balloons"
+              width={103}
+              height={150}
+              layout="responsive"
+            />
+          </Box>
 
-        <Box
-          sx={{
-            position: 'absolute',
-            width: '80vw',
-            maxWidth: '1200px',
-            bottom: '-50%',
-            left: '40%',
-            transform: 'translateX(-50%)',
-          }}
-        >
-          <Image
-            src="/images/profile/ferris-wheel.svg"
-            alt="ferris wheel"
-            width={159}
-            height={150}
-            layout="responsive"
-          />
+          <Box
+            sx={{
+              position: 'absolute',
+              width: '80vw',
+              maxWidth: '1200px',
+              bottom: '-50%',
+              left: '40%',
+              transform: 'translateX(-50%)',
+            }}
+          >
+            <Image
+              src="/images/profile/ferris-wheel.svg"
+              alt="ferris wheel"
+              width={159}
+              height={150}
+              layout="responsive"
+            />
+          </Box>
         </Box>
-      </Box>
-      {user && (
-        <Stack
-          alignItems="center"
-          sx={{
-            maxWidth: '900px',
-            width: '100%',
-            mx: 'auto',
-            backgroundColor: '#ffe8c9',
-          }}
-        >
+        {user && (
           <Stack
             alignItems="center"
             sx={{
-              backgroundColor: '#ffffff',
-              py: 5,
-              px: { xs: 3, sm: 5 },
+              maxWidth: '900px',
               width: '100%',
-              zIndex: 2,
+              mx: 'auto',
+              backgroundColor: '#ffe8c9',
             }}
           >
-            <Typography variant="h1">
-              {user && isFirst ? 'Create ' : ''}Profile
-            </Typography>
-            <Avatar
-              alt={name || ''}
-              src={user.image || ''}
-              sx={{ width: 120, height: 120, fontSize: '3rem' }}
+            <Stack
+              alignItems="center"
+              sx={{
+                backgroundColor: '#ffffff',
+                py: { xs: 2, sm: 5 },
+                px: { xs: 3, sm: 5 },
+                width: '100%',
+                zIndex: 2,
+              }}
             >
-              {/* get initials if image doesn't exist */}
-              {user.image || !name
-                ? ''
-                : `${name.trim().split(' ')[0][0]} ${
-                    name.trim().split(' ')[name.trim().split(' ').length - 1][0]
-                  }`}
-            </Avatar>
-            <form onSubmit={onFormSubmit} style={{ width: '100%' }}>
-              <Stack
-                spacing={2}
-                mt={1.5}
-                sx={{ maxWidth: '500px', mx: 'auto' }}
+              <Typography variant="h1">
+                {user && isFirst ? 'Create ' : ''}Profile
+              </Typography>
+              <Avatar
+                alt={name || ''}
+                src={user.image || ''}
+                sx={{ width: 120, height: 120, fontSize: '3rem' }}
               >
-                <TextField
-                  variant="standard"
-                  label="Preferred Full Name"
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
-                  autoComplete="given-name"
-                  required
-                />
-                <TextField
-                  variant="standard"
-                  label="Email"
-                  value={user.email}
-                  disabled
-                />
-                <PhoneInput
-                  defaultCountry="US"
-                  value={phone as any}
-                  onChange={(num) => {
-                    setPhone(num)
-                    setPhoneError(false)
-                  }}
-                  inputComponent={PhoneField as any}
-                  error={phoneError}
-                  helperText={phoneError ? 'Invalid phone number' : ''}
-                />
-
-                {/* TODO prob have select for gender */}
-                {/* <TextField
-                  variant="standard"
-                  label="Gender"
-                  value={gender}
-                  onChange={(e) => setGender(e.target.value)}
-                  autoComplete="off"
-                  required
-                /> */}
-                <GenderSelect value={gender} setValue={setGender} />
-
-                <SchoolSelect value={school} setValue={setSchool} />
-
-                {/* <TextField
-                  variant="standard"
-                  label="Major"
-                  value={major}
-                  onChange={(e) => setMajor(e.target.value)}
-                  autoComplete="off"
-                  required
-                /> */}
-                <MajorSelect value={major} setValue={setMajor} />
-
-                <Stack direction="row" spacing={2} pt={2}>
-                  <FormControl
-                    fullWidth
-                    required
+                {/* get initials if image doesn't exist */}
+                {user.image || !name
+                  ? ''
+                  : `${name.trim().split(' ')[0][0]} ${
+                      name.trim().split(' ')[
+                        name.trim().split(' ').length - 1
+                      ][0]
+                    }`}
+              </Avatar>
+              <form onSubmit={onFormSubmit} style={{ width: '100%' }}>
+                <Stack
+                  spacing={2}
+                  mt={1.5}
+                  sx={{ maxWidth: '500px', mx: 'auto' }}
+                >
+                  <TextField
                     variant="standard"
-                    sx={{
-                      '& .MuiInput-root': {
-                        fontSize: '1.4rem',
-                      },
-                      '& .MuiInputLabel-root': {
-                        fontSize: '1.4rem',
-                      },
-                      flex: 1,
-                    }}
-                  >
-                    <InputLabel sx={{ fontSize: '1.5rem' }}>
-                      Graduation Year
-                    </InputLabel>
-                    <Select
-                      value={gradYear}
-                      label="Graduation Year"
-                      onChange={(e) => setGradYear(e.target.value)}
-                    >
-                      <MenuItem value="2022">2022</MenuItem>
-                      <MenuItem value="2023">2023</MenuItem>
-                      <MenuItem value="2024">2024</MenuItem>
-                      <MenuItem value="2025">2025</MenuItem>
-                      <MenuItem value="2026">2026</MenuItem>
-                      <MenuItem value="2027">2027</MenuItem>
-                      <MenuItem value="2028">2028</MenuItem>
-                    </Select>
-                  </FormControl>
-
-                  <FormControl
-                    fullWidth
+                    label="Preferred Full Name"
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                    autoComplete="given-name"
                     required
+                  />
+                  <TextField
                     variant="standard"
-                    sx={{
-                      '& .MuiInput-root': {
-                        fontSize: '1.4rem',
-                      },
-                      '& .MuiInputLabel-root': {
-                        fontSize: '1.4rem',
-                      },
-                      flex: 1,
+                    label="Email"
+                    value={user.email}
+                    disabled
+                  />
+                  <PhoneInput
+                    defaultCountry="US"
+                    value={phone as any}
+                    onChange={(num) => {
+                      setPhone(num)
+                      setPhoneError(false)
                     }}
-                  >
-                    <InputLabel sx={{ fontSize: '1.5rem' }}>Age</InputLabel>
-                    <Select
-                      value={age}
-                      label="Age"
-                      onChange={(e) => setAge(e.target.value)}
-                    >
-                      {Object.keys([...new Array(31)]).map(
-                        (i) =>
-                          parseInt(i, 10) >= 18 && (
-                            <MenuItem key={i} value={i}>
-                              {i}
-                            </MenuItem>
-                          )
-                      )}
-                    </Select>
-                    <FormHelperText sx={{ fontSize: '1rem' }}>
-                      Participants must be 18+
-                    </FormHelperText>
-                  </FormControl>
-                </Stack>
+                    inputComponent={PhoneField as any}
+                    error={phoneError}
+                    helperText={phoneError ? 'Invalid phone number' : ''}
+                  />
 
-                <Stack alignItems="center" pt={2}>
-                  <Button
-                    type="submit"
-                    sx={{
-                      fontSize: '1.2rem',
-                      ...(loadingSubmission && {
-                        backgroundColor: '#157822',
-                        pointerEvents: 'none',
-                      }),
-                    }}
-                  >
-                    {(() => {
-                      if (isFirst)
-                        return loadingSubmission ? 'Submitted!' : 'Submit'
-                      return loadingSubmission ? 'Updated!' : 'Update'
-                    })()}
-                  </Button>
+                  <GenderSelect value={gender} setValue={setGender} />
+
+                  <SchoolSelect value={school} setValue={setSchool} />
+
+                  <MajorSelect value={majors} setValue={setMajors} />
+
+                  <Stack direction="row" spacing={2} pt={2}>
+                    <FormControl
+                      fullWidth
+                      required
+                      variant="standard"
+                      sx={{
+                        '& .MuiInput-root': {
+                          fontSize: '1.4rem',
+                        },
+                        '& .MuiInputLabel-root': {
+                          fontSize: '1.4rem',
+                        },
+                        flex: 1,
+                      }}
+                    >
+                      <InputLabel sx={{ fontSize: '1.5rem' }}>
+                        Graduation Year
+                      </InputLabel>
+                      <Select
+                        value={gradYear}
+                        label="Graduation Year"
+                        onChange={(e) => setGradYear(e.target.value)}
+                      >
+                        <MenuItem value="2022">2022</MenuItem>
+                        <MenuItem value="2023">2023</MenuItem>
+                        <MenuItem value="2024">2024</MenuItem>
+                        <MenuItem value="2025">2025</MenuItem>
+                        <MenuItem value="2026">2026</MenuItem>
+                        <MenuItem value="2027">2027</MenuItem>
+                        <MenuItem value="2028">2028</MenuItem>
+                      </Select>
+                    </FormControl>
+
+                    <FormControl
+                      fullWidth
+                      required
+                      variant="standard"
+                      sx={{
+                        '& .MuiInput-root': {
+                          fontSize: '1.4rem',
+                        },
+                        '& .MuiInputLabel-root': {
+                          fontSize: '1.4rem',
+                        },
+                        flex: 1,
+                      }}
+                    >
+                      <InputLabel sx={{ fontSize: '1.5rem' }}>Age</InputLabel>
+                      <Select
+                        value={age}
+                        label="Age"
+                        onChange={(e) => setAge(e.target.value)}
+                      >
+                        {Object.keys([...new Array(31)]).map(
+                          (i) =>
+                            parseInt(i, 10) >= 18 && (
+                              <MenuItem key={i} value={i}>
+                                {i}
+                              </MenuItem>
+                            )
+                        )}
+                      </Select>
+                      <FormHelperText sx={{ fontSize: '1rem' }}>
+                        Participants must be 18+
+                      </FormHelperText>
+                    </FormControl>
+                  </Stack>
+
+                  <Stack alignItems="center" pt={2}>
+                    <Button
+                      type="submit"
+                      sx={{
+                        fontSize: '1.2rem',
+                        ...(loadingSubmission && {
+                          backgroundColor: '#157822',
+                          pointerEvents: 'none',
+                        }),
+                      }}
+                      // disabled={
+                      //   !gender.trim() ||
+                      //   !school ||
+                      //   !majors?.length ||
+                      //   !phone ||
+                      //   !name.trim() ||
+                      //   !gradYear ||
+                      //   !age
+                      // }
+                    >
+                      {(() => {
+                        if (isFirst)
+                          return loadingSubmission ? 'Submitted!' : 'Submit'
+                        return loadingSubmission ? 'Updated!' : 'Update'
+                      })()}
+                    </Button>
+                  </Stack>
                 </Stack>
-              </Stack>
-            </form>
+              </form>
+            </Stack>
           </Stack>
-        </Stack>
-      )}
-    </Box>
+        )}
+      </Box>
+    </>
   )
 }
 

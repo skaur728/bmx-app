@@ -18,6 +18,40 @@ export default NextAuth({
       clientId: process.env.AZURE_AD_CLIENT_ID || '',
       clientSecret: process.env.AZURE_AD_CLIENT_SECRET || '',
       tenantId: process.env.AZURE_AD_TENANT_ID,
+      async profile(profile, tokens) {
+        const profilePicture = await fetch(
+          `https://graph.microsoft.com/v1.0/me/photos/48x48/$value`,
+          {
+            headers: {
+              Authorization: `Bearer ${tokens.access_token}`,
+            },
+          }
+        )
+
+        const { name } = profile
+        const commaIdx = name.indexOf(',')
+        const newName =
+          commaIdx !== -1
+            ? `${name.substring(commaIdx + 1)} ${name.substring(0, commaIdx)}`
+            : name
+
+        // Confirm that profile photo was returned
+        if (profilePicture.ok) {
+          const pictureBuffer = await profilePicture.arrayBuffer()
+          const pictureBase64 = Buffer.from(pictureBuffer).toString('base64')
+          return {
+            id: profile.sub,
+            name: newName,
+            email: profile.email,
+            image: `data:image/jpeg;base64, ${pictureBase64}`,
+          }
+        }
+        return {
+          id: profile.sub,
+          name: newName,
+          email: profile.email,
+        }
+      },
     }),
     GitHubProvider({
       clientId: process.env.GITHUB_ID || '',
