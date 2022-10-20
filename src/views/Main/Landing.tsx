@@ -48,42 +48,61 @@ const Landing = ({ uaString }: { uaString?: string }) => {
           zIndex: 1,
         }}
       >
-        <Typography variant="h1" sx={{ fontSize: '6vw' }}>
-          Come one, come all
-        </Typography>
-        <Typography
-          variant="h1"
-          sx={{ fontFamily: 'SpringFair, sans-serif', fontSize: '7vw' }}
-        >
-          Boilermake
-        </Typography>
-        <Stack
-          direction="row"
-          justifyContent="space-around"
-          alignItems="center"
-        >
-          <Typography
-            variant="h2"
-            component="span"
-            sx={{ fontSize: '1.5rem', width: '150px' }}
-          >
-            Purdue University
-          </Typography>
-          <Typography
-            component="span"
-            variant="h1"
-            sx={{ fontFamily: 'SpringFair, sans-serif' }}
-          >
-            X
-          </Typography>
-          <Typography
-            variant="h2"
-            component="span"
-            sx={{ fontSize: '1.5rem', width: '150px' }}
-          >
-            January 20-22, 2023
-          </Typography>
-        </Stack>
+        {ua.isDesktop ? (
+          <>
+            <Typography variant="h1" sx={{ fontSize: '6vw' }}>
+              Come one, come all
+            </Typography>
+            <Typography
+              variant="h1"
+              sx={{ fontFamily: 'SpringFair, sans-serif', fontSize: '7vw' }}
+            >
+              Boilermake X
+            </Typography>
+            <Typography variant="h2" sx={{ fontSize: '6vw' }}>
+              Purdue University | January 20-22, 2023
+            </Typography>
+          </>
+        ) : (
+          <>
+            <Typography variant="h1" sx={{ fontSize: '6vw' }}>
+              Come one, come all
+            </Typography>
+            <Typography
+              variant="h1"
+              sx={{ fontFamily: 'SpringFair, sans-serif', fontSize: '7vw' }}
+            >
+              Boilermake
+            </Typography>
+            <Stack
+              direction="row"
+              justifyContent="space-around"
+              alignItems="center"
+            >
+              <Typography
+                variant="h2"
+                component="span"
+                sx={{ fontSize: '1.5rem', width: '150px' }}
+              >
+                Purdue University
+              </Typography>
+              <Typography
+                component="span"
+                variant="h1"
+                sx={{ fontFamily: 'SpringFair, sans-serif' }}
+              >
+                X
+              </Typography>
+              <Typography
+                variant="h2"
+                component="span"
+                sx={{ fontSize: '1.5rem', width: '150px' }}
+              >
+                January 20-22, 2023
+              </Typography>
+            </Stack>
+          </>
+        )}
       </Box>
       <Box
         sx={{

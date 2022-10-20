@@ -36,6 +36,8 @@ const ApplicationSchema = new Schema<IApplication, IApplicationModel>({
   whyBM: String,
   projectIdea: String,
   codeConduct: Boolean,
+  termConditions: Boolean,
+  optInEmail: Boolean,
 })
 
 ApplicationSchema.plugin(require('@/utils/store/leanObjectIdToString'))

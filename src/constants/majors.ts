@@ -1,4 +1,8 @@
 const majors = [
+  'Data Science',
+  'Artificial Intelligence',
+  'First Year Engineering',
+  'Applied Statistics',
   'General Agriculture',
   'Agriculture Production And Management',
   'Agricultural Economics',

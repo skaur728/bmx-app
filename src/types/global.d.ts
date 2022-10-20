@@ -48,6 +48,8 @@ declare global {
     whyBM: string
     projectIdea: string
     codeConduct: boolean
+    termConditions: boolean
+    optInEmail: boolean
     resume: string
 
     user?: ObjectId
@@ -58,7 +60,7 @@ declare global {
     preferredName: string
     role: string
     hasFilledProfile: boolean
-    major: string
+    majors: string[]
     gender: string
     gradYear: string
     school: string
