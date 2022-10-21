@@ -8,8 +8,8 @@ import { TextField } from '@/styles/custom'
 import type { Dispatch, SetStateAction } from 'react'
 
 type Props = {
-  value: string | null
-  setValue: Dispatch<SetStateAction<string | null>>
+  value: string[]
+  setValue: Dispatch<SetStateAction<string[]>>
 }
 
 const MajorSelect = ({ value, setValue }: Props) => {
@@ -18,17 +18,19 @@ const MajorSelect = ({ value, setValue }: Props) => {
 
   return (
     <Autocomplete
+      multiple
       options={results}
       fullWidth
       value={value}
-      onChange={(e, newValue) => setValue(newValue)}
+      onChange={(e, newValue) => {
+        setValue(newValue)
+      }}
       inputValue={query}
       onInputChange={(e, newValue) => setQuery(newValue || '')}
       renderInput={(params) => (
         <TextField
           {...params}
-          label="Major"
-          required
+          label="Major *"
           variant="standard"
           sx={{ margin: 0 }}
         />

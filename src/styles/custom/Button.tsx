@@ -15,4 +15,11 @@ export default styled(Button)({
   '&:active': {
     transform: 'scale(1)',
   },
+
+  '&.Mui-disabled': {
+    color: '#ffe8c999',
+    boxShadow: 'none',
+    backgroundColor: '#7e2f1fb0',
+    pointerEvents: 'none',
+  },
 })

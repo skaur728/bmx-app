@@ -1,5 +1,4 @@
-import { Box, Stack } from '@mui/material'
-import { useEffect, useState } from 'react'
+import { Box } from '@mui/material'
 
 import HorizontalScroller from '@/components/HorizontalScroller'
 import { Navbar } from '@/components/Navbar'

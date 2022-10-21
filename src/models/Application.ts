@@ -33,9 +33,15 @@ const ApplicationSchema = new Schema<IApplication, IApplicationModel>({
     default: 'Pending',
   } as any as SchemaDefinitionProperty<Decision> | undefined,
   resume: String,
+  resumeVersion: {
+    type: Number,
+    default: 0,
+  },
   whyBM: String,
   projectIdea: String,
   codeConduct: Boolean,
+  termConditions: Boolean,
+  optInEmail: Boolean,
 })
 
 ApplicationSchema.plugin(require('@/utils/store/leanObjectIdToString'))

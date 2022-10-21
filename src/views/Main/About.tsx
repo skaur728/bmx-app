@@ -5,7 +5,7 @@ import Image from 'next/image'
 
 import InfoTentImg from '../../../public/images/about/info-tent.svg'
 
-import type { NextPage, NextPageContext } from 'next'
+import type { NextPageContext } from 'next'
 
 const AboutSign = dynamic(() => import('@/components/About/AboutSign'))
 
