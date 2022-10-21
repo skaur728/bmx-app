@@ -44,6 +44,8 @@ const ApplicationSchema = new Schema<IApplication, IApplicationModel>({
   optInEmail: Boolean,
 })
 
+ApplicationSchema.index({ user: 1 })
+
 ApplicationSchema.plugin(require('@/utils/store/leanObjectIdToString'))
 
 export default (models.Application as IApplicationModel) ||

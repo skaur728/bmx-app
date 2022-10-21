@@ -13,7 +13,7 @@ const useAuth = () => {
   const router = useRouter()
 
   const { data, error, isValidating } = useSWR<{ user: IUser }, AxiosError>(
-    () => (session?.user?.id ? `/api/user/${session.user.id}` : null),
+    () => (session?.user ? `/api/user` : null),
     fetcher,
     {
       revalidateOnFocus: false,

@@ -39,10 +39,11 @@ export const createApplication = async (
 
 export const updateApplication = ({
   id,
+  year,
   ...fields
 }: Partial<IApplication> & { id: string }): Promise<LeanedApplication | null> =>
-  Application.findByIdAndUpdate(
-    id,
+  Application.findOneAndUpdate(
+    { user: id, year },
     { $set: { ...fields } },
     { returnDocument: 'after' }
   )

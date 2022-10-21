@@ -10,6 +10,10 @@ import mongoConnect from '@/utils/store/mongoConnect'
 export default NextAuth({
   adapter: MongoDBAdapter(mongoConnect),
   providers: [
+    GitHubProvider({
+      clientId: process.env.GITHUB_ID || '',
+      clientSecret: process.env.GITHUB_SECRET || '',
+    }),
     GoogleProvider({
       clientId: process.env.NEXTAUTH_CLIENT_ID || '',
       clientSecret: process.env.NEXTAUTH_CLIENT_SECRET || '',
@@ -52,14 +56,6 @@ export default NextAuth({
           email: profile.email,
         }
       },
-    }),
-    GitHubProvider({
-      clientId: process.env.GITHUB_ID || '',
-      clientSecret: process.env.GITHUB_SECRET || '',
-    }),
-    GitHubProvider({
-      clientId: process.env.GITHUB_ID || '',
-      clientSecret: process.env.GITHUB_SECRET || '',
     }),
   ],
   pages: {

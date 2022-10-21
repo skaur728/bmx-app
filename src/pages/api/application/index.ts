@@ -2,7 +2,11 @@ import to from 'await-to-js'
 import { ReasonPhrases, StatusCodes } from 'http-status-codes'
 import { getToken } from 'next-auth/jwt'
 
-import { createApplication, getApplications } from '@/controllers/application'
+import {
+  createApplication,
+  getApplications,
+  updateApplication,
+} from '@/controllers/application'
 import dbConnect from '@/utils/store/dbConnect'
 
 import type { NextApiRequest, NextApiResponse } from 'next'
@@ -54,6 +58,36 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
     }
 
     return res.send({ applications })
+  }
+
+  if (req.method === 'PATCH') {
+    await dbConnect()
+
+    const token = await getToken({ req })
+
+    if (!token || !token.id)
+      return res
+        .status(StatusCodes.UNAUTHORIZED)
+        .send({ message: ReasonPhrases.UNAUTHORIZED })
+
+    const { payload, year }: { payload: Partial<IApplication>; year: number } =
+      req.body
+
+    if (!year)
+      return res
+        .status(StatusCodes.BAD_REQUEST)
+        .send({ message: ReasonPhrases.BAD_REQUEST })
+
+    const [errorUpdate, application] = await to(
+      updateApplication({ id: token.id, year, ...payload })
+    )
+
+    if (errorUpdate)
+      return res
+        .status(StatusCodes.INTERNAL_SERVER_ERROR)
+        .send({ message: ReasonPhrases.INTERNAL_SERVER_ERROR })
+
+    return res.send({ application })
   }
 
   return res

@@ -7,33 +7,41 @@ import {
   FormGroup,
   FormLabel,
   Link,
+  Skeleton,
   Stack,
   Typography,
 } from '@mui/material'
 import to from 'await-to-js'
 import axios from 'axios'
 import { useS3Upload } from 'next-s3-upload'
+import { useUserAgent } from 'next-useragent'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
 import { useEffect, useMemo, useState } from 'react'
 
 import ApplicationStatus from '@/components/ApplicationStatus'
 import Dropzone from '@/components/Dropzone'
+import Head from '@/components/Head'
 import TopNav from '@/components/TopNav'
 import useApplication from '@/hooks/useApplication'
 import { Button, TextField } from '@/styles/custom'
+import Background from '@/views/Main/Background'
 
 import type { AxiosResponse } from 'axios'
-import type { NextPage } from 'next'
+import type { NextPage, NextPageContext } from 'next'
 import type { FormEvent } from 'react'
 
 interface Props {}
 
-const Application: NextPage<Props> = () => {
+const Application: NextPage<Props> = ({ uaString }: { uaString?: string }) => {
   const { user, applications, loading } = useApplication()
   const { uploadToS3 } = useS3Upload()
 
   const router = useRouter()
+
+  const ua = useUserAgent(uaString || window.navigator.userAgent)
+
+  const [showChild, setShowChild] = useState(false)
 
   const [loadingSubmission, setLoadingSubmission] = useState(false)
   const [resumeFile, setResumeFile] = useState<File | null>(null)
@@ -151,28 +159,20 @@ const Application: NextPage<Props> = () => {
     }
 
     const [err, res] = await to(
-      axios.patch<
-        { application: IApplication },
-        AxiosResponse<{ application: IApplication }>,
-        { payload: Partial<IApplication> }
-      >(
-        `/api/application/${
-          (application as IApplication & { _id: string })._id
-        }`,
-        {
-          payload: {
-            ...(url && {
-              resume: url,
-              resumeVersion: resumeVersion + 1,
-            }),
-            whyBM: _whyBM,
-            projectIdea: _projectIdea,
-            codeConduct,
-            termConditions,
-            optInEmail,
-          },
-        }
-      )
+      axios.patch(`/api/application`, {
+        year: 2023,
+        payload: {
+          ...(url && {
+            resume: url,
+            resumeVersion: resumeVersion + 1,
+          }),
+          whyBM: _whyBM,
+          projectIdea: _projectIdea,
+          codeConduct,
+          termConditions,
+          optInEmail,
+        },
+      })
     )
 
     setResumeFile(null)
@@ -186,11 +186,20 @@ const Application: NextPage<Props> = () => {
     }, 750)
   }
 
-  // TODO add in loading
+  // Wait until after client-side hydration to show
+  useEffect(() => {
+    setShowChild(true)
+  }, [])
+
+  if (!showChild) {
+    return null
+  }
 
   return (
     <>
-      <TopNav />
+      <Head title="Application | BoilerMake X " />
+      {user && <TopNav />}
+      <Background />
       <Box
         sx={{
           py: { xs: 5, sm: 10 },
@@ -205,7 +214,6 @@ const Application: NextPage<Props> = () => {
             position: 'fixed',
             top: 0,
             left: 0,
-            background: 'linear-gradient(#1c2634 60%,  #694028)',
           }}
         >
           <Box
@@ -226,258 +234,298 @@ const Application: NextPage<Props> = () => {
             />
           </Box>
 
-          <Box
-            sx={{
-              position: 'absolute',
-              width: '80vw',
-              maxWidth: '1200px',
-              bottom: '-50%',
-              left: '40%',
-              transform: 'translateX(-50%)',
-            }}
-          >
-            <Image
-              src="/images/profile/ferris-wheel.svg"
-              alt="ferris wheel"
-              width={159}
-              height={150}
-              layout="responsive"
-            />
-          </Box>
+          {ua.isDesktop && (
+            <Box
+              sx={{
+                position: 'absolute',
+                width: '80vw',
+                maxWidth: '1200px',
+                bottom: '-50%',
+                left: '40%',
+                transform: 'translateX(-50%)',
+              }}
+            >
+              <Image
+                src="/images/profile/ferris-wheel.svg"
+                alt="ferris wheel"
+                width={159}
+                height={150}
+                layout="responsive"
+              />
+            </Box>
+          )}
         </Box>
-        {user && (
+
+        <Stack
+          alignItems="center"
+          sx={{
+            maxWidth: '900px',
+            width: '100%',
+            mx: 'auto',
+          }}
+        >
           <Stack
             alignItems="center"
             sx={{
-              maxWidth: '900px',
+              backgroundColor: '#ffe8c9eb',
+              py: { xs: 2, sm: 5 },
+              px: { xs: 3, sm: 5 },
               width: '100%',
-              mx: 'auto',
+              zIndex: 2,
             }}
           >
-            <Stack
-              alignItems="center"
-              sx={{
-                backgroundColor: '#ffe8c9eb',
-                py: { xs: 2, sm: 5 },
-                px: { xs: 3, sm: 5 },
-                width: '100%',
-                zIndex: 2,
-              }}
-            >
-              <Typography variant="h1">
-                {isFirst ? 'Create ' : ''}Application
-              </Typography>
+            {user ? (
+              <>
+                <Typography variant="h1">
+                  {isFirst ? 'Create ' : ''}Application
+                </Typography>
+                {!isFirst && application?.decision && (
+                  <ApplicationStatus decision={application.decision} />
+                )}
+                <form onSubmit={onFormSubmit} style={{ width: '100%' }}>
+                  <Stack
+                    spacing={2}
+                    mt={1.5}
+                    sx={{ maxWidth: '800px', mx: 'auto' }}
+                  >
+                    <FormControl>
+                      <FormLabel sx={{ fontSize: '1.3rem' }}>
+                        What do you hope to take away from BoilerMake? (e.g.
+                        talking to companies, making friends, learning new
+                        things, etc.)
+                        <br />
+                        <Typography
+                          component="span"
+                          sx={{ fontWeight: 600, fontSize: '1rem' }}
+                        >
+                          Max characters: {100 - whyBM.length}
+                        </Typography>
+                      </FormLabel>
+                      <TextField
+                        required
+                        fullWidth
+                        value={whyBM}
+                        onChange={(e) =>
+                          e.target.value.length <= 100 &&
+                          setWhyBM(e.target.value)
+                        }
+                        autoComplete="off"
+                        multiline
+                        rows={4}
+                        sx={{
+                          '& textarea': {
+                            fontSize: '1.3rem',
+                          },
+                        }}
+                      />
+                    </FormControl>
+                    <FormControl>
+                      <FormLabel sx={{ fontSize: '1.3rem' }}>
+                        Do you already have a project idea? If not, what
+                        technologies are you interested in using at BoilerMake?
+                        (e.g. web dev, app dev, Raspberry Pi, etc.)
+                        <br />
+                        <Typography
+                          component="span"
+                          sx={{ fontWeight: 600, fontSize: '1rem' }}
+                        >
+                          Max characters: {150 - projectIdea.length}
+                        </Typography>
+                      </FormLabel>
+                      <TextField
+                        required
+                        fullWidth
+                        value={projectIdea}
+                        onChange={(e) =>
+                          e.target.value.length <= 150 &&
+                          setProjectIdea(e.target.value)
+                        }
+                        autoComplete="off"
+                        multiline
+                        rows={4}
+                        sx={{
+                          '& textarea': {
+                            fontSize: '1.3rem',
+                          },
+                        }}
+                      />
+                    </FormControl>
 
-              {!isFirst && application?.decision && (
-                <ApplicationStatus decision={application.decision} />
-              )}
+                    <Box mb={2}>
+                      {application?.resume && (
+                        <Box textAlign="center" mb={1}>
+                          <Link variant="h5" href={resumeUrl} target="_blank">
+                            Current resume
+                          </Link>
+                        </Box>
+                      )}
 
-              <form onSubmit={onFormSubmit} style={{ width: '100%' }}>
-                <Stack
-                  spacing={2}
-                  mt={1.5}
-                  sx={{ maxWidth: '800px', mx: 'auto' }}
-                >
-                  <FormControl>
-                    <FormLabel sx={{ fontSize: '1.3rem' }}>
-                      What do you hope to take away from BoilerMake? (e.g.
-                      talking to companies, making friends, learning new things,
-                      etc.)
-                      <br />
-                      <Typography
-                        component="span"
-                        sx={{ fontWeight: 600, fontSize: '1rem' }}
+                      <Dropzone
+                        setFile={(file) => {
+                          setMissingResume(false)
+                          setResumeFile(file)
+                        }}
+                        file={resumeFile}
+                        error={missingResume}
+                      />
+                    </Box>
+
+                    <hr />
+
+                    <FormGroup>
+                      <FormControlLabel
+                        sx={{ alignItems: 'flex-start' }}
+                        control={
+                          <Checkbox
+                            checked={codeConduct}
+                            onChange={(e) => {
+                              setCodeConduct(e.target.checked)
+                              setCodeConductMissing(false)
+                            }}
+                            sx={{
+                              ...(codeConductMissing && { color: '#d81b60' }),
+                            }}
+                          />
+                        }
+                        label={
+                          <Typography sx={{ pt: '9px' }}>
+                            <b>MLH Code of Conduct:</b> I have read and agree to
+                            the{' '}
+                            <Link
+                              href="https://static.mlh.io/docs/mlh-code-of-conduct.pdf"
+                              target="_blank"
+                            >
+                              MLH Code of Conduct
+                            </Link>
+                            .
+                          </Typography>
+                        }
+                      />
+
+                      <FormControlLabel
+                        control={
+                          <Checkbox
+                            checked={termConditions}
+                            onChange={(e) => {
+                              setTermConditions(e.target.checked)
+                              if (e.target.checked)
+                                setTermConditionsMissing(false)
+                            }}
+                            sx={{
+                              ...(termConditionsMissing && {
+                                color: '#d81b60',
+                              }),
+                            }}
+                          />
+                        }
+                        sx={{ alignItems: 'flex-start' }}
+                        label={
+                          <Typography>
+                            <b>Events Logistics Information:</b> I authorize you
+                            to share my application/registration information
+                            with Major League Hacking for event administration,
+                            ranking, and MLH administration in-line with the{' '}
+                            <Link href="https://mlh.io/privacy" target="_blank">
+                              MLH Privacy Policy
+                            </Link>
+                            . I further agree to the terms of both the{' '}
+                            <Link
+                              href="https://github.com/MLH/mlh-policies/blob/main/contest-terms.md"
+                              target="_blank"
+                            >
+                              MLH Contest Terms and Conditions
+                            </Link>{' '}
+                            and the{' '}
+                            <Link href="https://mlh.io/privacy" target="_blank">
+                              MLH Privacy Policy
+                            </Link>
+                            .
+                          </Typography>
+                        }
+                      />
+
+                      <FormControlLabel
+                        sx={{ alignItems: 'flex-start' }}
+                        control={
+                          <Checkbox
+                            checked={optInEmail}
+                            onChange={(e) => setOptInEmail(e.target.checked)}
+                          />
+                        }
+                        label={
+                          <Typography sx={{ pt: '9px' }}>
+                            <b>(Optional) Communication from MLH:</b> I
+                            authorize MLH to send me an email where I can
+                            further opt into the MLH Hacker, Events, or
+                            Organizer Newsletters and other communications from
+                            MLH.
+                          </Typography>
+                        }
+                      />
+                    </FormGroup>
+
+                    <Stack alignItems="center" pt={2}>
+                      <Button
+                        type="submit"
+                        sx={{
+                          fontSize: '1.2rem',
+                          ...(loadingSubmission && {
+                            backgroundColor: '#157822',
+                            pointerEvents: 'none',
+                          }),
+                        }}
                       >
-                        Max characters: {100 - whyBM.length}
-                      </Typography>
-                    </FormLabel>
-                    <TextField
-                      required
-                      fullWidth
-                      value={whyBM}
-                      onChange={(e) =>
-                        e.target.value.length <= 100 && setWhyBM(e.target.value)
-                      }
-                      autoComplete="off"
-                      multiline
-                      rows={4}
-                      sx={{
-                        '& textarea': {
-                          fontSize: '1.3rem',
-                        },
-                      }}
-                    />
-                  </FormControl>
-                  <FormControl>
-                    <FormLabel sx={{ fontSize: '1.3rem' }}>
-                      Do you already have a project idea? If not, what
-                      technologies are you interested in using at BoilerMake?
-                      (e.g. web dev, app dev, Raspberry Pi, etc.)
-                      <br />
-                      <Typography
-                        component="span"
-                        sx={{ fontWeight: 600, fontSize: '1rem' }}
-                      >
-                        Max characters: {150 - projectIdea.length}
-                      </Typography>
-                    </FormLabel>
-                    <TextField
-                      required
-                      fullWidth
-                      value={projectIdea}
-                      onChange={(e) =>
-                        e.target.value.length <= 150 &&
-                        setProjectIdea(e.target.value)
-                      }
-                      autoComplete="off"
-                      multiline
-                      rows={4}
-                      sx={{
-                        '& textarea': {
-                          fontSize: '1.3rem',
-                        },
-                      }}
-                    />
-                  </FormControl>
-
-                  <Box mb={2}>
-                    {application?.resume && (
-                      <Box textAlign="center" mb={1}>
-                        <Link variant="h5" href={resumeUrl} target="_blank">
-                          Current resume
-                        </Link>
-                      </Box>
-                    )}
-
-                    <Dropzone
-                      setFile={(file) => {
-                        setMissingResume(false)
-                        setResumeFile(file)
-                      }}
-                      file={resumeFile}
-                      error={missingResume}
-                    />
-                  </Box>
-
-                  <hr />
-
-                  <FormGroup>
-                    <FormControlLabel
-                      sx={{ alignItems: 'flex-start' }}
-                      control={
-                        <Checkbox
-                          checked={codeConduct}
-                          onChange={(e) => {
-                            setCodeConduct(e.target.checked)
-                            setCodeConductMissing(false)
-                          }}
-                          sx={{
-                            ...(codeConductMissing && { color: '#d81b60' }),
-                          }}
-                        />
-                      }
-                      label={
-                        <Typography sx={{ pt: '9px' }}>
-                          <b>MLH Code of Conduct:</b> I have read and agree to
-                          the{' '}
-                          <Link
-                            href="https://static.mlh.io/docs/mlh-code-of-conduct.pdf"
-                            target="_blank"
-                          >
-                            MLH Code of Conduct
-                          </Link>
-                          .
-                        </Typography>
-                      }
-                    />
-
-                    <FormControlLabel
-                      control={
-                        <Checkbox
-                          checked={termConditions}
-                          onChange={(e) => {
-                            setTermConditions(e.target.checked)
-                            if (e.target.checked)
-                              setTermConditionsMissing(false)
-                          }}
-                          sx={{
-                            ...(termConditionsMissing && {
-                              color: '#d81b60',
-                            }),
-                          }}
-                        />
-                      }
-                      sx={{ alignItems: 'flex-start' }}
-                      label={
-                        <Typography>
-                          <b>Events Logistics Information:</b> I authorize you
-                          to share my application/registration information with
-                          Major League Hacking for event administration,
-                          ranking, and MLH administration in-line with the{' '}
-                          <Link href="https://mlh.io/privacy" target="_blank">
-                            MLH Privacy Policy
-                          </Link>
-                          . I further agree to the terms of both the{' '}
-                          <Link
-                            href="https://github.com/MLH/mlh-policies/blob/main/contest-terms.md"
-                            target="_blank"
-                          >
-                            MLH Contest Terms and Conditions
-                          </Link>{' '}
-                          and the{' '}
-                          <Link href="https://mlh.io/privacy" target="_blank">
-                            MLH Privacy Policy
-                          </Link>
-                          .
-                        </Typography>
-                      }
-                    />
-
-                    <FormControlLabel
-                      sx={{ alignItems: 'flex-start' }}
-                      control={
-                        <Checkbox
-                          checked={optInEmail}
-                          onChange={(e) => setOptInEmail(e.target.checked)}
-                        />
-                      }
-                      label={
-                        <Typography sx={{ pt: '9px' }}>
-                          <b>(Optional) Communication from MLH:</b> I authorize
-                          MLH to send me an email where I can further opt into
-                          the MLH Hacker, Events, or Organizer Newsletters and
-                          other communications from MLH.
-                        </Typography>
-                      }
-                    />
-                  </FormGroup>
-
-                  <Stack alignItems="center" pt={2}>
-                    <Button
-                      type="submit"
-                      sx={{
-                        fontSize: '1.2rem',
-                        ...(loadingSubmission && {
-                          backgroundColor: '#157822',
-                          pointerEvents: 'none',
-                        }),
-                      }}
-                    >
-                      {(() => {
-                        if (isFirst)
-                          return loadingSubmission ? 'Submitted!' : 'Submit'
-                        return loadingSubmission ? 'Updated!' : 'Update'
-                      })()}
-                    </Button>
+                        {(() => {
+                          if (isFirst)
+                            return loadingSubmission ? 'Submitted!' : 'Submit'
+                          return loadingSubmission ? 'Updated!' : 'Update'
+                        })()}
+                      </Button>
+                    </Stack>
                   </Stack>
-                </Stack>
-              </form>
-            </Stack>
+                </form>
+              </>
+            ) : (
+              <Stack alignItems="center" spacing={2} sx={{ width: '100%' }}>
+                <Typography variant="h1" sx={{ mb: 2 }}>
+                  Application
+                </Typography>
+                <Skeleton
+                  variant="rectangular"
+                  width="90%"
+                  sx={{ minWidth: '300px' }}
+                  height={150}
+                  animation="wave"
+                />
+                <Skeleton
+                  variant="rectangular"
+                  width="90%"
+                  sx={{ minWidth: '250px' }}
+                  height={100}
+                  animation="wave"
+                />
+                <Skeleton
+                  variant="rectangular"
+                  width="90%"
+                  sx={{ minWidth: '300px' }}
+                  height={150}
+                  animation="wave"
+                />
+              </Stack>
+            )}
           </Stack>
-        )}
+        </Stack>
       </Box>
     </>
   )
 }
 
 export default Application
+
+export function getServerSideProps(context: NextPageContext) {
+  return {
+    props: {
+      uaString: context?.req?.headers['user-agent'],
+    },
+  }
+}

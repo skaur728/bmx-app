@@ -1,9 +1,16 @@
 import { Box, Stack, Typography } from '@mui/material'
 import { getProviders, signIn } from 'next-auth/react'
+import Image from 'next/image'
 import { useRouter } from 'next/router'
 
+import Head from '@/components/Head'
 import { Button } from '@/styles/custom'
 import Background from '@/views/Main/Background'
+
+import Card from '../../../public/images/cards/card2.svg'
+import GithubLogo from '../../../public/images/logos/Github.png'
+import GoogleLogo from '../../../public/images/logos/Google.svg'
+import OutlookLogo from '../../../public/images/logos/Outlook.png'
 
 import type { Provider } from 'next-auth/providers'
 
@@ -11,8 +18,9 @@ import type { Provider } from 'next-auth/providers'
 
 /**
  * Custom sign in page.
- * TODO: needs to style it :)
  */
+
+// TODO handle errors
 
 type Props = {
   providers: Provider
@@ -24,56 +32,118 @@ const SignIn = ({ providers }: Props) => {
   const { query } = useRouter()
 
   return (
-    <Box sx={{ position: 'relative', width: '100vw', height: '100vh' }}>
+    <>
+      <Head title="Sign In | BoilerMake X" />
       <Background />
-      <Stack
-        alignItems="center"
+
+      <Box
         sx={{
           position: 'absolute',
+          width: '90vw',
+          maxWidth: '500px',
           left: '50%',
           top: '50%',
           transform: 'translate(-50%, -50%)',
-          maxWidth: '900px',
-          width: '80vw',
         }}
       >
-        <Stack
-          alignItems="center"
-          sx={{
-            backgroundColor: '#ffffff',
-            py: 5,
-            width: '100%',
-            zIndex: 2,
-          }}
-        >
+        <Image src={Card} layout="responsive" alt="card" priority />
+      </Box>
+
+      <Box
+        sx={{
+          width: '90vw',
+          maxWidth: '500px',
+          position: 'absolute',
+          left: '50%',
+          top: { xs: '50%', sm: '45%' },
+          transform: 'translate(-50%, -50%)',
+        }}
+      >
+        <Stack alignItems="center" spacing={2} sx={{}}>
           <Typography
-            sx={{ fontSize: '50px', textAlign: 'center', color: '#ffe8c9' }}
+            sx={{
+              fontSize: '50px',
+              textAlign: 'center',
+              color: '#000000de',
+            }}
           >
             Sign In
           </Typography>
-          <Stack>
+          <Stack spacing={3} alignItems="center">
             {Object.values(providers).map((provider) => (
-              <Button
-                onClick={() =>
-                  signIn(provider.id, {
-                    callbackUrl:
-                      (query?.redirect as string) || DEFAULT_CALLBACK,
-                  })
-                }
-                key={provider.name}
-                type="button"
-                sx={{ fontSize: '2rem' }}
-              >
-                Sign in with{' '}
-                {provider.name === 'Azure Active Directory'
-                  ? 'Outlook'
-                  : provider.name}
-              </Button>
+              <Box key={provider.name}>
+                <Button
+                  onClick={() =>
+                    signIn(provider.id, {
+                      callbackUrl:
+                        (query?.redirect as string) || DEFAULT_CALLBACK,
+                    })
+                  }
+                  type="button"
+                >
+                  {(() => {
+                    if (provider.name === 'Azure Active Directory')
+                      return (
+                        <Stack direction="row" alignItems="center" spacing={1}>
+                          <Image
+                            src={OutlookLogo}
+                            width="32"
+                            height="32"
+                            alt="Outlook"
+                          />
+                          <Typography
+                            sx={{ fontSize: { xs: '1.5rem', sm: '2rem' } }}
+                            component="span"
+                          >
+                            Outlook
+                          </Typography>
+                        </Stack>
+                      )
+
+                    if (provider.name === 'Google')
+                      return (
+                        <Stack direction="row" alignItems="center" spacing={1}>
+                          <Image
+                            src={GoogleLogo}
+                            width="32"
+                            height="32"
+                            alt="Outlook"
+                          />
+                          <Typography
+                            sx={{ fontSize: { xs: '1.5rem', sm: '2rem' } }}
+                            component="span"
+                          >
+                            Google
+                          </Typography>
+                        </Stack>
+                      )
+
+                    if (provider.name === 'GitHub')
+                      return (
+                        <Stack direction="row" alignItems="center" spacing={1}>
+                          <Image
+                            src={GithubLogo}
+                            width="32"
+                            height="32"
+                            alt="Github"
+                          />
+                          <Typography
+                            sx={{ fontSize: { xs: '1.5rem', sm: '2rem' } }}
+                            component="span"
+                          >
+                            GitHub
+                          </Typography>
+                        </Stack>
+                      )
+                    return provider.name
+                  })()}
+                </Button>
+              </Box>
             ))}
           </Stack>
         </Stack>
-      </Stack>
-    </Box>
+      </Box>
+    </>
   )
 }
 

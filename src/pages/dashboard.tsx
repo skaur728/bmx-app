@@ -1,21 +1,32 @@
 import { Box, Container, Stack, Typography } from '@mui/material'
+import { useUserAgent } from 'next-useragent'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 import Countdown from 'react-countdown'
 
+import Head from '@/components/Head'
 import TopNav from '@/components/TopNav'
 import useApplication from '@/hooks/useApplication'
 import Background from '@/views/Main/Background'
 
+import Balloons1 from '../../public/images/dashboard/balloons-1.svg'
+import Balloons2 from '../../public/images/dashboard/balloons-2.svg'
 import BottomBorderImg from '../../public/images/dashboard/bottom-border.svg'
+import FerrisWheel from '../../public/images/dashboard/ferris-wheel-cropped.svg'
 import TopBorderImg from '../../public/images/dashboard/top-border.svg'
 
-import type { NextPage } from 'next'
+import type { NextPage, NextPageContext } from 'next'
 
 interface Props {}
 
-const UserProfileDashboardPage: NextPage<Props> = () => {
+const UserProfileDashboardPage: NextPage<Props> = ({
+  uaString,
+}: {
+  uaString?: string
+}) => {
+  const ua = useUserAgent(uaString || window.navigator.userAgent)
+
   const { user, error, applications, loading } = useApplication()
   const [showChild, setShowChild] = useState(false)
 
@@ -40,16 +51,56 @@ const UserProfileDashboardPage: NextPage<Props> = () => {
   }, [])
 
   if (!showChild) {
-    // You can show some kind of placeholder UI here
     return null
   }
 
-  // TODO add in loading
-
   return (
     <>
+      <Head title="Dashboard | BoilerMake X" />
       <Background />
       <TopNav />
+
+      {ua.isDesktop && (
+        <Box
+          sx={{
+            position: 'absolute',
+            bottom: 0,
+            left: 0,
+            width: '50vw',
+            opacity: 0.5,
+            minWidth: 550,
+          }}
+        >
+          <Image src={FerrisWheel} alt="ferris wheel" layout="responsive" />
+        </Box>
+      )}
+
+      <Box
+        sx={{
+          position: 'absolute',
+          bottom: 0,
+          left: 0,
+          width: '50vw',
+          maxWidth: 500,
+          minWidth: 200,
+        }}
+      >
+        <Image src={Balloons2} alt="balloons" layout="responsive" />
+      </Box>
+
+      <Box
+        sx={{
+          position: 'absolute',
+          bottom: 0,
+          right: 0,
+          width: '50vw',
+          maxWidth: 500,
+          minWidth: 300,
+        }}
+      >
+        <Image src={Balloons1} alt="balloons" layout="responsive" />
+      </Box>
+
       <Container>
         <Box
           sx={{
@@ -86,6 +137,16 @@ const UserProfileDashboardPage: NextPage<Props> = () => {
               layout="responsive"
               alt="bottom border"
             />
+          </Box>
+
+          <Box mt={9} mb={2}>
+            <Typography
+              variant="h3"
+              sx={{ color: '#ffe8c9', textAlign: 'center' }}
+            >
+              Current Application
+            </Typography>
+            <Image src={TopBorderImg} layout="responsive" alt="top border" />
           </Box>
 
           <Stack
@@ -148,3 +209,11 @@ const UserProfileDashboardPage: NextPage<Props> = () => {
 }
 
 export default UserProfileDashboardPage
+
+export function getServerSideProps(context: NextPageContext) {
+  return {
+    props: {
+      uaString: context?.req?.headers['user-agent'],
+    },
+  }
+}

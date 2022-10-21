@@ -1,5 +1,4 @@
-import { Box } from '@mui/material'
-
+import Head from '@/components/Head'
 import HorizontalScroller from '@/components/HorizontalScroller'
 import { Navbar } from '@/components/Navbar'
 import { About, FAQ, Landing, Sponsors, Team, Testimonial } from '@/views/Main'
@@ -8,7 +7,8 @@ import Background from '@/views/Main/Background'
 import type { NextPage } from 'next'
 
 const Home: NextPage = () => (
-  <Box>
+  <>
+    <Head title="BoilerMake X" />
     {/* <Navbar /> */}
     <Background />
     <HorizontalScroller>
@@ -19,7 +19,7 @@ const Home: NextPage = () => (
       {/* <Team /> */}
       {/* <Sponsors /> */}
     </HorizontalScroller>
-  </Box>
+  </>
 )
 
 export default Home
