@@ -155,19 +155,24 @@ const Application: NextPage<Props> = () => {
         { application: IApplication },
         AxiosResponse<{ application: IApplication }>,
         { payload: Partial<IApplication> }
-      >(`/api/application/${application._id}`, {
-        payload: {
-          ...(url && {
-            resume: url,
-            resumeVersion: resumeVersion + 1,
-          }),
-          whyBM: _whyBM,
-          projectIdea: _projectIdea,
-          codeConduct,
-          termConditions,
-          optInEmail,
-        },
-      })
+      >(
+        `/api/application/${
+          (application as IApplication & { _id: string })._id
+        }`,
+        {
+          payload: {
+            ...(url && {
+              resume: url,
+              resumeVersion: resumeVersion + 1,
+            }),
+            whyBM: _whyBM,
+            projectIdea: _projectIdea,
+            codeConduct,
+            termConditions,
+            optInEmail,
+          },
+        }
+      )
     )
 
     setResumeFile(null)

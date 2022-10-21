@@ -30,7 +30,6 @@ declare global {
   }
 
   interface IApplication {
-    _id?: string
     decision: Decision
     whyBM: string
     projectIdea: string
