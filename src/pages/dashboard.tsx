@@ -87,6 +87,7 @@ const UserProfileDashboardPage: NextPage<Props> = () => {
               alt="bottom border"
             />
           </Box>
+
           <Stack
             sx={{
               width: '250px',
