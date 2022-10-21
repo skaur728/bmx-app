@@ -8,10 +8,13 @@ import {
   styled,
 } from '@mui/material'
 import { signOut } from 'next-auth/react'
+import Image from 'next/image'
 import { useRouter } from 'next/router'
 import { useState } from 'react'
 
 import useAuth from '@/hooks/useAuth'
+
+import Logo from '../../../public/images/bmx-logo.png'
 
 const StyledMenuItem = styled(MenuItem)({
   // backgroundColor: '#ffe8c9',
@@ -118,7 +121,7 @@ const TopNav = () => {
               Dashboard
             </StyledMenuItem>
           )}
-          <StyledMenuItem onClick={() => signOut()}>Logout</StyledMenuItem>
+          <StyledMenuItem onClick={() => signOut()}>Sign Out</StyledMenuItem>
         </Menu>
       </Box>
 
@@ -128,9 +131,23 @@ const TopNav = () => {
           left: 20,
           top: 20,
           zIndex: 3,
+          borderRadius: '50%',
+          width: 32,
+          height: 32,
+          cursor: 'pointer',
+          transition: 'transform 0.25s ease',
+          boxShadow:
+            'rgb(0 0 0 / 20%) 0px 3px 3px -2px, rgb(0 0 0 / 14%) 0px 3px 4px 0px, rgb(0 0 0 / 12%) 0px 1px 8px 0px',
+          '&:hover': {
+            transform: 'scale(1.1)',
+          },
+          '&:active': {
+            transform: 'scale(1)',
+          },
         }}
+        onClick={() => router.push('/')}
       >
-        LOGO
+        <Image src={Logo} alt="logo" width="32" height="32" />
       </Box>
     </>
   )

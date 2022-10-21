@@ -2,6 +2,8 @@ import { Box, Button, Stack, Typography, styled } from '@mui/material'
 import { useUserAgent } from 'next-useragent'
 import Image from 'next/image'
 
+import useRedirect from '@/hooks/useRedirect'
+
 import TentImg from '../../../public/images/main/tent.svg'
 
 import type { NextPageContext } from 'next'
@@ -25,6 +27,8 @@ const StyledButton = styled(Button)({
 
 const Landing = ({ uaString }: { uaString?: string }) => {
   const ua = useUserAgent(uaString || window.navigator.userAgent)
+
+  const { redirect } = useRedirect()
 
   return (
     <Box
@@ -133,7 +137,7 @@ const Landing = ({ uaString }: { uaString?: string }) => {
               transform: 'translate(-50%, -30%)',
             }}
           >
-            <StyledButton onClick={() => {}}>
+            <StyledButton onClick={() => redirect('/dashboard')}>
               <Typography variant="h3">Apply</Typography>
             </StyledButton>
           </Box>

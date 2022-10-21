@@ -2,7 +2,6 @@
 import {
   Avatar,
   Box,
-  Container,
   FormControl,
   FormHelperText,
   InputLabel,
@@ -14,19 +13,22 @@ import {
 } from '@mui/material'
 import to from 'await-to-js'
 import axios from 'axios'
+import { useUserAgent } from 'next-useragent'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
 import { forwardRef, useEffect, useMemo, useState } from 'react'
 import PhoneInput, { isValidPhoneNumber } from 'react-phone-number-input/input'
 
 import GenderSelect from '@/components/GenderSelect'
+import Head from '@/components/Head'
 import MajorSelect from '@/components/MajorSelect'
 import SchoolSelect from '@/components/SchoolSelect'
 import TopNav from '@/components/TopNav'
 import useAuth from '@/hooks/useAuth'
 import { Button, TextField } from '@/styles/custom'
+import Background from '@/views/Main/Background'
 
-import type { NextPage } from 'next'
+import type { NextPage, NextPageContext } from 'next'
 import type { FormEvent } from 'react'
 
 interface Props {}
@@ -42,11 +44,16 @@ const PhoneField = forwardRef((props, ref) => (
   />
 ))
 
-const UserProfile: NextPage<Props> = () => {
+const UserProfile: NextPage<Props> = ({ uaString }: { uaString?: string }) => {
   const { user, status } = useAuth()
   const router = useRouter()
+
   // boolean to check if they've filled profile out before
   const isFirst = useMemo(() => !user?.hasFilledProfile, [user])
+
+  const ua = useUserAgent(uaString || window.navigator.userAgent)
+
+  const [showChild, setShowChild] = useState(false)
 
   const [loadingSubmission, setLoadingSubmission] = useState(false)
   const [name, setName] = useState('')
@@ -89,7 +96,7 @@ const UserProfile: NextPage<Props> = () => {
 
     setLoadingSubmission(true)
     const [error, res] = await to(
-      axios.patch(`/api/user/${user._id}`, {
+      axios.patch(`/api/user`, {
         payload: {
           preferredName: _name,
           hasFilledProfile: true,
@@ -114,48 +121,21 @@ const UserProfile: NextPage<Props> = () => {
     }, 750)
   }
 
-  // TODO style loading
-  if (status === 'loading') {
-    return (
-      <Box
-        sx={{
-          height: '100vh',
-          width: '100vw',
-          overflow: 'hidden',
-          position: 'relative',
-          background: 'linear-gradient(#1c2634 60%,  #694028)',
-        }}
-      >
-        <Container maxWidth="lg" sx={{ py: { xs: 6, sm: 10 } }}>
-          <Stack alignItems="center" spacing={2}>
-            <Typography variant="h1">Profile</Typography>
-            <Skeleton
-              variant="circular"
-              width={120}
-              height={120}
-              animation="wave"
-            />
-            <Skeleton
-              variant="rectangular"
-              width={220}
-              height={40}
-              animation="wave"
-            />
-            <Skeleton
-              variant="rectangular"
-              width={170}
-              height={60}
-              animation="wave"
-            />
-          </Stack>
-        </Container>
-      </Box>
-    )
+  // Wait until after client-side hydration to show
+  useEffect(() => {
+    setShowChild(true)
+  }, [])
+
+  if (!showChild) {
+    return null
   }
 
   return (
     <>
-      <TopNav />
+      <Head title="Profile | BoilerMake X" />
+      {user && <TopNav />}
+      <Background />
+
       <Box
         sx={{
           py: { xs: 5, sm: 10 },
@@ -170,7 +150,6 @@ const UserProfile: NextPage<Props> = () => {
             position: 'fixed',
             top: 0,
             left: 0,
-            background: 'linear-gradient(#1c2634 60%,  #694028)',
           }}
         >
           {/* <Box
@@ -203,202 +182,248 @@ const UserProfile: NextPage<Props> = () => {
             />
           </Box>
 
-          <Box
-            sx={{
-              position: 'absolute',
-              width: '80vw',
-              maxWidth: '1200px',
-              bottom: '-50%',
-              left: '40%',
-              transform: 'translateX(-50%)',
-            }}
-          >
-            <Image
-              src="/images/profile/ferris-wheel.svg"
-              alt="ferris wheel"
-              width={159}
-              height={150}
-              layout="responsive"
-            />
-          </Box>
+          {ua.isDesktop && (
+            <Box
+              sx={{
+                position: 'absolute',
+                width: '80vw',
+                maxWidth: '1200px',
+                bottom: '-50%',
+                left: '40%',
+                transform: 'translateX(-50%)',
+              }}
+            >
+              <Image
+                src="/images/profile/ferris-wheel.svg"
+                alt="ferris wheel"
+                width={159}
+                height={150}
+                layout="responsive"
+              />
+            </Box>
+          )}
         </Box>
-        {user && (
+
+        <Stack
+          alignItems="center"
+          sx={{
+            maxWidth: '900px',
+            width: '100%',
+            mx: 'auto',
+          }}
+        >
           <Stack
             alignItems="center"
             sx={{
-              maxWidth: '900px',
+              backgroundColor: '#ffe8c9eb',
+              py: { xs: 2, sm: 5 },
+              px: { xs: 3, sm: 5 },
               width: '100%',
-              mx: 'auto',
+              zIndex: 2,
             }}
           >
-            <Stack
-              alignItems="center"
-              sx={{
-                backgroundColor: '#ffe8c9eb',
-                py: { xs: 2, sm: 5 },
-                px: { xs: 3, sm: 5 },
-                width: '100%',
-                zIndex: 2,
-              }}
-            >
-              <Typography variant="h1">
-                {user && isFirst ? 'Create ' : ''}Profile
-              </Typography>
-              <Avatar
-                alt={name || ''}
-                src={user.image || ''}
-                sx={{ width: 120, height: 120, fontSize: '3rem' }}
-              >
-                {/* get initials if image doesn't exist */}
-                {user.image || !name
-                  ? ''
-                  : `${name.trim().split(' ')[0][0]} ${
-                      name.trim().split(' ')[
-                        name.trim().split(' ').length - 1
-                      ][0]
-                    }`}
-              </Avatar>
-              <form onSubmit={onFormSubmit} style={{ width: '100%' }}>
-                <Stack
-                  spacing={2}
-                  mt={1.5}
-                  sx={{ maxWidth: '500px', mx: 'auto' }}
+            {user ? (
+              <>
+                <Typography variant="h1">
+                  {user && isFirst ? 'Create ' : ''}Profile
+                </Typography>
+                <Avatar
+                  alt={name || ''}
+                  src={user.image || ''}
+                  sx={{ width: 120, height: 120, fontSize: '3rem' }}
                 >
-                  <TextField
-                    variant="standard"
-                    label="Preferred Full Name"
-                    value={name}
-                    onChange={(e) => setName(e.target.value)}
-                    autoComplete="given-name"
-                    required
-                  />
-                  <TextField
-                    variant="standard"
-                    label="Email"
-                    value={user.email}
-                    disabled
-                  />
-                  <PhoneInput
-                    defaultCountry="US"
-                    value={phone as any}
-                    onChange={(num) => {
-                      setPhone(num)
-                      setPhoneError(false)
-                    }}
-                    inputComponent={PhoneField as any}
-                    error={phoneError}
-                    helperText={phoneError ? 'Invalid phone number' : ''}
-                  />
-
-                  <GenderSelect value={gender} setValue={setGender} />
-
-                  <SchoolSelect value={school} setValue={setSchool} />
-
-                  <MajorSelect value={majors} setValue={setMajors} />
-
-                  <Stack direction="row" spacing={2} pt={2}>
-                    <FormControl
-                      fullWidth
-                      required
+                  {/* get initials if image doesn't exist */}
+                  {user.image || !name
+                    ? ''
+                    : `${name.trim().split(' ')[0][0]} ${
+                        name.trim().split(' ')[
+                          name.trim().split(' ').length - 1
+                        ][0]
+                      }`}
+                </Avatar>
+                <form onSubmit={onFormSubmit} style={{ width: '100%' }}>
+                  <Stack
+                    spacing={2}
+                    mt={1.5}
+                    sx={{ maxWidth: '500px', mx: 'auto' }}
+                  >
+                    <TextField
                       variant="standard"
-                      sx={{
-                        '& .MuiInput-root': {
-                          fontSize: '1.4rem',
-                        },
-                        '& .MuiInputLabel-root': {
-                          fontSize: '1.4rem',
-                        },
-                        flex: 1,
-                      }}
-                    >
-                      <InputLabel sx={{ fontSize: '1.5rem' }}>
-                        Graduation Year
-                      </InputLabel>
-                      <Select
-                        value={gradYear}
-                        label="Graduation Year"
-                        onChange={(e) => setGradYear(e.target.value)}
-                      >
-                        <MenuItem value="2022">2022</MenuItem>
-                        <MenuItem value="2023">2023</MenuItem>
-                        <MenuItem value="2024">2024</MenuItem>
-                        <MenuItem value="2025">2025</MenuItem>
-                        <MenuItem value="2026">2026</MenuItem>
-                        <MenuItem value="2027">2027</MenuItem>
-                        <MenuItem value="2028">2028</MenuItem>
-                      </Select>
-                    </FormControl>
-
-                    <FormControl
-                      fullWidth
+                      label="Preferred Full Name"
+                      value={name}
+                      onChange={(e) => setName(e.target.value)}
+                      autoComplete="given-name"
                       required
+                    />
+                    <TextField
                       variant="standard"
-                      sx={{
-                        '& .MuiInput-root': {
-                          fontSize: '1.4rem',
-                        },
-                        '& .MuiInputLabel-root': {
-                          fontSize: '1.4rem',
-                        },
-                        flex: 1,
+                      label="Email"
+                      value={user.email}
+                      disabled
+                    />
+                    <PhoneInput
+                      defaultCountry="US"
+                      value={phone as any}
+                      onChange={(num) => {
+                        setPhone(num)
+                        setPhoneError(false)
                       }}
-                    >
-                      <InputLabel sx={{ fontSize: '1.5rem' }}>Age</InputLabel>
-                      <Select
-                        value={age}
-                        label="Age"
-                        onChange={(e) => setAge(e.target.value)}
-                      >
-                        {Object.keys([...new Array(31)]).map(
-                          (i) =>
-                            parseInt(i, 10) >= 18 && (
-                              <MenuItem key={i} value={i}>
-                                {i}
-                              </MenuItem>
-                            )
-                        )}
-                      </Select>
-                      <FormHelperText sx={{ fontSize: '1rem' }}>
-                        Participants must be 18+
-                      </FormHelperText>
-                    </FormControl>
-                  </Stack>
+                      inputComponent={PhoneField as any}
+                      error={phoneError}
+                      helperText={phoneError ? 'Invalid phone number' : ''}
+                    />
 
-                  <Stack alignItems="center" pt={2}>
-                    <Button
-                      type="submit"
-                      sx={{
-                        fontSize: '1.2rem',
-                        ...(loadingSubmission && {
-                          backgroundColor: '#157822',
-                          pointerEvents: 'none',
-                        }),
-                      }}
-                      // disabled={
-                      //   !gender.trim() ||
-                      //   !school ||
-                      //   !majors?.length ||
-                      //   !phone ||
-                      //   !name.trim() ||
-                      //   !gradYear ||
-                      //   !age
-                      // }
-                    >
-                      {(() => {
-                        if (isFirst)
-                          return loadingSubmission ? 'Submitted!' : 'Submit'
-                        return loadingSubmission ? 'Updated!' : 'Update'
-                      })()}
-                    </Button>
+                    <GenderSelect value={gender} setValue={setGender} />
+
+                    <SchoolSelect value={school} setValue={setSchool} />
+
+                    <MajorSelect value={majors} setValue={setMajors} />
+
+                    <Stack direction="row" spacing={2} pt={2}>
+                      <FormControl
+                        fullWidth
+                        required
+                        variant="standard"
+                        sx={{
+                          '& .MuiInput-root': {
+                            fontSize: '1.4rem',
+                          },
+                          '& .MuiInputLabel-root': {
+                            fontSize: '1.4rem',
+                          },
+                          flex: 1,
+                        }}
+                      >
+                        <InputLabel sx={{ fontSize: '1.5rem' }}>
+                          Graduation Year
+                        </InputLabel>
+                        <Select
+                          value={gradYear}
+                          label="Graduation Year"
+                          onChange={(e) => setGradYear(e.target.value)}
+                        >
+                          <MenuItem value="2022">2022</MenuItem>
+                          <MenuItem value="2023">2023</MenuItem>
+                          <MenuItem value="2024">2024</MenuItem>
+                          <MenuItem value="2025">2025</MenuItem>
+                          <MenuItem value="2026">2026</MenuItem>
+                          <MenuItem value="2027">2027</MenuItem>
+                          <MenuItem value="2028">2028</MenuItem>
+                        </Select>
+                      </FormControl>
+
+                      <FormControl
+                        fullWidth
+                        required
+                        variant="standard"
+                        sx={{
+                          '& .MuiInput-root': {
+                            fontSize: '1.4rem',
+                          },
+                          '& .MuiInputLabel-root': {
+                            fontSize: '1.4rem',
+                          },
+                          flex: 1,
+                        }}
+                      >
+                        <InputLabel sx={{ fontSize: '1.5rem' }}>Age</InputLabel>
+                        <Select
+                          value={age}
+                          label="Age"
+                          onChange={(e) => setAge(e.target.value)}
+                        >
+                          {Object.keys([...new Array(31)]).map(
+                            (i) =>
+                              parseInt(i, 10) >= 18 && (
+                                <MenuItem key={i} value={i}>
+                                  {i}
+                                </MenuItem>
+                              )
+                          )}
+                        </Select>
+                        <FormHelperText sx={{ fontSize: '1rem' }}>
+                          Participants must be 18+
+                        </FormHelperText>
+                      </FormControl>
+                    </Stack>
+
+                    <Stack alignItems="center" pt={2}>
+                      <Button
+                        type="submit"
+                        sx={{
+                          fontSize: '1.2rem',
+                          ...(loadingSubmission && {
+                            backgroundColor: '#157822',
+                            pointerEvents: 'none',
+                          }),
+                        }}
+                        // disabled={
+                        //   !gender.trim() ||
+                        //   !school ||
+                        //   !majors?.length ||
+                        //   !phone ||
+                        //   !name.trim() ||
+                        //   !gradYear ||
+                        //   !age
+                        // }
+                      >
+                        {(() => {
+                          if (isFirst)
+                            return loadingSubmission ? 'Submitted!' : 'Submit'
+                          return loadingSubmission ? 'Updated!' : 'Update'
+                        })()}
+                      </Button>
+                    </Stack>
                   </Stack>
-                </Stack>
-              </form>
-            </Stack>
+                </form>
+              </>
+            ) : (
+              <Stack alignItems="center" spacing={2} sx={{ width: '100%' }}>
+                <Typography variant="h1" sx={{ mb: 2 }}>
+                  Profile
+                </Typography>
+                <Skeleton
+                  variant="circular"
+                  width={120}
+                  height={120}
+                  animation="wave"
+                />
+                <Skeleton
+                  variant="rectangular"
+                  width="60%"
+                  sx={{ minWidth: '300px' }}
+                  height={40}
+                  animation="wave"
+                />
+                <Skeleton
+                  variant="rectangular"
+                  width="50%"
+                  sx={{ minWidth: '250px' }}
+                  height={60}
+                  animation="wave"
+                />
+                <Skeleton
+                  variant="rectangular"
+                  width="30%"
+                  sx={{ minWidth: '200px' }}
+                  height={100}
+                  animation="wave"
+                />
+              </Stack>
+            )}
           </Stack>
-        )}
+        </Stack>
       </Box>
     </>
   )
 }
 
 export default UserProfile
+
+export function getServerSideProps(context: NextPageContext) {
+  return {
+    props: {
+      uaString: context?.req?.headers['user-agent'],
+    },
+  }
+}
