@@ -25,10 +25,6 @@ const useAuth = () => {
   useEffect(() => {
     if (isValidating) return
 
-    if (error) {
-      console.error(error)
-    }
-
     if (status === 'unauthenticated') {
       router.push({
         pathname: '/auth/signin',
@@ -37,7 +33,7 @@ const useAuth = () => {
         },
       })
     }
-  }, [status, error, isValidating])
+  }, [status, isValidating])
 
   return { status: isValidating ? 'loading' : status, session, user, error }
 }

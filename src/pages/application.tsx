@@ -16,7 +16,6 @@ import { useS3Upload } from 'next-s3-upload'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
 import { useEffect, useMemo, useState } from 'react'
-import { useSWRConfig } from 'swr'
 
 import ApplicationStatus from '@/components/ApplicationStatus'
 import Dropzone from '@/components/Dropzone'
@@ -31,10 +30,8 @@ import type { FormEvent } from 'react'
 interface Props {}
 
 const Application: NextPage<Props> = () => {
-  const { mutate } = useSWRConfig()
-
   const { user, applications, loading } = useApplication()
-  const { FileInput, openFileDialog, uploadToS3 } = useS3Upload()
+  const { uploadToS3 } = useS3Upload()
 
   const router = useRouter()
 

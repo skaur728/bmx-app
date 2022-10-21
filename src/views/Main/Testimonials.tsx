@@ -1,12 +1,4 @@
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
-import {
-  Accordion,
-  AccordionDetails,
-  AccordionSummary,
-  Box,
-  Grid,
-  Typography,
-} from '@mui/material'
+import { Box } from '@mui/material'
 import Image from 'next/image'
 
 import type { NextPage } from 'next'

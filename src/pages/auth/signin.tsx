@@ -1,4 +1,4 @@
-import { Box, Stack, Typography, styled } from '@mui/material'
+import { Box, Stack, Typography } from '@mui/material'
 import { getProviders, signIn } from 'next-auth/react'
 import { useRouter } from 'next/router'
 
