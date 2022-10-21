@@ -51,7 +51,7 @@ const TopNav = () => {
             backgroundColor: '#ffe8c9',
             cursor: 'pointer',
             transition: 'transform 0.25s ease',
-            color: 'black',
+            color: '#000000de',
             boxShadow:
               'rgb(0 0 0 / 20%) 0px 3px 3px -2px, rgb(0 0 0 / 14%) 0px 3px 4px 0px, rgb(0 0 0 / 12%) 0px 1px 8px 0px',
             '&:hover': {
@@ -96,18 +96,25 @@ const TopNav = () => {
           transformOrigin={{ horizontal: 'center', vertical: 'top' }}
           anchorOrigin={{ horizontal: 'center', vertical: 'bottom' }}
         >
-          {router.asPath !== '/profile' && (
-            <StyledMenuItem onClick={() => router.push('/profile')}>
-              Profile
-            </StyledMenuItem>
-          )}
-          {router.asPath !== '/application' && finishedProfile && (
-            <StyledMenuItem onClick={() => router.push('/application')}>
+          <StyledMenuItem
+            onClick={() => router.push('/profile')}
+            selected={router.asPath === '/profile'}
+          >
+            Profile
+          </StyledMenuItem>
+          {finishedProfile && (
+            <StyledMenuItem
+              onClick={() => router.push('/application')}
+              selected={router.asPath === '/application'}
+            >
               Application
             </StyledMenuItem>
           )}
-          {router.asPath !== '/dashboard' && finishedApplication && (
-            <StyledMenuItem onClick={() => router.push('/dashboard')}>
+          {finishedApplication && (
+            <StyledMenuItem
+              onClick={() => router.push('/dashboard')}
+              selected={router.asPath === '/dashboard'}
+            >
               Dashboard
             </StyledMenuItem>
           )}

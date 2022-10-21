@@ -16,7 +16,10 @@ import { useS3Upload } from 'next-s3-upload'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
 import { useEffect, useMemo, useState } from 'react'
+import { useSWRConfig } from 'swr'
 
+import ApplicationStatus from '@/components/ApplicationStatus'
+import Dropzone from '@/components/Dropzone'
 import TopNav from '@/components/TopNav'
 import useApplication from '@/hooks/useApplication'
 import { Button, TextField } from '@/styles/custom'
@@ -28,6 +31,8 @@ import type { FormEvent } from 'react'
 interface Props {}
 
 const Application: NextPage<Props> = () => {
+  const { mutate } = useSWRConfig()
+
   const { user, applications, loading } = useApplication()
   const { FileInput, openFileDialog, uploadToS3 } = useS3Upload()
 
@@ -35,6 +40,8 @@ const Application: NextPage<Props> = () => {
 
   const [loadingSubmission, setLoadingSubmission] = useState(false)
   const [resumeFile, setResumeFile] = useState<File | null>(null)
+  const [resumeVersion, setResumeVersion] = useState(0)
+  const [resumeUrl, setResumeUrl] = useState('')
 
   // field states
   const [whyBM, setWhyBM] = useState('')
@@ -43,6 +50,7 @@ const Application: NextPage<Props> = () => {
   const [termConditions, setTermConditions] = useState(false)
   const [optInEmail, setOptInEmail] = useState(false)
 
+  const [missingResume, setMissingResume] = useState(false)
   const [codeConductMissing, setCodeConductMissing] = useState(false)
   const [termConditionsMissing, setTermConditionsMissing] = useState(false)
 
@@ -71,29 +79,33 @@ const Application: NextPage<Props> = () => {
     setCodeConduct(application.codeConduct)
     setTermConditions(application.termConditions)
     setOptInEmail(application.optInEmail)
+    setResumeVersion(application.resumeVersion || 0)
+    setResumeUrl(application.resume || '')
   }, [application])
-
-  const handleFileChange = async (file: File) => {
-    console.log(file)
-    // TODO limit file size
-    setResumeFile(file)
-  }
 
   const onFormSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
 
     if (!user) return
-    if (isFirst && !resumeFile) return
+    if (isFirst && !resumeFile) {
+      setMissingResume(true)
+    }
 
     // trim the fields
     const _whyBM = whyBM.trim()
     const _projectIdea = projectIdea.trim()
 
-    console.log({ codeConduct, termConditions })
     if (!codeConduct) setCodeConductMissing(true)
     if (!termConditions) setTermConditionsMissing(true)
 
-    if (!_whyBM || !_projectIdea || !codeConduct || !termConditions) return
+    if (
+      !_whyBM ||
+      !_projectIdea ||
+      !codeConduct ||
+      !termConditions ||
+      (isFirst && !resumeFile)
+    )
+      return
 
     setLoadingSubmission(true)
 
@@ -104,15 +116,13 @@ const Application: NextPage<Props> = () => {
             request: {
               headers: {},
               body: {
-                // TODO need to have different name because of cache control
                 id: user._id,
+                version: resumeVersion,
               },
             },
           },
         })
       : {}
-
-    console.log(url)
 
     if (isFirst) {
       const [err, res] = await to(
@@ -122,7 +132,10 @@ const Application: NextPage<Props> = () => {
           { application: Partial<IApplication> }
         >('/api/application', {
           application: {
-            ...(url && { resume: url }),
+            ...(url && {
+              resume: url,
+              resumeVersion: resumeVersion + 1,
+            }),
             whyBM: _whyBM,
             projectIdea: _projectIdea,
             codeConduct,
@@ -138,6 +151,32 @@ const Application: NextPage<Props> = () => {
       }
 
       return
+    }
+
+    const [err, res] = await to(
+      axios.patch<
+        { application: IApplication },
+        AxiosResponse<{ application: IApplication }>,
+        { payload: Partial<IApplication> }
+      >(`/api/application/${application._id}`, {
+        payload: {
+          ...(url && {
+            resume: url,
+            resumeVersion: resumeVersion + 1,
+          }),
+          whyBM: _whyBM,
+          projectIdea: _projectIdea,
+          codeConduct,
+          termConditions,
+          optInEmail,
+        },
+      })
+    )
+
+    setResumeFile(null)
+    if (url) {
+      setResumeUrl(url)
+      setResumeVersion((p) => p + 1)
     }
 
     setTimeout(() => {
@@ -211,13 +250,12 @@ const Application: NextPage<Props> = () => {
               maxWidth: '900px',
               width: '100%',
               mx: 'auto',
-              backgroundColor: '#ffe8c9',
             }}
           >
             <Stack
               alignItems="center"
               sx={{
-                backgroundColor: '#ffffff',
+                backgroundColor: '#ffe8c9eb',
                 py: { xs: 2, sm: 5 },
                 px: { xs: 3, sm: 5 },
                 width: '100%',
@@ -227,6 +265,10 @@ const Application: NextPage<Props> = () => {
               <Typography variant="h1">
                 {isFirst ? 'Create ' : ''}Application
               </Typography>
+
+              {!isFirst && application?.decision && (
+                <ApplicationStatus decision={application.decision} />
+              )}
 
               <form onSubmit={onFormSubmit} style={{ width: '100%' }}>
                 <Stack
@@ -296,45 +338,26 @@ const Application: NextPage<Props> = () => {
                     />
                   </FormControl>
 
-                  <Box>
-                    <FileInput
-                      onChange={handleFileChange}
-                      accept="application/pdf"
-                    />
-
+                  <Box mb={2}>
                     {application?.resume && (
-                      <Box>
-                        <Link
-                          variant="h6"
-                          href={application.resume}
-                          target="_blank"
-                        >
+                      <Box textAlign="center" mb={1}>
+                        <Link variant="h5" href={resumeUrl} target="_blank">
                           Current resume
                         </Link>
                       </Box>
                     )}
 
-                    <Stack direction="row" alignItems="center" spacing={2}>
-                      <Button
-                        onClick={openFileDialog}
-                        sx={{ padding: '10px 25px', flex: 'none' }}
-                      >
-                        Upload resume
-                      </Button>
-                      {resumeFile && (
-                        <Typography
-                          variant="h6"
-                          sx={{
-                            whiteSpace: 'nowrap',
-                            textOverflow: 'ellipsis',
-                            overflow: 'hidden',
-                          }}
-                        >
-                          {resumeFile?.name}
-                        </Typography>
-                      )}
-                    </Stack>
+                    <Dropzone
+                      setFile={(file) => {
+                        setMissingResume(false)
+                        setResumeFile(file)
+                      }}
+                      file={resumeFile}
+                      error={missingResume}
+                    />
                   </Box>
+
+                  <hr />
 
                   <FormGroup>
                     <FormControlLabel
@@ -376,7 +399,9 @@ const Application: NextPage<Props> = () => {
                               setTermConditionsMissing(false)
                           }}
                           sx={{
-                            ...(termConditionsMissing && { color: '#d81b60' }),
+                            ...(termConditionsMissing && {
+                              color: '#d81b60',
+                            }),
                           }}
                         />
                       }

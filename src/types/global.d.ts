@@ -10,19 +10,6 @@ type Mapped<T, LeanedDoc, Doc> = T extends true
   ? Promise<Doc>
   : never
 
-// export enum Decision {
-//   Pending,
-//   Rejected,
-//   Accepted,
-//   Waitlisted,
-// }
-
-// export enum Gender {
-//   Male,
-//   Female,
-//   Other,
-// }
-
 declare global {
   var mongoose: { conn: ?Mongoose; promise: ?Promise<Mongoose> }
 
@@ -42,8 +29,8 @@ declare global {
     Waitlisted = 'Waitlisted',
   }
 
-  // any new fields should be included in models/Application
   interface IApplication {
+    _id?: string
     decision: Decision
     whyBM: string
     projectIdea: string
@@ -51,6 +38,7 @@ declare global {
     termConditions: boolean
     optInEmail: boolean
     resume: string
+    resumeVersion: number
 
     user?: ObjectId
     year?: number

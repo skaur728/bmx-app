@@ -229,13 +229,12 @@ const UserProfile: NextPage<Props> = () => {
               maxWidth: '900px',
               width: '100%',
               mx: 'auto',
-              backgroundColor: '#ffe8c9',
             }}
           >
             <Stack
               alignItems="center"
               sx={{
-                backgroundColor: '#ffffff',
+                backgroundColor: '#ffe8c9eb',
                 py: { xs: 2, sm: 5 },
                 px: { xs: 3, sm: 5 },
                 width: '100%',
