@@ -2,9 +2,9 @@ import { Box, Typography } from '@mui/material'
 import { useEffect, useMemo } from 'react'
 import { useDropzone } from 'react-dropzone'
 
-import type { Dispatch, SetStateAction } from 'react'
+import type { CSSProperties, Dispatch, SetStateAction } from 'react'
 
-const baseStyle = {
+const baseStyle: CSSProperties = {
   flex: 1,
   display: 'flex',
   flexDirection: 'column',
