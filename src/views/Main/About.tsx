@@ -27,6 +27,7 @@ const About = ({ uaString }: { uaString?: string }) => {
             left: '5%',
             bottom: 0,
             width: '20vw',
+            minWidth: 250,
           }}
         >
           <AboutSign />

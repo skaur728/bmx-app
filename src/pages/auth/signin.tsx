@@ -55,11 +55,11 @@ const SignIn = ({ providers }: Props) => {
           maxWidth: '500px',
           position: 'absolute',
           left: '50%',
-          top: { xs: '50%', sm: '45%' },
+          top: { xs: '48%', sm: '45%' },
           transform: 'translate(-50%, -50%)',
         }}
       >
-        <Stack alignItems="center" spacing={2} sx={{}}>
+        <Stack alignItems="center" spacing={2}>
           <Typography
             sx={{
               fontSize: '50px',
@@ -69,6 +69,13 @@ const SignIn = ({ providers }: Props) => {
           >
             Sign In
           </Typography>
+
+          {query?.error === 'OAuthAccountNotLinked' && (
+            <Typography sx={{ color: '#d81b60' }}>
+              Account with email already exists!
+            </Typography>
+          )}
+
           <Stack spacing={3} alignItems="center">
             {Object.values(providers).map((provider) => (
               <Box key={provider.name}>

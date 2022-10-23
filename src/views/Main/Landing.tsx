@@ -36,8 +36,8 @@ const Landing = ({ uaString }: { uaString?: string }) => {
         height: '100vh',
         width: '100vw',
         position: 'relative',
-        ...(ua.isDesktop && { overflow: 'hidden' }),
-        marginRight: { xs: '37vw', sm: 0 },
+        // ...(ua.isDesktop && { overflow: 'hidden' }),
+        marginRight: { xs: '80vw', sm: 0 },
       }}
     >
       <Box
@@ -119,8 +119,9 @@ const Landing = ({ uaString }: { uaString?: string }) => {
             bottom: 0,
             left: '50%',
             transform: 'translateX(-50%)',
-            width: { xs: '200vw', sm: '60vw' },
-            minWidth: '300px',
+            width: { xs: '350vw', sm: '130vw' },
+            maxWidth: 2000,
+            minWidth: 300,
           }}
         >
           <Image
@@ -132,7 +133,7 @@ const Landing = ({ uaString }: { uaString?: string }) => {
           <Box
             sx={{
               position: 'absolute',
-              top: '50%',
+              top: '70%',
               left: '50%',
               transform: 'translate(-50%, -30%)',
             }}

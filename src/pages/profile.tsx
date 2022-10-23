@@ -179,6 +179,7 @@ const UserProfile: NextPage<Props> = ({ uaString }: { uaString?: string }) => {
               width={103}
               height={150}
               layout="responsive"
+              style={{ pointerEvents: 'none' }}
             />
           </Box>
 
@@ -199,6 +200,7 @@ const UserProfile: NextPage<Props> = ({ uaString }: { uaString?: string }) => {
                 width={159}
                 height={150}
                 layout="responsive"
+                style={{ pointerEvents: 'none' }}
               />
             </Box>
           )}
