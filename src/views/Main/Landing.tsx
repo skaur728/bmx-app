@@ -36,7 +36,6 @@ const Landing = ({ uaString }: { uaString?: string }) => {
         height: '100vh',
         width: '100vw',
         position: 'relative',
-        // ...(ua.isDesktop && { overflow: 'hidden' }),
         marginRight: { xs: '80vw', sm: 0 },
       }}
     >
@@ -44,7 +43,7 @@ const Landing = ({ uaString }: { uaString?: string }) => {
         sx={{
           textAlign: 'center',
           color: '#ffe8c9',
-          pt: { xs: 10, sm: 5, md: 3 },
+          pt: { xs: 15, sm: 5, md: 3 },
           position: 'absolute',
           left: '50%',
           transform: 'translateX(-50%)',
@@ -120,7 +119,7 @@ const Landing = ({ uaString }: { uaString?: string }) => {
             left: '50%',
             transform: 'translateX(-50%)',
             width: { xs: '350vw', sm: '130vw' },
-            maxWidth: 2000,
+            maxWidth: 1800,
             minWidth: 300,
           }}
         >
@@ -133,13 +132,15 @@ const Landing = ({ uaString }: { uaString?: string }) => {
           <Box
             sx={{
               position: 'absolute',
-              top: '70%',
+              top: '71%',
               left: '50%',
               transform: 'translate(-50%, -30%)',
             }}
           >
             <StyledButton onClick={() => redirect('/dashboard')}>
-              <Typography variant="h3">Apply</Typography>
+              <Typography variant="h3" sx={{ fontSize: '4vw' }}>
+                Apply
+              </Typography>
             </StyledButton>
           </Box>
         </Box>

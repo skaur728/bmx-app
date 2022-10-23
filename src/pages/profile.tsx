@@ -28,6 +28,8 @@ import useAuth from '@/hooks/useAuth'
 import { Button, TextField } from '@/styles/custom'
 import Background from '@/views/Main/Background'
 
+import FerrisWheel from '../../public/images/dashboard/ferris-wheel-cropped.svg'
+
 import type { NextPage, NextPageContext } from 'next'
 import type { FormEvent } from 'react'
 
@@ -138,7 +140,8 @@ const UserProfile: NextPage<Props> = ({ uaString }: { uaString?: string }) => {
 
       <Box
         sx={{
-          py: { xs: 5, sm: 10 },
+          pt: { xs: 10, sm: 10 },
+          pb: { xs: 5, sm: 10 },
           px: { xs: 3, sm: 4, md: 8 },
         }}
       >
@@ -186,19 +189,17 @@ const UserProfile: NextPage<Props> = ({ uaString }: { uaString?: string }) => {
           {ua.isDesktop && (
             <Box
               sx={{
-                position: 'absolute',
-                width: '80vw',
-                maxWidth: '1200px',
-                bottom: '-50%',
-                left: '40%',
-                transform: 'translateX(-50%)',
+                position: 'fixed',
+                bottom: 0,
+                left: 0,
+                width: '50vw',
+                opacity: 0.5,
+                minWidth: 550,
               }}
             >
               <Image
-                src="/images/profile/ferris-wheel.svg"
+                src={FerrisWheel}
                 alt="ferris wheel"
-                width={159}
-                height={150}
                 layout="responsive"
                 style={{ pointerEvents: 'none' }}
               />
@@ -217,11 +218,12 @@ const UserProfile: NextPage<Props> = ({ uaString }: { uaString?: string }) => {
           <Stack
             alignItems="center"
             sx={{
-              backgroundColor: '#ffe8c9eb',
-              py: { xs: 2, sm: 5 },
+              backgroundColor: '#ffe8c9',
+              py: { xs: 3, sm: 5 },
               px: { xs: 3, sm: 5 },
               width: '100%',
               zIndex: 2,
+              borderRadius: '36px',
             }}
           >
             {user ? (

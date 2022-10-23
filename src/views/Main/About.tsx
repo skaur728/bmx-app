@@ -3,6 +3,7 @@ import { useUserAgent } from 'next-useragent'
 import dynamic from 'next/dynamic'
 import Image from 'next/image'
 
+import InfoTentMobileImg from '../../../public/images/about/info-tent-mobile.svg'
 import InfoTentImg from '../../../public/images/about/info-tent.svg'
 
 import type { NextPageContext } from 'next'
@@ -20,19 +21,19 @@ const About = ({ uaString }: { uaString?: string }) => {
         position: 'relative',
       }}
     >
-      {ua.isDesktop && (
-        <Box
-          sx={{
-            position: 'absolute',
-            left: '5%',
-            bottom: 0,
-            width: '20vw',
-            minWidth: 250,
-          }}
-        >
-          <AboutSign />
-        </Box>
-      )}
+      {/* {ua.isDesktop && ( */}
+      <Box
+        sx={{
+          position: 'absolute',
+          left: '5%',
+          bottom: 0,
+          width: '40vw',
+          minWidth: 400,
+        }}
+      >
+        <AboutSign />
+      </Box>
+      {/* )} */}
       <Box
         sx={{
           position: 'absolute',
@@ -45,7 +46,10 @@ const About = ({ uaString }: { uaString?: string }) => {
         }}
       >
         <Box sx={{ position: 'relative', width: '100%', height: '100%' }}>
-          <Image src={InfoTentImg} alt="Info Tent" layout="responsive" />
+          {/* TODO conditionally render mobile image */}
+          {/* <Image src={InfoTentImg} alt="Info Tent" layout="responsive" /> */}
+
+          <Image src={InfoTentMobileImg} alt="Info Tent" layout="responsive" />
           <Box
             sx={{
               position: 'absolute',

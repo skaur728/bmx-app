@@ -55,6 +55,7 @@ const TopNav = () => {
             cursor: 'pointer',
             transition: 'transform 0.25s ease',
             color: '#000000de',
+            border: '2px solid #ebca9f',
             boxShadow:
               'rgb(0 0 0 / 20%) 0px 3px 3px -2px, rgb(0 0 0 / 14%) 0px 3px 4px 0px, rgb(0 0 0 / 12%) 0px 1px 8px 0px',
             '&:hover': {

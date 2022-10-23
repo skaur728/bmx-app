@@ -42,14 +42,14 @@ const UserProfileDashboardPage: NextPage<Props> = ({
   useEffect(() => {
     if (loading || !user) return
 
-    if (!user.hasFilledProfile) {
-      router.push({ pathname: '/profile' })
-      return
-    }
+    // if (!user.hasFilledProfile) {
+    //   router.push({ pathname: '/profile' })
+    //   return
+    // }
 
-    if (!applications['2023']) {
-      router.push({ pathname: '/application' })
-    }
+    // if (!applications['2023']) {
+    //   router.push({ pathname: '/application' })
+    // }
   }, [user, loading, applications])
 
   const formatDate = (date: Date) =>
@@ -79,7 +79,7 @@ const UserProfileDashboardPage: NextPage<Props> = ({
       {ua.isDesktop && (
         <Box
           sx={{
-            position: 'absolute',
+            position: 'fixed',
             bottom: 0,
             left: 0,
             width: '50vw',
@@ -98,7 +98,7 @@ const UserProfileDashboardPage: NextPage<Props> = ({
 
       <Box
         sx={{
-          position: 'absolute',
+          position: 'fixed',
           bottom: 0,
           left: 0,
           width: '50vw',
@@ -116,7 +116,7 @@ const UserProfileDashboardPage: NextPage<Props> = ({
 
       <Box
         sx={{
-          position: 'absolute',
+          position: 'fixed',
           bottom: 0,
           right: 0,
           width: '50vw',
@@ -135,7 +135,8 @@ const UserProfileDashboardPage: NextPage<Props> = ({
       <Container>
         <Box
           sx={{
-            my: 4,
+            mb: 4,
+            mt: { xs: 10, sm: 4 },
             display: 'flex',
             flexDirection: 'column',
             justifyContent: 'center',
@@ -197,30 +198,6 @@ const UserProfileDashboardPage: NextPage<Props> = ({
               }}
               title="View application"
             >
-              {/* <Stack
-                direction="row"
-                sx={{
-                  position: 'absolute',
-                  top: 10,
-                  left: 10,
-                  backgroundColor: '#e2e2e2',
-                  borderRadius: '40px',
-                  padding: '5px 10px',
-                }}
-                alignItems="center"
-              >
-                <Box
-                  sx={{
-                    borderRadius: '50%',
-                    width: 16,
-                    height: 16,
-                    backgroundColor: 'yellow',
-                    mr: 1,
-                  }}
-                />
-                Pending
-              </Stack> */}
-
               <Box sx={{ position: 'absolute', top: 10, left: 10 }}>
                 <ApplicationStatus decision={application?.decision} />
               </Box>
