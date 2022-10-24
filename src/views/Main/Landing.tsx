@@ -71,16 +71,25 @@ const Landing = ({ uaString }: { uaString?: string }) => {
       >
         {ua.isDesktop ? (
           <>
-            <Typography variant="h1" sx={{ fontSize: '6vw' }}>
+            <Typography
+              variant="h1"
+              sx={{ fontSize: { sm: '2.5rem', md: '3.5rem', lg: '4rem' } }}
+            >
               Come one, come all
             </Typography>
             <Typography
               variant="h1"
-              sx={{ fontFamily: 'SpringFair, sans-serif', fontSize: '7vw' }}
+              sx={{
+                fontFamily: 'SpringFair, sans-serif',
+                fontSize: { sm: '3rem', md: '4rem', lg: '5rem' },
+              }}
             >
               Boilermake X
             </Typography>
-            <Typography variant="h2" sx={{ fontSize: '6vw' }}>
+            <Typography
+              variant="h2"
+              sx={{ fontSize: { sm: '2.3rem', md: '3.2rem', lg: '3.5rem' } }}
+            >
               Purdue University | January 20-22, 2023
             </Typography>
           </>
@@ -136,9 +145,8 @@ const Landing = ({ uaString }: { uaString?: string }) => {
             bottom: 0,
             left: '50%',
             transform: 'translateX(-50%)',
-            width: { xs: '450vw', sm: '130vw' },
-            maxWidth: { xs: 1600, sm: 1800 },
-            minWidth: 300,
+            width: { xs: 1600, sm: 2000, md: '130vw' },
+            minWidth: { xs: 0, md: 2000 },
           }}
         >
           <Image
@@ -159,7 +167,7 @@ const Landing = ({ uaString }: { uaString?: string }) => {
             <StyledButton onClick={() => redirect('/dashboard')}>
               <Typography
                 variant="h3"
-                sx={{ fontSize: { xs: '2.8rem', sm: '4vw' } }}
+                sx={{ fontSize: { xs: '2.8rem', sm: '3rem', md: '4vw' } }}
               >
                 Apply
               </Typography>

@@ -18,17 +18,16 @@ const About = ({ uaString }: { uaString?: string }) => {
     <Box
       sx={{
         height: '100vh',
-        width: { xs: '180vw', sm: '100vw' },
+        width: { xs: '180vw', md: '130vw', lg: '100vw' },
         position: 'relative',
       }}
     >
       <Box
         sx={{
           position: 'absolute',
-          left: { xs: '-33%', sm: '5%' },
+          left: { xs: '-33%', sm: '10%', md: 0 },
           bottom: 0,
-          width: { xs: '500px', sm: '40vw' },
-          minWidth: 400,
+          width: { xs: 500, lg: '35vw' },
         }}
       >
         <AboutSign />
@@ -36,10 +35,9 @@ const About = ({ uaString }: { uaString?: string }) => {
       <Box
         sx={{
           position: 'absolute',
-          right: { xs: '0', sm: '5%' },
+          right: { xs: 0, md: '10%' },
           bottom: -10,
-          width: { xs: '120vw', sm: '50vw' },
-          maxWidth: '700px',
+          width: { xs: 500, sm: 600, md: 700 },
           maxHeight: '90vh',
         }}
       >

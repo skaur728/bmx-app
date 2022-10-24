@@ -12,7 +12,7 @@ const FAQ: NextPage = () => (
   <Box
     sx={{
       height: '100vh',
-      width: { xs: '200vw', sm: '100vw' },
+      width: { xs: '200vw', sm: '130vw', md: '100vw' },
       position: 'relative',
     }}
   >
