@@ -45,7 +45,10 @@ const HorizontalScroller = ({ children, uaString }: Props) => {
     [0, -scrollRange + viewportW]
   )
 
-  const physics = { damping: 15, mass: 0.5, stiffness: 50 }
+  const physics = ua.isMobile
+    ? { damping: 15, mass: 0.3, stiffness: 60 }
+    : { damping: 15, mass: 0.5, stiffness: 50 }
+
   const spring = useSpring(transform, physics)
 
   // const onScrollTo = (elem: HTMLElement) => {
