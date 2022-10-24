@@ -61,7 +61,7 @@ const Landing = ({ uaString }: { uaString?: string }) => {
         sx={{
           textAlign: 'center',
           color: '#ffe8c9',
-          pt: { xs: 15, sm: 5, md: 3 },
+          pt: { xs: 13, sm: 5, md: 3 },
           position: 'absolute',
           left: '50%',
           transform: 'translateX(-50%)',
@@ -137,7 +137,7 @@ const Landing = ({ uaString }: { uaString?: string }) => {
             left: '50%',
             transform: 'translateX(-50%)',
             width: { xs: '450vw', sm: '130vw' },
-            maxWidth: { xs: 2000, sm: 1800 },
+            maxWidth: { xs: 1600, sm: 1800 },
             minWidth: 300,
           }}
         >

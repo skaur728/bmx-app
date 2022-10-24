@@ -30,7 +30,7 @@ const FAQ: NextPage = () => (
           bottom: 0,
           left: 0,
           width: '200px',
-          maxHeight: '90vh',
+          maxHeight: '98vh',
         }}
       >
         <Image
@@ -47,7 +47,7 @@ const FAQ: NextPage = () => (
           bottom: 0,
           right: 0,
           width: '200px',
-          maxHeight: '90vh',
+          maxHeight: '98vh',
         }}
       >
         <Image
@@ -61,7 +61,7 @@ const FAQ: NextPage = () => (
       <Box
         sx={{
           position: 'absolute',
-          top: '150px',
+          top: '80px',
           left: '50%',
           transform: 'translateX(-50%)',
           width: '110%',

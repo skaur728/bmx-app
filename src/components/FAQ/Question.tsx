@@ -44,6 +44,7 @@ const Question = ({ question, answer }: Props) => (
           width: '100%',
           height: '100%',
           backfaceVisibility: 'hidden',
+          WebkitBackfaceVisibility: 'hidden',
         }}
       >
         <Typography sx={{ mt: 4, pl: 6, pr: 9 }}>{question}</Typography>
@@ -54,6 +55,7 @@ const Question = ({ question, answer }: Props) => (
           width: '100%',
           height: '100%',
           backfaceVisibility: 'hidden',
+          WebkitBackfaceVisibility: 'hidden',
           transform: 'rotateY(180deg)',
         }}
       >
