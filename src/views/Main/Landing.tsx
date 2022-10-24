@@ -4,6 +4,7 @@ import Image from 'next/image'
 
 import useRedirect from '@/hooks/useRedirect'
 
+import MLHImg from '../../../public/images/main/mlh.svg'
 import TentImg from '../../../public/images/main/tent.svg'
 
 import type { NextPageContext } from 'next'
@@ -41,6 +42,23 @@ const Landing = ({ uaString }: { uaString?: string }) => {
     >
       <Box
         sx={{
+          position: 'absolute',
+          left: 15,
+          top: 15,
+          width: 70,
+          transition: 'transform 250ms ease',
+          '&:hover': {
+            transform: 'scale(1.04)',
+          },
+          cursor: 'pointer',
+          zIndex: 10,
+        }}
+        onClick={() => window.open('https://mlh.io/', '_blank')}
+      >
+        <Image src={MLHImg} layout="responsive" alt="mlh" />
+      </Box>
+      <Box
+        sx={{
           textAlign: 'center',
           color: '#ffe8c9',
           pt: { xs: 15, sm: 5, md: 3 },
@@ -67,13 +85,13 @@ const Landing = ({ uaString }: { uaString?: string }) => {
             </Typography>
           </>
         ) : (
-          <>
-            <Typography variant="h1" sx={{ fontSize: '6vw' }}>
+          <Box sx={{ maxWidth: '375px', mx: 'auto' }}>
+            <Typography variant="h1" sx={{ fontSize: '6vw', mb: 1 }}>
               Come one, come all
             </Typography>
             <Typography
               variant="h1"
-              sx={{ fontFamily: 'SpringFair, sans-serif', fontSize: '7vw' }}
+              sx={{ fontFamily: 'SpringFair, sans-serif', fontSize: '2.4rem' }}
             >
               Boilermake
             </Typography>
@@ -104,7 +122,7 @@ const Landing = ({ uaString }: { uaString?: string }) => {
                 January 20-22, 2023
               </Typography>
             </Stack>
-          </>
+          </Box>
         )}
       </Box>
       <Box
@@ -118,8 +136,8 @@ const Landing = ({ uaString }: { uaString?: string }) => {
             bottom: 0,
             left: '50%',
             transform: 'translateX(-50%)',
-            width: { xs: '350vw', sm: '130vw' },
-            maxWidth: 1800,
+            width: { xs: '450vw', sm: '130vw' },
+            maxWidth: { xs: 2000, sm: 1800 },
             minWidth: 300,
           }}
         >
@@ -128,6 +146,7 @@ const Landing = ({ uaString }: { uaString?: string }) => {
             layout="responsive"
             priority
             alt="landing background"
+            style={{ pointerEvents: 'none' }}
           />
           <Box
             sx={{
@@ -138,7 +157,10 @@ const Landing = ({ uaString }: { uaString?: string }) => {
             }}
           >
             <StyledButton onClick={() => redirect('/dashboard')}>
-              <Typography variant="h3" sx={{ fontSize: '4vw' }}>
+              <Typography
+                variant="h3"
+                sx={{ fontSize: { xs: '2.8rem', sm: '4vw' } }}
+              >
                 Apply
               </Typography>
             </StyledButton>

@@ -20,8 +20,6 @@ import type { Provider } from 'next-auth/providers'
  * Custom sign in page.
  */
 
-// TODO handle errors
-
 type Props = {
   providers: Provider
 }

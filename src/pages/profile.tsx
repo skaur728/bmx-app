@@ -29,6 +29,7 @@ import { Button, TextField } from '@/styles/custom'
 import Background from '@/views/Main/Background'
 
 import FerrisWheel from '../../public/images/dashboard/ferris-wheel-cropped.svg'
+import BalloonsImg from '../../public/images/profile/balloons.svg'
 
 import type { NextPage, NextPageContext } from 'next'
 import type { FormEvent } from 'react'
@@ -155,18 +156,6 @@ const UserProfile: NextPage<Props> = ({ uaString }: { uaString?: string }) => {
             left: 0,
           }}
         >
-          {/* <Box
-        sx={{ position: 'absolute', width: '180px', bottom: -15, right: -45 }}
-      >
-        <Image
-          src="/images/profile/bunny.svg"
-          alt="bunny"
-          width={75}
-          height={150}
-          layout="responsive"
-        />
-      </Box> */}
-
           <Box
             sx={{
               position: 'absolute',
@@ -177,10 +166,8 @@ const UserProfile: NextPage<Props> = ({ uaString }: { uaString?: string }) => {
             }}
           >
             <Image
-              src="/images/profile/balloons.svg"
+              src={BalloonsImg}
               alt="balloons"
-              width={103}
-              height={150}
               layout="responsive"
               style={{ pointerEvents: 'none' }}
             />

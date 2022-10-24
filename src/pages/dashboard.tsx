@@ -42,14 +42,14 @@ const UserProfileDashboardPage: NextPage<Props> = ({
   useEffect(() => {
     if (loading || !user) return
 
-    // if (!user.hasFilledProfile) {
-    //   router.push({ pathname: '/profile' })
-    //   return
-    // }
+    if (!user.hasFilledProfile) {
+      router.push({ pathname: '/profile' })
+      return
+    }
 
-    // if (!applications['2023']) {
-    //   router.push({ pathname: '/application' })
-    // }
+    if (!applications['2023']) {
+      router.push({ pathname: '/application' })
+    }
   }, [user, loading, applications])
 
   const formatDate = (date: Date) =>
@@ -192,11 +192,16 @@ const UserProfileDashboardPage: NextPage<Props> = ({
                 position: 'relative',
                 cursor: 'pointer',
                 boxShadow:
-                  'rgb(0 0 0 / 20%) 0px 3px 3px -2px, rgb(0 0 0 / 14%) 0px 3px 4px 0px, rgb(0 0 0 / 12%) 0px 1px 8px 0px',
+                  '0px 11px 15px -7px rgb(0 0 0 / 20%), 0px 24px 38px 3px rgb(0 0 0 / 14%), 0px 9px 46px 8px rgb(0 0 0 / 12%)',
 
-                '&:hover': {},
+                transition: 'transform 200ms ease, box-shadow 200ms ease',
+                '&:hover, &:active': {
+                  boxShadow: 'none',
+                  transform: 'translateY(3px)',
+                },
               }}
               title="View application"
+              onClick={() => router.push('/application')}
             >
               <Box sx={{ position: 'absolute', top: 10, left: 10 }}>
                 <ApplicationStatus decision={application?.decision} />
