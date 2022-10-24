@@ -1,9 +1,10 @@
-import { Box } from '@mui/material'
+import { Box, Typography } from '@mui/material'
 import Image from 'next/image'
 
-import FAQAccordion from '@/components/FAQ/FAQAccordion'
+import { Question } from '@/components/FAQ'
 
-import BannerImg from '../../../public/images/faq/faq-banner.svg'
+import BannerImg from '../../../public/images/faq/banner.svg'
+import PillarImg from '../../../public/images/faq/pillar.svg'
 
 import type { NextPage } from 'next'
 
@@ -11,32 +12,96 @@ const FAQ: NextPage = () => (
   <Box
     sx={{
       height: '100vh',
-      width: '100vw',
+      width: { xs: '200vw', sm: '100vw' },
       position: 'relative',
     }}
   >
     <Box
       sx={{
-        position: 'absolute',
-        bottom: 0,
-        left: '50%',
-        transform: 'translateX(-50%)',
-        width: '80vw',
-        maxWidth: '1000px',
-        maxHeight: '90vh',
+        width: '100%',
+        height: '100%',
+        position: 'relative',
+        maxWidth: '1200px',
       }}
     >
-      <Image src={BannerImg} alt="Info Tent" layout="responsive" />
       <Box
         sx={{
           position: 'absolute',
-          left: '50%',
-          top: '30%',
-          transform: 'translateX(-50%)',
+          bottom: 0,
+          left: 0,
+          width: '200px',
+          maxHeight: '90vh',
         }}
       >
-        <FAQAccordion />
+        <Image
+          src={PillarImg}
+          alt="pillar"
+          layout="responsive"
+          style={{ pointerEvents: 'none' }}
+        />
       </Box>
+
+      <Box
+        sx={{
+          position: 'absolute',
+          bottom: 0,
+          right: 0,
+          width: '200px',
+          maxHeight: '90vh',
+        }}
+      >
+        <Image
+          src={PillarImg}
+          alt="pillar"
+          layout="responsive"
+          style={{ pointerEvents: 'none' }}
+        />
+      </Box>
+
+      <Box
+        sx={{
+          position: 'absolute',
+          top: '150px',
+          left: '50%',
+          transform: 'translateX(-50%)',
+          width: '110%',
+        }}
+      >
+        <Image
+          src={BannerImg}
+          alt="pillar"
+          layout="responsive"
+          style={{ pointerEvents: 'none' }}
+        />
+        <Box
+          sx={{
+            position: 'absolute',
+            top: '50%',
+            left: '50%',
+            transform: 'translate(-50%, -50%)',
+            width: '100%',
+            textAlign: 'center',
+          }}
+        >
+          <Typography
+            variant="h2"
+            sx={{ fontSize: { xs: '2rem', sm: '3rem', md: '4rem' } }}
+          >
+            <b>F</b>requently <b>A</b>sked <b>Q</b>uestions
+          </Typography>
+        </Box>
+      </Box>
+    </Box>
+
+    <Box
+      sx={{
+        position: 'absolute',
+        top: '50%',
+        left: '50%',
+        transform: 'translate(-50%, -50%)',
+      }}
+    >
+      <Question answer="Answer to question 1" question="Question 1" />
     </Box>
   </Box>
 )

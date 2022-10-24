@@ -41,6 +41,7 @@ declare global {
 
     user?: ObjectId
     year?: number
+    updatedAt?: string
   }
 
   interface IUser extends User {

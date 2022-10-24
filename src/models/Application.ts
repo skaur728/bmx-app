@@ -16,33 +16,38 @@ export type LeanedApplication = LeanDocument<
   IApplication & { _id: Types.ObjectId }
 >
 
-const ApplicationSchema = new Schema<IApplication, IApplicationModel>({
-  user: {
-    type: Schema.Types.ObjectId,
-    ref: 'User',
-    required: true,
-  },
-  year: {
-    type: Number,
-    required: true,
-  },
+const ApplicationSchema = new Schema<IApplication, IApplicationModel>(
+  {
+    user: {
+      type: Schema.Types.ObjectId,
+      ref: 'User',
+      required: true,
+    },
+    year: {
+      type: Number,
+      required: true,
+    },
 
-  decision: {
-    type: String,
-    enum: 'Pending' || 'Rejected' || 'Accepted' || 'Waitlisted',
-    default: 'Pending',
-  } as any as SchemaDefinitionProperty<Decision> | undefined,
-  resume: String,
-  resumeVersion: {
-    type: Number,
-    default: 0,
+    decision: {
+      type: String,
+      enum: 'Pending' || 'Rejected' || 'Accepted' || 'Waitlisted',
+      default: 'Pending',
+    } as any as SchemaDefinitionProperty<Decision> | undefined,
+    resume: String,
+    resumeVersion: {
+      type: Number,
+      default: 0,
+    },
+    whyBM: String,
+    projectIdea: String,
+    codeConduct: Boolean,
+    termConditions: Boolean,
+    optInEmail: Boolean,
   },
-  whyBM: String,
-  projectIdea: String,
-  codeConduct: Boolean,
-  termConditions: Boolean,
-  optInEmail: Boolean,
-})
+  {
+    timestamps: true,
+  }
+)
 
 ApplicationSchema.index({ user: 1 })
 

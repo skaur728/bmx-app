@@ -2,14 +2,16 @@ import { Box, Container, Stack, Typography } from '@mui/material'
 import { useUserAgent } from 'next-useragent'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import Countdown from 'react-countdown'
 
+import ApplicationStatus from '@/components/ApplicationStatus'
 import Head from '@/components/Head'
 import TopNav from '@/components/TopNav'
 import useApplication from '@/hooks/useApplication'
 import Background from '@/views/Main/Background'
 
+import Logo from '../../public/images/bmx-logo.png'
 import Balloons1 from '../../public/images/dashboard/balloons-1.svg'
 import Balloons2 from '../../public/images/dashboard/balloons-2.svg'
 import BottomBorderImg from '../../public/images/dashboard/bottom-border.svg'
@@ -32,6 +34,11 @@ const UserProfileDashboardPage: NextPage<Props> = ({
 
   const router = useRouter()
 
+  const application = useMemo(
+    () => (applications || ({} as Record<string, IApplication>))['2023'],
+    [applications]
+  )
+
   useEffect(() => {
     if (loading || !user) return
 
@@ -44,6 +51,15 @@ const UserProfileDashboardPage: NextPage<Props> = ({
       router.push({ pathname: '/application' })
     }
   }, [user, loading, applications])
+
+  const formatDate = (date: Date) =>
+    date.toLocaleTimeString([], {
+      year: 'numeric',
+      month: 'numeric',
+      day: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit',
+    })
 
   // Wait until after client-side hydration to show
   useEffect(() => {
@@ -63,7 +79,7 @@ const UserProfileDashboardPage: NextPage<Props> = ({
       {ua.isDesktop && (
         <Box
           sx={{
-            position: 'absolute',
+            position: 'fixed',
             bottom: 0,
             left: 0,
             width: '50vw',
@@ -71,13 +87,18 @@ const UserProfileDashboardPage: NextPage<Props> = ({
             minWidth: 550,
           }}
         >
-          <Image src={FerrisWheel} alt="ferris wheel" layout="responsive" />
+          <Image
+            src={FerrisWheel}
+            alt="ferris wheel"
+            layout="responsive"
+            style={{ pointerEvents: 'none' }}
+          />
         </Box>
       )}
 
       <Box
         sx={{
-          position: 'absolute',
+          position: 'fixed',
           bottom: 0,
           left: 0,
           width: '50vw',
@@ -85,12 +106,17 @@ const UserProfileDashboardPage: NextPage<Props> = ({
           minWidth: 200,
         }}
       >
-        <Image src={Balloons2} alt="balloons" layout="responsive" />
+        <Image
+          src={Balloons2}
+          alt="balloons"
+          layout="responsive"
+          style={{ pointerEvents: 'none' }}
+        />
       </Box>
 
       <Box
         sx={{
-          position: 'absolute',
+          position: 'fixed',
           bottom: 0,
           right: 0,
           width: '50vw',
@@ -98,13 +124,19 @@ const UserProfileDashboardPage: NextPage<Props> = ({
           minWidth: 300,
         }}
       >
-        <Image src={Balloons1} alt="balloons" layout="responsive" />
+        <Image
+          src={Balloons1}
+          alt="balloons"
+          layout="responsive"
+          style={{ pointerEvents: 'none' }}
+        />
       </Box>
 
       <Container>
         <Box
           sx={{
-            my: 4,
+            mb: 4,
+            mt: { xs: 10, sm: 4 },
             display: 'flex',
             flexDirection: 'column',
             justifyContent: 'center',
@@ -139,68 +171,99 @@ const UserProfileDashboardPage: NextPage<Props> = ({
             />
           </Box>
 
-          <Box mt={9} mb={2}>
-            <Typography
-              variant="h3"
-              sx={{ color: '#ffe8c9', textAlign: 'center' }}
-            >
-              Current Application
-            </Typography>
-            <Image src={TopBorderImg} layout="responsive" alt="top border" />
-          </Box>
+          <Stack alignItems="center">
+            <Box mt={9} mb={2}>
+              <Typography
+                variant="h3"
+                sx={{ color: '#ffe8c9', textAlign: 'center' }}
+              >
+                Current Application
+              </Typography>
+              <Image src={TopBorderImg} layout="responsive" alt="top border" />
+            </Box>
 
-          <Stack
-            sx={{
-              width: '250px',
-              height: '300px',
-              border: '1px solid black',
-              borderRadius: 4,
-              overflow: 'hidden',
-              position: 'relative',
-            }}
-          >
             <Stack
-              direction="row"
               sx={{
-                position: 'absolute',
-                top: 10,
-                left: 10,
-                backgroundColor: '#e2e2e2',
-                borderRadius: '40px',
-                padding: '5px 10px',
+                width: '250px',
+                height: '300px',
+                border: '1px solid black',
+                borderRadius: 4,
+                overflow: 'hidden',
+                position: 'relative',
+                cursor: 'pointer',
+                boxShadow:
+                  '0px 11px 15px -7px rgb(0 0 0 / 20%), 0px 24px 38px 3px rgb(0 0 0 / 14%), 0px 9px 46px 8px rgb(0 0 0 / 12%)',
+
+                transition: 'transform 200ms ease, box-shadow 200ms ease',
+                '&:hover, &:active': {
+                  boxShadow: 'none',
+                  transform: 'translateY(3px)',
+                },
               }}
+              title="View application"
+              onClick={() => router.push('/application')}
             >
+              <Box sx={{ position: 'absolute', top: 10, left: 10 }}>
+                <ApplicationStatus decision={application?.decision} />
+              </Box>
+
+              <Box sx={{ flex: 1, backgroundColor: 'green' }} />
               <Box
                 sx={{
+                  position: 'absolute',
+                  top: '50%',
+                  left: '50%',
+                  transform: 'translate(-50%, -50%)',
+                  textAlign: 'center',
                   borderRadius: '50%',
-                  width: 25,
-                  height: 25,
-                  backgroundColor: 'yellow',
-                  mr: 2,
+                  width: 50,
+                  height: 50,
                 }}
-              />
-              Pending
+              >
+                <Image
+                  src={Logo}
+                  alt="Boilermake logo"
+                  width="50"
+                  height="50"
+                />
+              </Box>
+              <Box
+                sx={{
+                  flex: 1,
+                  backgroundColor: '#ffe7ca',
+                }}
+              >
+                <Typography
+                  sx={{
+                    pt: 4,
+                    textAlign: 'center',
+                    fontSize: '1.3rem',
+                  }}
+                >
+                  Jan 21 - 23
+                  <span style={{ fontSize: '0.7em', display: 'block' }}>
+                    In-person only
+                  </span>
+                  <span style={{ fontSize: '0.7em', display: 'block' }}>
+                    Corec
+                  </span>
+                </Typography>
+
+                {application?.updatedAt && (
+                  <Box
+                    sx={{
+                      position: 'absolute',
+                      left: 10,
+                      bottom: 5,
+                      fontSize: '0.8rem',
+                    }}
+                  >
+                    <b>Last updated</b>:{' '}
+                    {formatDate(new Date(application.updatedAt))}
+                  </Box>
+                )}
+              </Box>
             </Stack>
-            <Box sx={{ flex: 1, backgroundColor: 'green' }} />
-            <Box
-              sx={{
-                position: 'absolute',
-                top: '50%',
-                left: '50%',
-                transform: 'translate(-50%, -50%)',
-                textAlign: 'center',
-                background: 'aliceblue',
-                borderRadius: '50%',
-                border: '2px solid brown',
-                width: 50,
-                height: 50,
-              }}
-            >
-              circle
-            </Box>
-            <Box sx={{ flex: 1 }}>
-              <Box sx={{ pt: '40px', textAlign: 'center' }}>Jan 21 - 23</Box>
-            </Box>
           </Stack>
         </Box>
       </Container>

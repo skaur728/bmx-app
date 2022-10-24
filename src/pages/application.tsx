@@ -27,6 +27,9 @@ import useApplication from '@/hooks/useApplication'
 import { Button, TextField } from '@/styles/custom'
 import Background from '@/views/Main/Background'
 
+import FerrisWheel from '../../public/images/dashboard/ferris-wheel-cropped.svg'
+import BalloonsImg from '../../public/images/profile/balloons.svg'
+
 import type { AxiosResponse } from 'axios'
 import type { NextPage, NextPageContext } from 'next'
 import type { FormEvent } from 'react'
@@ -202,7 +205,8 @@ const Application: NextPage<Props> = ({ uaString }: { uaString?: string }) => {
       <Background />
       <Box
         sx={{
-          py: { xs: 5, sm: 10 },
+          pt: { xs: 10, sm: 10 },
+          pb: { xs: 5, sm: 10 },
           px: { xs: 3, sm: 4, md: 8 },
         }}
       >
@@ -226,31 +230,29 @@ const Application: NextPage<Props> = ({ uaString }: { uaString?: string }) => {
             }}
           >
             <Image
-              src="/images/profile/balloons.svg"
+              src={BalloonsImg}
               alt="balloons"
-              width={103}
-              height={150}
               layout="responsive"
+              style={{ pointerEvents: 'none' }}
             />
           </Box>
 
           {ua.isDesktop && (
             <Box
               sx={{
-                position: 'absolute',
-                width: '80vw',
-                maxWidth: '1200px',
-                bottom: '-50%',
-                left: '40%',
-                transform: 'translateX(-50%)',
+                position: 'fixed',
+                bottom: 0,
+                left: 0,
+                width: '50vw',
+                opacity: 0.5,
+                minWidth: 550,
               }}
             >
               <Image
-                src="/images/profile/ferris-wheel.svg"
+                src={FerrisWheel}
                 alt="ferris wheel"
-                width={159}
-                height={150}
                 layout="responsive"
+                style={{ pointerEvents: 'none' }}
               />
             </Box>
           )}
@@ -267,11 +269,12 @@ const Application: NextPage<Props> = ({ uaString }: { uaString?: string }) => {
           <Stack
             alignItems="center"
             sx={{
-              backgroundColor: '#ffe8c9eb',
+              backgroundColor: '#ffe8c9',
               py: { xs: 2, sm: 5 },
               px: { xs: 3, sm: 5 },
               width: '100%',
               zIndex: 2,
+              borderRadius: '36px',
             }}
           >
             {user ? (
@@ -282,7 +285,29 @@ const Application: NextPage<Props> = ({ uaString }: { uaString?: string }) => {
                 {!isFirst && application?.decision && (
                   <ApplicationStatus decision={application.decision} />
                 )}
-                <form onSubmit={onFormSubmit} style={{ width: '100%' }}>
+                <Box>
+                  <Typography variant="h6" sx={{ mt: 2, textAlign: 'center' }}>
+                    Want to build and create with other passionate people?
+                  </Typography>
+
+                  <Typography variant="body1" sx={{ mt: 2 }}>
+                    Apply using the form below to spend a weekend learning,
+                    coding, and networking with the BoilerMake team! We will
+                    provide the resources, tools, and activities to fuel both
+                    your work and break time, so do not miss your chance to
+                    participate in Purdue&apos;s largest hackathon!
+                  </Typography>
+
+                  <Typography variant="body1" sx={{ mt: 1 }}>
+                    <b>The deadline for applications is December 10th.</b> If
+                    you have any questions, do not hesitate to reach out to us
+                    at <b>team@boilermake.org</b>.
+                  </Typography>
+                </Box>
+                <form
+                  onSubmit={onFormSubmit}
+                  style={{ width: '100%', marginTop: 20 }}
+                >
                   <Stack
                     spacing={2}
                     mt={1.5}

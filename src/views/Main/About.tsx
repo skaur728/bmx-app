@@ -1,13 +1,15 @@
 import { Box, Typography } from '@mui/material'
 import { useUserAgent } from 'next-useragent'
 import dynamic from 'next/dynamic'
-import Image from 'next/image'
 
-import InfoTentImg from '../../../public/images/about/info-tent.svg'
+import { AboutSign } from '@/components/About'
 
 import type { NextPageContext } from 'next'
 
-const AboutSign = dynamic(() => import('@/components/About/AboutSign'))
+const InfoTent = dynamic(() => import('@/components/About/InfoTent'))
+const InfoTentMobile = dynamic(
+  () => import('@/components/About/InfoTentMobile')
+)
 
 const About = ({ uaString }: { uaString?: string }) => {
   const ua = useUserAgent(uaString || window.navigator.userAgent)
@@ -16,35 +18,33 @@ const About = ({ uaString }: { uaString?: string }) => {
     <Box
       sx={{
         height: '100vh',
-        width: '100vw',
+        width: { xs: '180vw', sm: '100vw' },
         position: 'relative',
       }}
     >
-      {ua.isDesktop && (
-        <Box
-          sx={{
-            position: 'absolute',
-            left: '5%',
-            bottom: 0,
-            width: '20vw',
-          }}
-        >
-          <AboutSign />
-        </Box>
-      )}
       <Box
         sx={{
           position: 'absolute',
-          right: ua.isDesktop ? '5%' : '50%',
+          left: { xs: '-33%', sm: '5%' },
           bottom: 0,
-          transform: ua.isDesktop ? 'none' : 'translateX(50%)',
-          width: ua.isDesktop ? '50vw' : '90vw',
+          width: { xs: '500px', sm: '40vw' },
+          minWidth: 400,
+        }}
+      >
+        <AboutSign />
+      </Box>
+      <Box
+        sx={{
+          position: 'absolute',
+          right: { xs: '0', sm: '5%' },
+          bottom: -10,
+          width: { xs: '120vw', sm: '50vw' },
           maxWidth: '700px',
           maxHeight: '90vh',
         }}
       >
         <Box sx={{ position: 'relative', width: '100%', height: '100%' }}>
-          <Image src={InfoTentImg} alt="Info Tent" layout="responsive" />
+          {ua.isDesktop ? <InfoTent /> : <InfoTentMobile />}
           <Box
             sx={{
               position: 'absolute',
@@ -64,6 +64,25 @@ const About = ({ uaString }: { uaString?: string }) => {
               every hacker with the tools to build anything that they can
               imagine, and we find happiness in knowing that hackers will walk
               out of our doors with memories that will last a lifetime.
+            </Typography>
+            <Typography variant={ua.isDesktop ? 'h5' : 'body2'}>
+              This year, 37 undergraduate students from Purdue University have
+              come together to host an unforgettable hackathon. All the work
+              that has gone into planning this event - setting up the venue,
+              organizing activities and catering, sending mass emails - was
+              accomplished by somebody just like you.
+            </Typography>
+            <Typography variant={ua.isDesktop ? 'h5' : 'body2'}>
+              If you love hackathons and are interested in getting involved,
+              come talk to us at BoilerMake! We&apos;ll be looking for new
+              people to help us throw another successful hackathon in 2024!
+            </Typography>
+            <Typography variant={ua.isDesktop ? 'h5' : 'body2'}>
+              If you have any questions, feel free to hit us up at
+              team@boilermake.org.
+            </Typography>
+            <Typography variant={ua.isDesktop ? 'h5' : 'body2'}>
+              As always, hack on ♥
             </Typography>
           </Box>
         </Box>

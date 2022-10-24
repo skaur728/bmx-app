@@ -26,8 +26,9 @@ const ApplicationStatus = ({ decision }: Props) => (
     <Box
       sx={{
         borderRadius: '50%',
-        width: 15,
-        height: 15,
+        width: 20,
+        height: 20,
+        border: '2px solid #ffffff61',
         backgroundColor: (() => {
           switch (decision) {
             case Decision.Accepted: {
