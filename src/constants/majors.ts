@@ -177,6 +177,7 @@ const majors = [
   'Political Science And Government',
   'Sociology',
   'Miscellaneous Social Sciences',
+  'Other',
 ]
 
 export default majors

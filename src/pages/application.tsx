@@ -323,7 +323,7 @@ const Application: NextPage<Props> = ({ uaString }: { uaString?: string }) => {
                           component="span"
                           sx={{ fontWeight: 600, fontSize: '1rem' }}
                         >
-                          Max characters: {100 - whyBM.length}
+                          Max characters: {400 - whyBM.length}
                         </Typography>
                       </FormLabel>
                       <TextField
@@ -331,7 +331,7 @@ const Application: NextPage<Props> = ({ uaString }: { uaString?: string }) => {
                         fullWidth
                         value={whyBM}
                         onChange={(e) =>
-                          e.target.value.length <= 100 &&
+                          e.target.value.length <= 400 &&
                           setWhyBM(e.target.value)
                         }
                         autoComplete="off"
@@ -354,7 +354,7 @@ const Application: NextPage<Props> = ({ uaString }: { uaString?: string }) => {
                           component="span"
                           sx={{ fontWeight: 600, fontSize: '1rem' }}
                         >
-                          Max characters: {150 - projectIdea.length}
+                          Max characters: {450 - projectIdea.length}
                         </Typography>
                       </FormLabel>
                       <TextField
@@ -362,7 +362,7 @@ const Application: NextPage<Props> = ({ uaString }: { uaString?: string }) => {
                         fullWidth
                         value={projectIdea}
                         onChange={(e) =>
-                          e.target.value.length <= 150 &&
+                          e.target.value.length <= 450 &&
                           setProjectIdea(e.target.value)
                         }
                         autoComplete="off"
