@@ -21,7 +21,7 @@ const StyledMenuItem = styled(MenuItem)({
 })
 
 const TopNav = () => {
-  const { user } = useAuth() // TODO this should pull from the profile instead
+  const { user } = useAuth()
   const router = useRouter()
 
   const finishedProfile = user?.hasFilledProfile
