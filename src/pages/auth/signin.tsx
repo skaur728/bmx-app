@@ -146,6 +146,14 @@ const SignIn = ({ providers }: Props) => {
               </Box>
             ))}
           </Stack>
+          <Button href="/">
+            <Typography
+              sx={{ fontSize: { xs: '1.5rem', sm: '2rem' } }}
+              component="span"
+            >
+              Return Home
+            </Typography>
+          </Button>
         </Stack>
       </Box>
     </>
