@@ -21,7 +21,7 @@ const StyledMenuItem = styled(MenuItem)({
 })
 
 const TopNav = () => {
-  const { user } = useAuth()
+  const { user } = useAuth() // TODO this should pull from the profile instead
   const router = useRouter()
 
   const finishedProfile = user?.hasFilledProfile
@@ -90,7 +90,7 @@ const TopNav = () => {
               marginLeft: 1,
             }}
           >
-            {user?.name}
+            {user?.preferredName ?? user?.name}
           </Typography>
         </Button>
         <Menu
