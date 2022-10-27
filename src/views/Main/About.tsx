@@ -42,7 +42,7 @@ const About = ({ uaString }: { uaString?: string }) => {
         }}
       >
         <Box sx={{ position: 'relative', width: '100%', height: '100%' }}>
-          {ua.isDesktop ? <InfoTent /> : <InfoTentMobile />}
+          {!ua.isMobile ? <InfoTent /> : <InfoTentMobile />}
           <Box
             sx={{
               position: 'absolute',
@@ -54,7 +54,7 @@ const About = ({ uaString }: { uaString?: string }) => {
               textAlign: 'center',
             }}
           >
-            <Typography variant={ua.isDesktop ? 'h5' : 'body2'}>
+            <Typography variant={!ua.isMobile ? 'h5' : 'body2'}>
               BoilerMake is a hackathon that brings over 500 hackers from across
               the country under one roof for one incredible weekend. Since 2013,
               our team&apos;s mission has been to drive a culture of dedication
@@ -63,23 +63,23 @@ const About = ({ uaString }: { uaString?: string }) => {
               imagine, and we find happiness in knowing that hackers will walk
               out of our doors with memories that will last a lifetime.
             </Typography>
-            <Typography variant={ua.isDesktop ? 'h5' : 'body2'}>
+            <Typography variant={!ua.isMobile ? 'h5' : 'body2'}>
               This year, 37 undergraduate students from Purdue University have
               come together to host an unforgettable hackathon. All the work
               that has gone into planning this event - setting up the venue,
               organizing activities and catering, sending mass emails - was
               accomplished by somebody just like you.
             </Typography>
-            <Typography variant={ua.isDesktop ? 'h5' : 'body2'}>
+            <Typography variant={!ua.isMobile ? 'h5' : 'body2'}>
               If you love hackathons and are interested in getting involved,
               come talk to us at BoilerMake! We&apos;ll be looking for new
               people to help us throw another successful hackathon in 2024!
             </Typography>
-            <Typography variant={ua.isDesktop ? 'h5' : 'body2'}>
+            <Typography variant={!ua.isMobile ? 'h5' : 'body2'}>
               If you have any questions, feel free to hit us up at
               team@boilermake.org.
             </Typography>
-            <Typography variant={ua.isDesktop ? 'h5' : 'body2'}>
+            <Typography variant={!ua.isMobile ? 'h5' : 'body2'}>
               As always, hack on ♥
             </Typography>
           </Box>

@@ -27,6 +27,7 @@ import useApplication from '@/hooks/useApplication'
 import { Button, TextField } from '@/styles/custom'
 import Background from '@/views/Main/Background'
 
+import BorderImg from '../../public/images/cards/border.svg'
 import FerrisWheel from '../../public/images/dashboard/ferris-wheel-cropped.svg'
 import BalloonsImg from '../../public/images/profile/balloons.svg'
 
@@ -61,11 +62,28 @@ const Application: NextPage<Props> = ({ uaString }: { uaString?: string }) => {
   const [missingResume, setMissingResume] = useState(false)
   const [codeConductMissing, setCodeConductMissing] = useState(false)
   const [termConditionsMissing, setTermConditionsMissing] = useState(false)
+  // check if user modified something in the page
+  const [didModify, setDidModify] = useState(false)
 
   const isFirst = useMemo(
     () => !(user?.applications || ({} as IUser))['2023'],
     [user]
   )
+
+  useEffect(() => {
+    if (!didModify) return
+
+    const beforeUnload = (e: BeforeUnloadEvent) => {
+      e.returnValue = 'unsaved'
+    }
+
+    window.addEventListener('beforeunload', beforeUnload)
+
+    // eslint-disable-next-line consistent-return
+    return () => {
+      window.removeEventListener('beforeunload', beforeUnload)
+    }
+  }, [didModify])
 
   const application = useMemo(
     () => (applications || ({} as Record<string, IApplication>))['2023'],
@@ -153,11 +171,8 @@ const Application: NextPage<Props> = ({ uaString }: { uaString?: string }) => {
         })
       )
 
-      // go to dashboard after finishing application for first time
-      if (!err) {
-        router.push({ pathname: '/dashboard' })
-      }
-
+      // go to dashboard after finishing/updating application
+      router.push({ pathname: '/dashboard' })
       return
     }
 
@@ -184,9 +199,7 @@ const Application: NextPage<Props> = ({ uaString }: { uaString?: string }) => {
       setResumeVersion((p) => p + 1)
     }
 
-    setTimeout(() => {
-      setLoadingSubmission(false)
-    }, 750)
+    router.push({ pathname: '/dashboard' })
   }
 
   // Wait until after client-side hydration to show
@@ -279,9 +292,20 @@ const Application: NextPage<Props> = ({ uaString }: { uaString?: string }) => {
           >
             {user ? (
               <>
-                <Typography variant="h1">
-                  {isFirst ? 'Create ' : ''}Application
-                </Typography>
+                <Box
+                  sx={{
+                    width: { xs: '100%', sm: '80%' },
+                    mt: 2,
+                  }}
+                >
+                  <Image src={BorderImg} layout="responsive" alt="top border" />
+                </Box>
+
+                <Box>
+                  <Typography variant="h1">
+                    {isFirst ? 'Create ' : ''}Application
+                  </Typography>
+                </Box>
                 {!isFirst && application?.decision && (
                   <ApplicationStatus decision={application.decision} />
                 )}
@@ -304,6 +328,7 @@ const Application: NextPage<Props> = ({ uaString }: { uaString?: string }) => {
                     at <b>team@boilermake.org</b>.
                   </Typography>
                 </Box>
+
                 <form
                   onSubmit={onFormSubmit}
                   style={{ width: '100%', marginTop: 20 }}
@@ -323,17 +348,17 @@ const Application: NextPage<Props> = ({ uaString }: { uaString?: string }) => {
                           component="span"
                           sx={{ fontWeight: 600, fontSize: '1rem' }}
                         >
-                          Max characters: {400 - whyBM.length}
+                          Characters remaining: {400 - whyBM.length}
                         </Typography>
                       </FormLabel>
                       <TextField
                         required
                         fullWidth
                         value={whyBM}
-                        onChange={(e) =>
-                          e.target.value.length <= 400 &&
-                          setWhyBM(e.target.value)
-                        }
+                        onChange={(e) => {
+                          setWhyBM(e.target.value.substring(0, 400))
+                          setDidModify(true)
+                        }}
                         autoComplete="off"
                         multiline
                         rows={4}
@@ -344,6 +369,7 @@ const Application: NextPage<Props> = ({ uaString }: { uaString?: string }) => {
                         }}
                       />
                     </FormControl>
+
                     <FormControl>
                       <FormLabel sx={{ fontSize: '1.3rem' }}>
                         Do you already have a project idea? If not, what
@@ -354,17 +380,17 @@ const Application: NextPage<Props> = ({ uaString }: { uaString?: string }) => {
                           component="span"
                           sx={{ fontWeight: 600, fontSize: '1rem' }}
                         >
-                          Max characters: {450 - projectIdea.length}
+                          Characters remaining: {450 - projectIdea.length}
                         </Typography>
                       </FormLabel>
                       <TextField
                         required
                         fullWidth
                         value={projectIdea}
-                        onChange={(e) =>
-                          e.target.value.length <= 450 &&
-                          setProjectIdea(e.target.value)
-                        }
+                        onChange={(e) => {
+                          setDidModify(true)
+                          setProjectIdea(e.target.value.substring(0, 450))
+                        }}
                         autoComplete="off"
                         multiline
                         rows={4}
@@ -389,6 +415,7 @@ const Application: NextPage<Props> = ({ uaString }: { uaString?: string }) => {
                         setFile={(file) => {
                           setMissingResume(false)
                           setResumeFile(file)
+                          setDidModify(true)
                         }}
                         file={resumeFile}
                         error={missingResume}
@@ -406,6 +433,7 @@ const Application: NextPage<Props> = ({ uaString }: { uaString?: string }) => {
                             onChange={(e) => {
                               setCodeConduct(e.target.checked)
                               setCodeConductMissing(false)
+                              setDidModify(true)
                             }}
                             sx={{
                               ...(codeConductMissing && { color: '#d81b60' }),
@@ -432,6 +460,7 @@ const Application: NextPage<Props> = ({ uaString }: { uaString?: string }) => {
                           <Checkbox
                             checked={termConditions}
                             onChange={(e) => {
+                              setDidModify(true)
                               setTermConditions(e.target.checked)
                               if (e.target.checked)
                                 setTermConditionsMissing(false)
@@ -474,7 +503,10 @@ const Application: NextPage<Props> = ({ uaString }: { uaString?: string }) => {
                         control={
                           <Checkbox
                             checked={optInEmail}
-                            onChange={(e) => setOptInEmail(e.target.checked)}
+                            onChange={(e) => {
+                              setDidModify(true)
+                              setOptInEmail(e.target.checked)
+                            }}
                           />
                         }
                         label={
@@ -509,12 +541,32 @@ const Application: NextPage<Props> = ({ uaString }: { uaString?: string }) => {
                     </Stack>
                   </Stack>
                 </form>
+
+                <Box
+                  sx={{
+                    width: { xs: '100%', sm: '80%' },
+                    transform: 'rotate(180deg)',
+                    mt: 2,
+                    mb: 1,
+                  }}
+                >
+                  <Image src={BorderImg} layout="responsive" alt="top border" />
+                </Box>
               </>
             ) : (
               <Stack alignItems="center" spacing={2} sx={{ width: '100%' }}>
-                <Typography variant="h1" sx={{ mb: 2 }}>
-                  Application
-                </Typography>
+                <Box
+                  sx={{
+                    width: { xs: '100%', sm: '80%' },
+                  }}
+                >
+                  <Image src={BorderImg} layout="responsive" alt="top border" />
+                </Box>
+                <Box>
+                  <Typography variant="h1" sx={{ mb: 2 }}>
+                    Application
+                  </Typography>
+                </Box>
                 <Skeleton
                   variant="rectangular"
                   width="90%"
@@ -536,6 +588,16 @@ const Application: NextPage<Props> = ({ uaString }: { uaString?: string }) => {
                   height={150}
                   animation="wave"
                 />
+                <Box
+                  sx={{
+                    width: { xs: '100%', sm: '80%' },
+                    transform: 'rotate(180deg)',
+                    mt: 2,
+                    mb: 1,
+                  }}
+                >
+                  <Image src={BorderImg} layout="responsive" alt="top border" />
+                </Box>
               </Stack>
             )}
           </Stack>

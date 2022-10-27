@@ -8,7 +8,7 @@ import type { AxiosError } from 'axios'
 
 const fetcher = (url: string) => axios.get(url).then((res) => res.data)
 
-const useAuth = () => {
+const useAuth = (protectPage: boolean = true) => {
   const { status, data: session } = useSession()
   const router = useRouter()
 
@@ -23,7 +23,7 @@ const useAuth = () => {
   const user = useMemo(() => data?.user, [data])
 
   useEffect(() => {
-    if (isValidating) return
+    if (isValidating || !protectPage) return
 
     if (status === 'unauthenticated') {
       router.push({
@@ -33,7 +33,7 @@ const useAuth = () => {
         },
       })
     }
-  }, [status, isValidating])
+  }, [status, isValidating, protectPage])
 
   return { status: isValidating ? 'loading' : status, session, user, error }
 }

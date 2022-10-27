@@ -40,14 +40,14 @@ const HorizontalScroller = ({ children, uaString }: Props) => {
 
   const { scrollYProgress, scrollXProgress } = useScroll()
   const transform = useTransform(
-    ua.isMobile ? scrollXProgress : scrollYProgress,
+    ua.isDesktop ? scrollYProgress : scrollXProgress,
     [0, 1],
     [0, -scrollRange + viewportW]
   )
 
-  const physics = ua.isMobile
-    ? { damping: 15, mass: 0.3, stiffness: 60 }
-    : { damping: 15, mass: 0.5, stiffness: 50 }
+  const physics = ua.isDesktop
+    ? { damping: 15, mass: 0.5, stiffness: 50 }
+    : { damping: 15, mass: 0.3, stiffness: 60 }
 
   const spring = useSpring(transform, physics)
 
@@ -85,8 +85,8 @@ const HorizontalScroller = ({ children, uaString }: Props) => {
       <Box
         ref={ghostRef}
         sx={{
-          height: ua.isMobile ? '10px' : scrollRange,
-          width: ua.isMobile ? scrollRange : '100%',
+          height: ua.isDesktop ? scrollRange : '10px',
+          width: ua.isDesktop ? '100%' : scrollRange,
         }}
       />
     </>

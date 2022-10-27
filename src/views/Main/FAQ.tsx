@@ -1,4 +1,4 @@
-import { Box, Typography } from '@mui/material'
+import { Box, Stack, Typography } from '@mui/material'
 import Image from 'next/image'
 
 import { Question } from '@/components/FAQ'
@@ -93,16 +93,83 @@ const FAQ: NextPage = () => (
       </Box>
     </Box>
 
-    <Box
+    <Stack
+      direction="row"
       sx={{
         position: 'absolute',
         top: '50%',
         left: '50%',
         transform: 'translate(-50%, -50%)',
+        width: '100%',
+        flexWrap: 'wrap',
       }}
     >
-      <Question answer="Answer to question 1" question="Question 1" />
-    </Box>
+      <Question question="Is it free?">
+        Yes! BoilerMake is completely free for all attendees.
+      </Question>
+
+      <Question question="Will BoilerMake be in person?">
+        Yes, BoilerMake X will be in person. Stay tuned for more information!
+      </Question>
+
+      <Question question="How large can my team be?">
+        You can have a maximum of 4 people on your team.
+      </Question>
+
+      <Question question="What are the requirements to attend?">
+        BoilerMake is open to all undergraduate college students who are of age
+        18 or older.
+      </Question>
+
+      <Question question="My team was accepted and I wasn't - can I attend?">
+        Feel free to email{' '}
+        <a
+          href="mailto:team@boilermake.org"
+          onClick={(e) => e.stopPropagation()}
+        >
+          team@boilermake.org
+        </a>{' '}
+        for info about our waitlist, and we will do our best to accommodate you
+        as space opens up at our event.
+      </Question>
+
+      <Question question="Will BoilerMake be in person?">
+        Yes, BoilerMake X will be in person. Stay tuned for more information!
+      </Question>
+
+      <Question question="Do you allow walk-ins and last minute registration?">
+        We accept walk-ins based on availability after hacker check-in. More
+        details will be announced closer to the event!
+      </Question>
+
+      <Question question="I missed the deadline to apply - can I attend?">
+        <Typography component="span" sx={{ fontSize: '0.9rem' }}>
+          Our deadline is to ensure that all applications are given equal
+          consideration to attend BoilerMake. Feel free to email{' '}
+          <a
+            href="mailto:team@boilermake.org"
+            onClick={(e) => e.stopPropagation()}
+          >
+            team@boilermake.org
+          </a>{' '}
+          for info about our waitlist, and we will do our best to accommodate
+          you as space opens up at our event.
+        </Typography>
+      </Question>
+
+      <Question question="What if I have any other questions?">
+        <Typography component="span" sx={{ fontSize: '1.3rem' }}>
+          Please email us at{' '}
+          <a
+            href="mailto:team@boilermake.org"
+            onClick={(e) => e.stopPropagation()}
+          >
+            team@boilermake.org
+          </a>
+          !
+        </Typography>
+      </Question>
+    </Stack>
   </Box>
 )
 

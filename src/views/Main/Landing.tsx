@@ -43,8 +43,8 @@ const Landing = ({ uaString }: { uaString?: string }) => {
       <Box
         sx={{
           position: 'absolute',
-          left: 15,
-          top: 15,
+          left: 20,
+          top: 26,
           width: 70,
           transition: 'transform 250ms ease',
           '&:hover': {
@@ -69,7 +69,7 @@ const Landing = ({ uaString }: { uaString?: string }) => {
           zIndex: 1,
         }}
       >
-        {ua.isDesktop ? (
+        {!ua.isMobile ? (
           <>
             <Typography
               variant="h1"
@@ -84,7 +84,7 @@ const Landing = ({ uaString }: { uaString?: string }) => {
                 fontSize: { sm: '3rem', md: '4rem', lg: '5rem' },
               }}
             >
-              Boilermake X
+              BoilerMake X
             </Typography>
             <Typography
               variant="h2"
@@ -102,7 +102,7 @@ const Landing = ({ uaString }: { uaString?: string }) => {
               variant="h1"
               sx={{ fontFamily: 'SpringFair, sans-serif', fontSize: '2.4rem' }}
             >
-              Boilermake
+              BoilerMake
             </Typography>
             <Stack
               direction="row"
@@ -164,7 +164,10 @@ const Landing = ({ uaString }: { uaString?: string }) => {
               transform: 'translate(-50%, -30%)',
             }}
           >
-            <StyledButton onClick={() => redirect('/dashboard')}>
+            <StyledButton
+              onClick={() => redirect('/dashboard')}
+              sx={{ zIndex: 10 }}
+            >
               <Typography
                 variant="h3"
                 sx={{ fontSize: { xs: '2.8rem', sm: '3rem', md: '4vw' } }}

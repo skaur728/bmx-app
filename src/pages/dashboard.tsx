@@ -1,4 +1,4 @@
-import { Box, Container, Stack, Typography } from '@mui/material'
+import { Box, Container, Link, Stack, Typography } from '@mui/material'
 import { useUserAgent } from 'next-useragent'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
@@ -15,6 +15,7 @@ import Logo from '../../public/images/bmx-logo.png'
 import Balloons1 from '../../public/images/dashboard/balloons-1.svg'
 import Balloons2 from '../../public/images/dashboard/balloons-2.svg'
 import BottomBorderImg from '../../public/images/dashboard/bottom-border.svg'
+import CardImg from '../../public/images/dashboard/card-bg.svg'
 import FerrisWheel from '../../public/images/dashboard/ferris-wheel-cropped.svg'
 import TopBorderImg from '../../public/images/dashboard/top-border.svg'
 
@@ -153,7 +154,7 @@ const UserProfileDashboardPage: NextPage<Props> = ({
             </Typography>
 
             <Countdown
-              date={new Date(2023, 0, 21)}
+              date={new Date(2023, 0, 20)}
               renderer={(props) => (
                 <Typography
                   variant="h1"
@@ -203,11 +204,17 @@ const UserProfileDashboardPage: NextPage<Props> = ({
               title="View application"
               onClick={() => router.push('/application')}
             >
-              <Box sx={{ position: 'absolute', top: 10, left: 10 }}>
+              <Box sx={{ position: 'absolute', top: 10, left: 10, zIndex: 3 }}>
                 <ApplicationStatus decision={application?.decision} />
               </Box>
 
-              <Box sx={{ flex: 1, backgroundColor: 'green' }} />
+              <Box sx={{ height: 150, overflow: 'hidden' }}>
+                <Image
+                  src={CardImg}
+                  alt="card background"
+                  layout="responsive"
+                />
+              </Box>
               <Box
                 sx={{
                   position: 'absolute',
@@ -240,13 +247,18 @@ const UserProfileDashboardPage: NextPage<Props> = ({
                     fontSize: '1.3rem',
                   }}
                 >
-                  Jan 21 - 23
+                  Jan 20 - 22
                   <span style={{ fontSize: '0.7em', display: 'block' }}>
                     In-person only
                   </span>
-                  <span style={{ fontSize: '0.7em', display: 'block' }}>
-                    Corec
-                  </span>
+                  <Link
+                    href="https://goo.gl/maps/Uvq4rF1ffdQv8Eh68"
+                    target="_blank"
+                    sx={{ fontSize: '0.7em', display: 'block' }}
+                    onClick={(e) => e.stopPropagation()}
+                  >
+                    France A. Córdova Recreational Sports Center
+                  </Link>
                 </Typography>
 
                 {application?.updatedAt && (
