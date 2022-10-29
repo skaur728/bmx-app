@@ -17,7 +17,7 @@ const Home: NextPage = () => (
       <FAQ />
       {/* <Testimonial /> */}
       {/* <Team /> */}
-      {/* <Sponsors /> */}
+      <Sponsors />
     </HorizontalScroller>
   </>
 )
