@@ -78,28 +78,28 @@ const Sponsors: NextPage = () => (
             alt="Wolfram logo"
             layout="fixed"
             height="50"
-            width="150"
+            width="200"
           />
           <Image
             src={GoogleImg}
             alt="Google logo"
             layout="fixed"
             height="45"
-            width="150"
+            width="200"
           />
           <Image
             src={SandiaImg}
             alt="Sandia logo"
             layout="fixed"
             height="50"
-            width="100"
+            width="150"
           />
           <Image
             src={EcolabImg}
             alt="Ecolab logo"
             layout="fixed"
             height="50"
-            width="100"
+            width="150"
           />
         </Stack>
       </Stack>
