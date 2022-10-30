@@ -246,7 +246,7 @@ const UserProfile: NextPage<Props> = ({ uaString }: { uaString?: string }) => {
                     width: 120,
                     height: 120,
                     fontSize: '3rem',
-                    border: '2px solid #b2b2b2',
+                    // border: '2px solid #b2b2b2',
                   }}
                 >
                   {/* get initials if image doesn't exist */}

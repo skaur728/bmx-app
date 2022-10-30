@@ -74,7 +74,7 @@ const TopNav = () => {
                 width: 24,
                 height: 24,
                 fontSize: '0.8rem',
-                border: '1px solid #b2b2b2',
+                // border: '1px solid #b2b2b2',
               }}
             >
               {user.image || !user.name
