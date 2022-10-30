@@ -35,7 +35,14 @@ const Question = ({ question, children }: Props) => {
           transform: isFlipped ? 'rotateY(180deg)' : 'none',
         }}
       >
-        <Box sx={{ position: 'absolute', width: '100%', height: '100%' }}>
+        <Box
+          sx={{
+            position: 'absolute',
+            width: '100%',
+            height: '100%',
+            // backgroundColor: '#c5c5c5',
+          }}
+        >
           <Image
             src={TicketImg}
             alt="ticket"
