@@ -17,8 +17,8 @@ const Question = ({ question, children }: Props) => {
   return (
     <Box
       sx={{
-        width: { xs: '250px', sm: '350px' },
-        height: { xs: 125, sm: 175 },
+        width: { xs: '250px', sm: 300, xl: '350px' },
+        height: { xs: 125, sm: 150, xl: 175 },
         position: 'relative',
         cursor: 'pointer',
       }}
@@ -61,10 +61,10 @@ const Question = ({ question, children }: Props) => {
         >
           <Typography
             sx={{
-              pl: { xs: 4, sm: 6 },
+              pl: { xs: 4, sm: 5, xl: 6 },
               pr: 9,
-              pt: { xs: 3, sm: 4 },
-              fontSize: { xs: '1rem', sm: '1.5rem' },
+              pt: { xs: 3, xl: 4 },
+              fontSize: { xs: '1rem', sm: '1.2rem', xl: '1.5rem' },
             }}
           >
             {question}
@@ -82,9 +82,9 @@ const Question = ({ question, children }: Props) => {
         >
           <Typography
             sx={{
-              mt: { xs: 2, sm: 4 },
-              pr: { xs: 3, sm: 6 },
-              pl: { xs: 6.5, sm: 9 },
+              mt: { xs: 2, sm: 3, xl: 4 },
+              pr: { xs: 3, sm: 4, xl: 6 },
+              pl: { xs: 6.5, sm: 8, xl: 9 },
             }}
           >
             {children}
