@@ -17,8 +17,8 @@ const Question = ({ question, children }: Props) => {
   return (
     <Box
       sx={{
-        width: '350px',
-        height: '175px',
+        width: { xs: '250px', sm: '350px' },
+        height: { xs: 125, sm: 175 },
         position: 'relative',
         cursor: 'pointer',
       }}
@@ -61,10 +61,10 @@ const Question = ({ question, children }: Props) => {
         >
           <Typography
             sx={{
-              pl: 6,
+              pl: { xs: 4, sm: 6 },
               pr: 9,
-              pt: 4,
-              fontSize: '1.5rem',
+              pt: { xs: 3, sm: 4 },
+              fontSize: { xs: '1rem', sm: '1.5rem' },
             }}
           >
             {question}
@@ -80,7 +80,15 @@ const Question = ({ question, children }: Props) => {
             transform: 'rotateY(180deg)',
           }}
         >
-          <Typography sx={{ mt: 4, pr: 6, pl: 9 }}>{children}</Typography>
+          <Typography
+            sx={{
+              mt: { xs: 2, sm: 4 },
+              pr: { xs: 3, sm: 6 },
+              pl: { xs: 6.5, sm: 9 },
+            }}
+          >
+            {children}
+          </Typography>
         </Box>
       </Box>
     </Box>

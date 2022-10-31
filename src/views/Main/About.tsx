@@ -37,8 +37,8 @@ const About = ({ uaString }: { uaString?: string }) => {
           position: 'absolute',
           right: { xs: 0, md: '10%' },
           bottom: -10,
-          width: { xs: 500, sm: 700 },
-          maxHeight: '90vh',
+          width: { xs: 450, sm: 700 },
+          maxHeight: '95vh',
         }}
       >
         <Box sx={{ position: 'relative', width: '100%', height: '100%' }}>
@@ -46,15 +46,15 @@ const About = ({ uaString }: { uaString?: string }) => {
           <Box
             sx={{
               position: 'absolute',
-              top: '40%',
-              width: '80%',
+              top: { xs: '25%', sm: '31%' },
+              width: '87%',
               left: '50%',
               transform: 'translateX(-50%)',
               color: 'white',
               textAlign: 'center',
             }}
           >
-            <Typography variant={!ua.isMobile ? 'h6' : 'body2'}>
+            <Typography variant={!ua.isMobile ? 'h6' : 'body1'}>
               BoilerMake is a hackathon that brings over 500 hackers from across
               the country under one roof for one incredible weekend. Since 2013,
               our team&apos;s mission has been to drive a culture of dedication
@@ -63,7 +63,7 @@ const About = ({ uaString }: { uaString?: string }) => {
               imagine, and we find happiness in knowing that hackers will walk
               out of our doors with memories that will last a lifetime.
             </Typography>
-            <Typography variant={!ua.isMobile ? 'h6' : 'body2'} sx={{ mt: 2 }}>
+            <Typography variant={!ua.isMobile ? 'h6' : 'body1'} sx={{ mt: 2 }}>
               By participating in a hackathon, students are provided with a
               unique opportunity to network with other participants who share
               their enthusiasm for technology and are from different backgrounds
@@ -73,14 +73,14 @@ const About = ({ uaString }: { uaString?: string }) => {
               development, which elevates the university&apos;s reputation as an
               institution that values innovation.
             </Typography>
-            <Typography variant={!ua.isMobile ? 'h6' : 'body2'} sx={{ mt: 2 }}>
+            <Typography variant={!ua.isMobile ? 'h6' : 'body1'} sx={{ mt: 2 }}>
               If you have any questions, feel free to email us at{' '}
               <a href="mailto:team@boilermake.org" style={{ color: 'inherit' }}>
                 team@boilermake.org
               </a>
               .
             </Typography>
-            <Typography variant={!ua.isMobile ? 'h6' : 'body2'} sx={{ mt: 2 }}>
+            <Typography variant={!ua.isMobile ? 'h6' : 'body1'} sx={{ mt: 2 }}>
               As always, hack on ❤️
             </Typography>
           </Box>

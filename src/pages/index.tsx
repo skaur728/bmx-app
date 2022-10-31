@@ -16,10 +16,11 @@ const Home: NextPage = () => (
     <HorizontalScroller>
       <Landing />
       <About />
+      <Sponsors />
+
       <FAQ />
       {/* <Testimonial /> */}
       {/* <Team /> */}
-      <Sponsors />
     </HorizontalScroller>
   </>
 )
