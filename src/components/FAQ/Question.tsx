@@ -1,68 +1,98 @@
 import { Box, Typography } from '@mui/material'
 import Image from 'next/image'
+import { useState } from 'react'
 
 import TicketImg from '../../../public/images/faq/ticket.svg'
 
+import type { ReactNode } from 'react'
+
 type Props = {
   question: string
-  answer: string
+  children: ReactNode
 }
 
-const Question = ({ question, answer }: Props) => (
-  <Box
-    sx={{
-      width: '300px',
-      height: '150px',
-      position: 'relative',
-      cursor: 'pointer',
-      '&:hover .inner': {
-        transform: 'rotateY(180deg)',
-      },
-    }}
-  >
+const Question = ({ question, children }: Props) => {
+  const [isFlipped, setIsFlipped] = useState(false)
+
+  return (
     <Box
-      className="inner"
       sx={{
+        width: { xs: '250px', sm: '350px' },
+        height: { xs: 125, sm: 175 },
         position: 'relative',
-        width: '100%',
-        height: '100%',
-        transition: 'transform 600ms',
-        transformStyle: 'preserve-3d',
+        cursor: 'pointer',
       }}
+      onClick={() => setIsFlipped((p) => !p)}
     >
-      <Box sx={{ position: 'absolute', width: '100%', height: '100%' }}>
-        <Image
-          src={TicketImg}
-          alt="ticket"
-          layout="responsive"
-          style={{ pointerEvents: 'none' }}
-        />
-      </Box>
       <Box
+        className="inner"
         sx={{
-          position: 'absolute',
+          position: 'relative',
           width: '100%',
           height: '100%',
-          backfaceVisibility: 'hidden',
-          WebkitBackfaceVisibility: 'hidden',
+          transition: 'transform 600ms',
+          transformStyle: 'preserve-3d',
+          transform: isFlipped ? 'rotateY(180deg)' : 'none',
         }}
       >
-        <Typography sx={{ mt: 4, pl: 6, pr: 9 }}>{question}</Typography>
-      </Box>
-      <Box
-        sx={{
-          position: 'absolute',
-          width: '100%',
-          height: '100%',
-          backfaceVisibility: 'hidden',
-          WebkitBackfaceVisibility: 'hidden',
-          transform: 'rotateY(180deg)',
-        }}
-      >
-        <Typography sx={{ mt: 4, pr: 6, pl: 9 }}>{answer}</Typography>
+        <Box
+          sx={{
+            position: 'absolute',
+            width: '100%',
+            height: '100%',
+            // backgroundColor: '#c5c5c5',
+          }}
+        >
+          <Image
+            src={TicketImg}
+            alt="ticket"
+            layout="responsive"
+            style={{ pointerEvents: 'none' }}
+          />
+        </Box>
+        <Box
+          sx={{
+            position: 'absolute',
+            width: '100%',
+            height: '100%',
+            backfaceVisibility: 'hidden',
+            WebkitBackfaceVisibility: 'hidden',
+          }}
+        >
+          <Typography
+            sx={{
+              pl: { xs: 4, sm: 6 },
+              pr: 9,
+              pt: { xs: 3, sm: 4 },
+              fontSize: { xs: '1rem', sm: '1.5rem' },
+            }}
+          >
+            {question}
+          </Typography>
+        </Box>
+        <Box
+          sx={{
+            position: 'absolute',
+            width: '100%',
+            height: '100%',
+            backfaceVisibility: 'hidden',
+            WebkitBackfaceVisibility: 'hidden',
+            transform: 'rotateY(180deg)',
+          }}
+        >
+          <Typography
+            sx={{
+              mt: { xs: 2, sm: 4 },
+              pr: { xs: 3, sm: 6 },
+              pl: { xs: 6.5, sm: 9 },
+            }}
+          >
+            {children}
+          </Typography>
+        </Box>
       </Box>
     </Box>
-  </Box>
-)
+  )
+}
 
 export default Question

@@ -7,6 +7,7 @@ import Head from '@/components/Head'
 import { Button } from '@/styles/custom'
 import Background from '@/views/Main/Background'
 
+import Logo from '../../../public/images/bmx-logo.png'
 import Card from '../../../public/images/cards/card2.svg'
 import GithubLogo from '../../../public/images/logos/Github.png'
 import GoogleLogo from '../../../public/images/logos/Google.svg'
@@ -16,10 +17,6 @@ import type { Provider } from 'next-auth/providers'
 
 // https://github.com/nextauthjs/next-auth/blob/main/packages/next-auth/src/core/pages/signin.tsx
 
-/**
- * Custom sign in page.
- */
-
 type Props = {
   providers: Provider
 }
@@ -27,12 +24,38 @@ type Props = {
 const DEFAULT_CALLBACK = '/dashboard'
 
 const SignIn = ({ providers }: Props) => {
-  const { query } = useRouter()
+  const router = useRouter()
+  const { query } = router
 
   return (
     <>
       <Head title="Sign In | BoilerMake X" />
       <Background />
+
+      <Box
+        sx={{
+          position: 'fixed',
+          left: 20,
+          top: 20,
+          zIndex: 3,
+          borderRadius: '50%',
+          width: 32,
+          height: 32,
+          cursor: 'pointer',
+          transition: 'transform 0.25s ease',
+          boxShadow:
+            'rgb(0 0 0 / 20%) 0px 3px 3px -2px, rgb(0 0 0 / 14%) 0px 3px 4px 0px, rgb(0 0 0 / 12%) 0px 1px 8px 0px',
+          '&:hover': {
+            transform: 'scale(1.1)',
+          },
+          '&:active': {
+            transform: 'scale(1)',
+          },
+        }}
+        onClick={() => router.push('/')}
+      >
+        <Image src={Logo} alt="logo" width="32" height="32" />
+      </Box>
 
       <Box
         sx={{

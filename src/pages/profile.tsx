@@ -28,6 +28,7 @@ import useAuth from '@/hooks/useAuth'
 import { Button, TextField } from '@/styles/custom'
 import Background from '@/views/Main/Background'
 
+import BorderImg from '../../public/images/cards/border.svg'
 import FerrisWheel from '../../public/images/dashboard/ferris-wheel-cropped.svg'
 import BalloonsImg from '../../public/images/profile/balloons.svg'
 
@@ -48,7 +49,7 @@ const PhoneField = forwardRef((props, ref) => (
 ))
 
 const UserProfile: NextPage<Props> = ({ uaString }: { uaString?: string }) => {
-  const { user, status } = useAuth()
+  const { user } = useAuth()
   const router = useRouter()
 
   // boolean to check if they've filled profile out before
@@ -67,6 +68,23 @@ const UserProfile: NextPage<Props> = ({ uaString }: { uaString?: string }) => {
   const [phone, setPhone] = useState<string>()
   const [phoneError, setPhoneError] = useState(false)
   const [age, setAge] = useState('')
+  // check if user modified something in the page
+  const [didModify, setDidModify] = useState(false)
+
+  useEffect(() => {
+    if (!didModify) return
+
+    const beforeUnload = (e: BeforeUnloadEvent) => {
+      e.returnValue = 'unsaved'
+    }
+
+    window.addEventListener('beforeunload', beforeUnload)
+
+    // eslint-disable-next-line consistent-return
+    return () => {
+      window.removeEventListener('beforeunload', beforeUnload)
+    }
+  }, [didModify])
 
   useEffect(() => {
     if (!user) return
@@ -95,7 +113,7 @@ const UserProfile: NextPage<Props> = ({ uaString }: { uaString?: string }) => {
     }
 
     // save boolean since updating user will change isFirst
-    const shouldRedirect = isFirst
+    const shouldRedirectToApp = isFirst
 
     setLoadingSubmission(true)
     const [error, res] = await to(
@@ -114,14 +132,9 @@ const UserProfile: NextPage<Props> = ({ uaString }: { uaString?: string }) => {
     )
 
     // go to application after finishing profile for first time
-    if (!error && shouldRedirect) {
-      router.push({ pathname: '/application' })
-      return
-    }
-
-    setTimeout(() => {
-      setLoadingSubmission(false)
-    }, 750)
+    if (shouldRedirectToApp) router.push({ pathname: '/application' })
+    // otherwise go to dashboard
+    else router.push({ pathname: '/dashboard' })
   }
 
   // Wait until after client-side hydration to show
@@ -215,13 +228,26 @@ const UserProfile: NextPage<Props> = ({ uaString }: { uaString?: string }) => {
           >
             {user ? (
               <>
+                <Box
+                  sx={{
+                    width: { xs: '100%', sm: '80%' },
+                  }}
+                >
+                  <Image src={BorderImg} layout="responsive" alt="top border" />
+                </Box>
+
                 <Typography variant="h1">
                   {user && isFirst ? 'Create ' : ''}Profile
                 </Typography>
                 <Avatar
                   alt={name || ''}
                   src={user.image || ''}
-                  sx={{ width: 120, height: 120, fontSize: '3rem' }}
+                  sx={{
+                    width: 120,
+                    height: 120,
+                    fontSize: '3rem',
+                    // border: '2px solid #b2b2b2',
+                  }}
                 >
                   {/* get initials if image doesn't exist */}
                   {user.image || !name
@@ -232,6 +258,7 @@ const UserProfile: NextPage<Props> = ({ uaString }: { uaString?: string }) => {
                         ][0]
                       }`}
                 </Avatar>
+
                 <form onSubmit={onFormSubmit} style={{ width: '100%' }}>
                   <Stack
                     spacing={2}
@@ -242,7 +269,10 @@ const UserProfile: NextPage<Props> = ({ uaString }: { uaString?: string }) => {
                       variant="standard"
                       label="Preferred Full Name"
                       value={name}
-                      onChange={(e) => setName(e.target.value)}
+                      onChange={(e) => {
+                        setName(e.target.value)
+                        setDidModify(true)
+                      }}
                       autoComplete="given-name"
                       required
                     />
@@ -258,17 +288,36 @@ const UserProfile: NextPage<Props> = ({ uaString }: { uaString?: string }) => {
                       onChange={(num) => {
                         setPhone(num)
                         setPhoneError(false)
+                        setDidModify(true)
                       }}
                       inputComponent={PhoneField as any}
                       error={phoneError}
                       helperText={phoneError ? 'Invalid phone number' : ''}
                     />
 
-                    <GenderSelect value={gender} setValue={setGender} />
+                    <GenderSelect
+                      value={gender}
+                      setValue={(e) => {
+                        setGender(e)
+                        setDidModify(true)
+                      }}
+                    />
 
-                    <SchoolSelect value={school} setValue={setSchool} />
+                    <SchoolSelect
+                      value={school}
+                      setValue={(e) => {
+                        setSchool(e)
+                        setDidModify(true)
+                      }}
+                    />
 
-                    <MajorSelect value={majors} setValue={setMajors} />
+                    <MajorSelect
+                      value={majors}
+                      setValue={(e) => {
+                        setMajors(e)
+                        setDidModify(true)
+                      }}
+                    />
 
                     <Stack direction="row" spacing={2} pt={2}>
                       <FormControl
@@ -291,7 +340,10 @@ const UserProfile: NextPage<Props> = ({ uaString }: { uaString?: string }) => {
                         <Select
                           value={gradYear}
                           label="Graduation Year"
-                          onChange={(e) => setGradYear(e.target.value)}
+                          onChange={(e) => {
+                            setGradYear(e.target.value)
+                            setDidModify(true)
+                          }}
                         >
                           <MenuItem value="2022">2022</MenuItem>
                           <MenuItem value="2023">2023</MenuItem>
@@ -321,7 +373,10 @@ const UserProfile: NextPage<Props> = ({ uaString }: { uaString?: string }) => {
                         <Select
                           value={age}
                           label="Age"
-                          onChange={(e) => setAge(e.target.value)}
+                          onChange={(e) => {
+                            setAge(e.target.value)
+                            setDidModify(true)
+                          }}
                         >
                           {Object.keys([...new Array(31)]).map(
                             (i) =>
@@ -348,15 +403,6 @@ const UserProfile: NextPage<Props> = ({ uaString }: { uaString?: string }) => {
                             pointerEvents: 'none',
                           }),
                         }}
-                        // disabled={
-                        //   !gender.trim() ||
-                        //   !school ||
-                        //   !majors?.length ||
-                        //   !phone ||
-                        //   !name.trim() ||
-                        //   !gradYear ||
-                        //   !age
-                        // }
                       >
                         {(() => {
                           if (isFirst)
@@ -367,9 +413,28 @@ const UserProfile: NextPage<Props> = ({ uaString }: { uaString?: string }) => {
                     </Stack>
                   </Stack>
                 </form>
+
+                <Box
+                  sx={{
+                    width: { xs: '100%', sm: '80%' },
+                    transform: 'rotate(180deg)',
+                    mt: 2,
+                    mb: 1,
+                  }}
+                >
+                  <Image src={BorderImg} layout="responsive" alt="top border" />
+                </Box>
               </>
             ) : (
               <Stack alignItems="center" spacing={2} sx={{ width: '100%' }}>
+                <Box
+                  sx={{
+                    width: { xs: '100%', sm: '80%' },
+                  }}
+                >
+                  <Image src={BorderImg} layout="responsive" alt="top border" />
+                </Box>
+
                 <Typography variant="h1" sx={{ mb: 2 }}>
                   Profile
                 </Typography>
@@ -400,6 +465,16 @@ const UserProfile: NextPage<Props> = ({ uaString }: { uaString?: string }) => {
                   height={100}
                   animation="wave"
                 />
+                <Box
+                  sx={{
+                    width: { xs: '100%', sm: '80%' },
+                    transform: 'rotate(180deg)',
+                    mt: 2,
+                    mb: 1,
+                  }}
+                >
+                  <Image src={BorderImg} layout="responsive" alt="top border" />
+                </Box>
               </Stack>
             )}
           </Stack>
