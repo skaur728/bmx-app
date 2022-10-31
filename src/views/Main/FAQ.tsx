@@ -10,7 +10,7 @@ import type { NextPage } from 'next'
 
 const FAQ: NextPage = () => (
   <Box my={5} mx={10}>
-    <Stack justifyContent="center" my={{ xs: 5, sm: 10 }}>
+    <Stack justifyContent="center" my={{ xs: 5 }}>
       <Box sx={{ position: 'relative', width: '100%' }}>
         <Box
           sx={{
@@ -86,7 +86,7 @@ const FAQ: NextPage = () => (
         <Question question="What if I don't know how to code?">
           <Typography
             component="span"
-            sx={{ fontSize: { xs: '0.6em', sm: '1em' } }}
+            sx={{ fontSize: { xs: '0.6em', sm: '0.75em', xl: '1em' } }}
           >
             No problem! You can learn alongside others with resources such as
             tech talks, a Slack workplace to ask questions, and engineers from
