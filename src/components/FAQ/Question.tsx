@@ -60,6 +60,9 @@ const Question = ({ question, children }: Props) => {
             height: '100%',
             backfaceVisibility: 'hidden',
             WebkitBackfaceVisibility: 'hidden',
+            backgroundImage: 'url(/images/faq/ticket.svg)',
+            backgroundRepeat: 'no-repeat',
+            backgroundSize: 'contain',
           }}
         >
           {/* <Box
