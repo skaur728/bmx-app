@@ -4,6 +4,9 @@ import Image from 'next/image'
 
 import useRedirect from '@/hooks/useRedirect'
 
+import Arrow1 from '../../../public/images/main/arrows/arrow1.svg'
+import Arrow2 from '../../../public/images/main/arrows/arrow2.svg'
+import Arrow3 from '../../../public/images/main/arrows/arrow3.svg'
 import MLHImg from '../../../public/images/main/mlh.svg'
 import TentImg from '../../../public/images/main/tent.svg'
 

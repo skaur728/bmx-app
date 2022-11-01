@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg width="100%" height="100%" viewBox="0 0 247 44" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:1.5;">
+    <g transform="matrix(1,0,0,1,318.319,-7448.05)">
+        <g transform="matrix(0.134474,0,0,0.134474,-486.586,7396.27)">
+            <g transform="matrix(1,0,0,1,1169.76,43.5764)">
+                <path d="M1129.25,511.594L1854.48,511.594" style="fill:none;stroke:rgb(255,231,202);stroke-width:37.18px;"/>
+            </g>
+            <g transform="matrix(1,0,0,1,337.748,29.1538)">
+                <circle cx="1907.87" cy="526.016" r="53.391" style="fill:none;stroke:rgb(255,231,202);stroke-width:37.18px;"/>
+            </g>
+            <path d="M3068.19,564.985C2984.78,485.949 2867.12,497.462 2918.13,418.092C2951.63,392.987 2994.48,399.182 3012.76,446.617" style="fill:none;stroke:rgb(255,231,202);stroke-width:37.18px;"/>
+            <g transform="matrix(0.960279,0.27904,0.27904,-0.960279,-35.7833,251.38)">
+                <path d="M3068.19,564.985C2984.78,485.949 2867.12,497.462 2918.13,418.092C2951.63,392.987 2994.48,399.182 3012.76,446.617" style="fill:none;stroke:rgb(255,231,202);stroke-width:37.18px;"/>
+            </g>
+            <g transform="matrix(0.856349,0,0,0.672936,-435.213,174.972)">
+                <path d="M2085.37,446.066C2023.82,418.298 1981.98,449.192 1992.85,511.594C2003.93,535.718 2022.97,542.956 2048.03,542.765C2073.1,542.53 2097.7,534.011 2119.42,518.043C2388.55,321.31 2712.26,384.39 3068.19,564.985" style="fill:none;stroke:rgb(255,231,202);stroke-width:48.28px;"/>
+            </g>
+            <g transform="matrix(0.856349,0,0,-0.672936,-435.213,935.369)">
+                <path d="M2085.37,446.066C2023.82,418.298 1981.98,449.192 1992.85,511.594C2003.93,535.718 2022.97,542.956 2048.03,542.765C2073.1,542.53 2097.7,534.011 2119.42,518.043C2388.55,321.31 2712.26,384.39 3068.19,564.985" style="fill:none;stroke:rgb(255,231,202);stroke-width:48.28px;"/>
+            </g>
+        </g>
+    </g>
+</svg>
