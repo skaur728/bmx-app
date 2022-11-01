@@ -38,7 +38,7 @@ const About = ({ uaString }: { uaString?: string }) => {
           right: { xs: 0, md: '10%' },
           bottom: -10,
           width: { xs: 450, sm: 700 },
-          maxHeight: '95vh',
+          maxHeight: '98vh',
         }}
       >
         <Box sx={{ position: 'relative', width: '100%', height: '100%' }}>

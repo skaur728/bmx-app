@@ -4,6 +4,7 @@ import Image from 'next/image'
 
 import useRedirect from '@/hooks/useRedirect'
 
+import Arrow from '../../../public/images/main/arrow.svg'
 import MLHImg from '../../../public/images/main/mlh.svg'
 import TentImg from '../../../public/images/main/tent.svg'
 
@@ -57,6 +58,40 @@ const Landing = ({ uaString }: { uaString?: string }) => {
       >
         <Image src={MLHImg} layout="responsive" alt="mlh" />
       </Box>
+
+      {/* <Stack
+        direction={ua.isDesktop ? 'column' : 'row'}
+        alignItems="center"
+        justifyContent="center"
+        sx={{
+          position: 'absolute',
+          bottom: 15,
+          left: '50%',
+          transform: 'translateX(-50%)',
+          zIndex: 2,
+        }}
+        spacing={2}
+      >
+        <Box
+          sx={{
+            width: 30,
+            transform: `scaleX(-1) ${ua.isDesktop ? 'rotate(-90deg)' : ''}`,
+          }}
+        >
+          <Image src={Arrow} alt="arrow" layout="responsive" />
+        </Box>
+        <Box>
+          <Typography sx={{ color: '#ffe8c9', fontSize: '1rem' }}>
+            Scroll
+          </Typography>
+        </Box>
+        <Box
+          sx={{ width: 20, transform: ua.isDesktop ? 'rotate(90deg)' : 'none' }}
+        >
+          <Image src={Arrow} alt="arrow" layout="responsive" />
+        </Box>
+      </Stack> */}
+
       <Box
         sx={{
           textAlign: 'center',
