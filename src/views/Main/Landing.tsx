@@ -59,7 +59,7 @@ const Landing = ({ uaString }: { uaString?: string }) => {
         <Image src={MLHImg} layout="responsive" alt="mlh" />
       </Box>
 
-      <Stack
+      {/* <Stack
         direction={ua.isDesktop ? 'column' : 'row'}
         alignItems="center"
         justifyContent="center"
@@ -116,7 +116,7 @@ const Landing = ({ uaString }: { uaString?: string }) => {
         >
           <Image src={Arrow} alt="arrow" layout="responsive" />
         </Box>
-      </Stack>
+      </Stack> */}
 
       <Box
         sx={{
