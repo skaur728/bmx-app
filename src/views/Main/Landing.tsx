@@ -62,25 +62,26 @@ const Landing = ({ uaString }: { uaString?: string }) => {
       </Box>
 
       <Stack
-        direction="row"
+        direction="column"
         alignItems="center"
+        justifyContent="center"
         sx={{
           position: 'absolute',
-          top: '50%',
+          top: '40%',
           left: '50%',
           transform: 'translate(-50%, -50%)',
         }}
         spacing={2}
       >
-        <Box sx={{ width: 100, transform: 'scaleX(-1)' }}>
+        <Box sx={{ width: 50, transform: 'scaleX(-1) rotate(-90deg)' }}>
           <Image src={Arrow2} alt="arrow" layout="responsive" />
         </Box>
-        <Box>
-          <Typography sx={{ color: '#ffe8c9', fontSize: '2rem' }}>
+        <Box py={1}>
+          <Typography sx={{ color: '#ffe8c9', fontSize: '1rem' }}>
             Scroll
           </Typography>
         </Box>
-        <Box sx={{ width: 100 }}>
+        <Box sx={{ width: 50, transform: 'rotate(90deg)' }}>
           <Image src={Arrow2} alt="arrow" layout="responsive" />
         </Box>
       </Stack>

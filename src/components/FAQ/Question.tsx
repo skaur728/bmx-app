@@ -96,9 +96,12 @@ const Question = ({ question, children }: Props) => {
             backfaceVisibility: 'hidden',
             WebkitBackfaceVisibility: 'hidden',
             transform: 'rotateY(180deg)',
+            backgroundImage: 'url(/images/faq/ticket.svg)',
+            backgroundRepeat: 'no-repeat',
+            backgroundSize: 'contain',
           }}
         >
-          <Box
+          {/* <Box
             sx={{
               position: 'absolute',
               width: '100%',
@@ -112,12 +115,13 @@ const Question = ({ question, children }: Props) => {
               layout="responsive"
               style={{ pointerEvents: 'none', transform: 'scaleX(-1)' }}
             />
-          </Box>
+          </Box> */}
           <Typography
             sx={{
               mt: { xs: 2, sm: 3 },
               pr: { xs: 3, sm: 4 },
               pl: { xs: 6.5, sm: 8 },
+              zIndex: 1,
             }}
           >
             {children}
