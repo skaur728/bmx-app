@@ -34,15 +34,16 @@ const Question = ({ question, children }: Props) => {
           transition: 'transform 600ms',
           transformStyle: 'preserve-3d',
           transform: isFlipped ? 'rotateY(180deg)' : 'none',
+          backgroundImage: 'url(/images/faq/ticket.svg)',
+          backgroundRepeat: 'no-repeat',
+          backgroundSize: 'contain',
         }}
       >
-        <Box
+        {/* <Box
           sx={{
             position: 'absolute',
             width: '100%',
             height: '100%',
-            zIndex: -1,
-            // backgroundColor: '#c5c5c5',
           }}
         >
           <Image
@@ -51,7 +52,7 @@ const Question = ({ question, children }: Props) => {
             layout="responsive"
             style={{ pointerEvents: 'none' }}
           />
-        </Box>
+        </Box> */}
         <Box
           sx={{
             position: 'absolute',
@@ -59,7 +60,6 @@ const Question = ({ question, children }: Props) => {
             height: '100%',
             backfaceVisibility: 'hidden',
             WebkitBackfaceVisibility: 'hidden',
-            // backgroundColor: '#d4d4d4de',
           }}
         >
           <Typography
@@ -81,7 +81,6 @@ const Question = ({ question, children }: Props) => {
             backfaceVisibility: 'hidden',
             WebkitBackfaceVisibility: 'hidden',
             transform: 'rotateY(180deg)',
-            // backgroundColor: '#d19191de',
           }}
         >
           <Typography

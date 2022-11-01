@@ -60,6 +60,31 @@ const Landing = ({ uaString }: { uaString?: string }) => {
       >
         <Image src={MLHImg} layout="responsive" alt="mlh" />
       </Box>
+
+      <Stack
+        direction="row"
+        alignItems="center"
+        sx={{
+          position: 'absolute',
+          top: '50%',
+          left: '50%',
+          transform: 'translate(-50%, -50%)',
+        }}
+        spacing={2}
+      >
+        <Box sx={{ width: 200, transform: 'scaleX(-1)' }}>
+          <Image src={Arrow1} alt="arrow" layout="responsive" />
+        </Box>
+        <Box>
+          <Typography sx={{ color: '#ffe8c9', fontSize: '2rem' }}>
+            Scroll
+          </Typography>
+        </Box>
+        <Box sx={{ width: 200 }}>
+          <Image src={Arrow1} alt="arrow" layout="responsive" />
+        </Box>
+      </Stack>
+
       <Box
         sx={{
           textAlign: 'center',
