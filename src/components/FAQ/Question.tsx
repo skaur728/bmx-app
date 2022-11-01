@@ -34,9 +34,9 @@ const Question = ({ question, children }: Props) => {
           transition: 'transform 600ms',
           transformStyle: 'preserve-3d',
           transform: isFlipped ? 'rotateY(180deg)' : 'none',
-          backgroundImage: 'url(/images/faq/ticket.svg)',
-          backgroundRepeat: 'no-repeat',
-          backgroundSize: 'contain',
+          // backgroundImage: 'url(/images/faq/ticket.svg)',
+          // backgroundRepeat: 'no-repeat',
+          // backgroundSize: 'contain',
         }}
       >
         {/* <Box
@@ -62,6 +62,21 @@ const Question = ({ question, children }: Props) => {
             WebkitBackfaceVisibility: 'hidden',
           }}
         >
+          <Box
+            sx={{
+              position: 'absolute',
+              width: '100%',
+              height: '100%',
+              zIndex: -1,
+            }}
+          >
+            <Image
+              src={TicketImg}
+              alt="ticket"
+              layout="responsive"
+              style={{ pointerEvents: 'none' }}
+            />
+          </Box>
           <Typography
             sx={{
               pl: { xs: 4, sm: 5 },
@@ -83,6 +98,21 @@ const Question = ({ question, children }: Props) => {
             transform: 'rotateY(180deg)',
           }}
         >
+          <Box
+            sx={{
+              position: 'absolute',
+              width: '100%',
+              height: '100%',
+              zIndex: -1,
+            }}
+          >
+            <Image
+              src={TicketImg}
+              alt="ticket"
+              layout="responsive"
+              style={{ pointerEvents: 'none', transform: 'scaleX(-1)' }}
+            />
+          </Box>
           <Typography
             sx={{
               mt: { xs: 2, sm: 3 },

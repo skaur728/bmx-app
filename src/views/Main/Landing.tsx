@@ -72,16 +72,16 @@ const Landing = ({ uaString }: { uaString?: string }) => {
         }}
         spacing={2}
       >
-        <Box sx={{ width: 200, transform: 'scaleX(-1)' }}>
-          <Image src={Arrow1} alt="arrow" layout="responsive" />
+        <Box sx={{ width: 100, transform: 'scaleX(-1)' }}>
+          <Image src={Arrow2} alt="arrow" layout="responsive" />
         </Box>
         <Box>
           <Typography sx={{ color: '#ffe8c9', fontSize: '2rem' }}>
             Scroll
           </Typography>
         </Box>
-        <Box sx={{ width: 200 }}>
-          <Image src={Arrow1} alt="arrow" layout="responsive" />
+        <Box sx={{ width: 100 }}>
+          <Image src={Arrow2} alt="arrow" layout="responsive" />
         </Box>
       </Stack>
 
