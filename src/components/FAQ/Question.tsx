@@ -62,7 +62,7 @@ const Question = ({ question, children }: Props) => {
             WebkitBackfaceVisibility: 'hidden',
           }}
         >
-          <Box
+          {/* <Box
             sx={{
               position: 'absolute',
               width: '100%',
@@ -76,7 +76,7 @@ const Question = ({ question, children }: Props) => {
               layout="responsive"
               style={{ pointerEvents: 'none' }}
             />
-          </Box>
+          </Box> */}
           <Typography
             sx={{
               pl: { xs: 4, sm: 5 },
