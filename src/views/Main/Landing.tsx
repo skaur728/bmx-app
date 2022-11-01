@@ -59,38 +59,64 @@ const Landing = ({ uaString }: { uaString?: string }) => {
         <Image src={MLHImg} layout="responsive" alt="mlh" />
       </Box>
 
-      {/* <Stack
+      <Stack
         direction={ua.isDesktop ? 'column' : 'row'}
         alignItems="center"
         justifyContent="center"
         sx={{
           position: 'absolute',
-          bottom: 15,
+          bottom: 7,
           left: '50%',
           transform: 'translateX(-50%)',
           zIndex: 2,
         }}
-        spacing={2}
+        spacing={{ xs: 1.5, sm: 0 }}
       >
         <Box
           sx={{
-            width: 30,
-            transform: `scaleX(-1) ${ua.isDesktop ? 'rotate(-90deg)' : ''}`,
+            '@keyframes arrow1': {
+              '0%': {},
+              '100%': {
+                transform: `scaleX(-1) ${
+                  ua.isDesktop ? '' : 'rotate(90deg)'
+                } translateY(-5px)`,
+              },
+            },
+
+            animation: 'arrow1 750ms alternate infinite',
+            width: 10,
+            transform: `scaleX(-1) ${ua.isDesktop ? '' : 'rotate(90deg)'}`,
           }}
         >
           <Image src={Arrow} alt="arrow" layout="responsive" />
         </Box>
         <Box>
-          <Typography sx={{ color: '#ffe8c9', fontSize: '1rem' }}>
+          <Typography
+            sx={{ color: '#000000de', fontSize: '1rem' }}
+            component="span"
+          >
             Scroll
           </Typography>
         </Box>
         <Box
-          sx={{ width: 20, transform: ua.isDesktop ? 'rotate(90deg)' : 'none' }}
+          sx={{
+            '@keyframes arrow2': {
+              '0%': {},
+              '100%': {
+                transform: ua.isDesktop
+                  ? 'rotate(180deg) translateY(-5px)'
+                  : 'rotate(90deg) translateY(-5px)',
+              },
+            },
+
+            animation: 'arrow2 750ms alternate infinite',
+            width: 10,
+            transform: ua.isDesktop ? 'rotate(180deg)' : 'rotate(90deg)',
+          }}
         >
           <Image src={Arrow} alt="arrow" layout="responsive" />
         </Box>
-      </Stack> */}
+      </Stack>
 
       <Box
         sx={{
