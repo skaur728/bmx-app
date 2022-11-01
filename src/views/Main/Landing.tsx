@@ -4,9 +4,7 @@ import Image from 'next/image'
 
 import useRedirect from '@/hooks/useRedirect'
 
-import Arrow1 from '../../../public/images/main/arrows/arrow1.svg'
-import Arrow2 from '../../../public/images/main/arrows/arrow2.svg'
-import Arrow3 from '../../../public/images/main/arrows/arrow3.svg'
+import Arrow from '../../../public/images/main/arrow.svg'
 import MLHImg from '../../../public/images/main/mlh.svg'
 import TentImg from '../../../public/images/main/tent.svg'
 
@@ -62,27 +60,35 @@ const Landing = ({ uaString }: { uaString?: string }) => {
       </Box>
 
       <Stack
-        direction="column"
+        direction={ua.isDesktop ? 'column' : 'row'}
         alignItems="center"
         justifyContent="center"
         sx={{
           position: 'absolute',
-          top: '40%',
+          bottom: 15,
           left: '50%',
-          transform: 'translate(-50%, -50%)',
+          transform: 'translateX(-50%)',
+          zIndex: 2,
         }}
         spacing={2}
       >
-        <Box sx={{ width: 50, transform: 'scaleX(-1) rotate(-90deg)' }}>
-          <Image src={Arrow2} alt="arrow" layout="responsive" />
+        <Box
+          sx={{
+            width: 30,
+            transform: `scaleX(-1) ${ua.isDesktop ? 'rotate(-90deg)' : ''}`,
+          }}
+        >
+          <Image src={Arrow} alt="arrow" layout="responsive" />
         </Box>
-        <Box py={1}>
+        <Box>
           <Typography sx={{ color: '#ffe8c9', fontSize: '1rem' }}>
             Scroll
           </Typography>
         </Box>
-        <Box sx={{ width: 50, transform: 'rotate(90deg)' }}>
-          <Image src={Arrow2} alt="arrow" layout="responsive" />
+        <Box
+          sx={{ width: 20, transform: ua.isDesktop ? 'rotate(90deg)' : 'none' }}
+        >
+          <Image src={Arrow} alt="arrow" layout="responsive" />
         </Box>
       </Stack>
 
