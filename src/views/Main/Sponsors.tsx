@@ -3,7 +3,7 @@ import Image from 'next/image'
 
 import PurdueImg from '../../../public/images/sponsors/CompSci_H-Full-RGB.svg'
 import EcolabImg from '../../../public/images/sponsors/ecolabLogo.png'
-import FordImg from '../../../public/images/sponsors/ford-2.png'
+import FordImg from '../../../public/images/sponsors/fordFundLogo.png'
 import GoogleImg from '../../../public/images/sponsors/google-cloud-logo.png'
 import JohnDeereImg from '../../../public/images/sponsors/john-deere-7.svg'
 import BloombergImg from '../../../public/images/sponsors/New_Bloomberg_Logo.svg'
@@ -44,7 +44,7 @@ const Sponsors: NextPage = () => (
         </Stack>
 
         <Stack direction="row" sx={{ mt: 5 }} justifyContent="center">
-          <Stack sx={{ width: '250px' }}>
+          <Stack sx={{ width: '500px' }}>
             <StyledLink href="https://ford.com" target="_blank">
               <Image src={FordImg} alt="Ford logo" layout="responsive" />
             </StyledLink>
