@@ -28,7 +28,7 @@ const HeadComponent = ({ title }: Props) => (
     />
     <meta
       property="og:image"
-      content="https://bmx-app-git-og-tags-hackboilermake-gmailcom.vercel.app/images/card.png"
+      content="https://boilermake.com/images/card.png"
     />
 
     <meta property="twitter:card" content="summary_large_image" />
@@ -40,7 +40,7 @@ const HeadComponent = ({ title }: Props) => (
     />
     <meta
       property="twitter:image"
-      content="https://bmx-app-git-og-tags-hackboilermake-gmailcom.vercel.app/images/card.png"
+      content="https://boilermake.com/images/card.png"
     />
   </Head>
 )
