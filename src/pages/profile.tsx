@@ -21,6 +21,7 @@ import PhoneInput, { isValidPhoneNumber } from 'react-phone-number-input/input'
 
 import GenderSelect from '@/components/GenderSelect'
 import Head from '@/components/Head'
+import LevelOfStudySelect from '@/components/LevelOfStudySelect'
 import MajorSelect from '@/components/MajorSelect'
 import SchoolSelect from '@/components/SchoolSelect'
 import TopNav from '@/components/TopNav'
@@ -60,7 +61,8 @@ const UserProfile: NextPage<Props> = ({ uaString }: { uaString?: string }) => {
   const [showChild, setShowChild] = useState(false)
 
   const [loadingSubmission, setLoadingSubmission] = useState(false)
-  const [name, setName] = useState('')
+  const [firstName, setFirstName] = useState('')
+  const [lastName, setLastName] = useState('')
   const [majors, setMajors] = useState<string[]>([])
   const [gender, setGender] = useState('')
   const [gradYear, setGradYear] = useState('')
@@ -68,6 +70,7 @@ const UserProfile: NextPage<Props> = ({ uaString }: { uaString?: string }) => {
   const [phone, setPhone] = useState<string>()
   const [phoneError, setPhoneError] = useState(false)
   const [age, setAge] = useState('')
+  const [levelOfStudy, setLevelOfStudy] = useState<string | null>(null)
   // check if user modified something in the page
   const [didModify, setDidModify] = useState(false)
 
@@ -89,9 +92,11 @@ const UserProfile: NextPage<Props> = ({ uaString }: { uaString?: string }) => {
   useEffect(() => {
     if (!user) return
 
-    setName(user.preferredName || user.name || '')
+    setFirstName(user.firstName || '')
+    setLastName(user.lastName || '')
     setMajors(user.majors || [])
     setGender(user.gender || 'male')
+    setLevelOfStudy(user.levelOfStudy || '')
     setGradYear(user.gradYear || '')
     setSchool(user.school || null)
     setPhone(user.phone || '')
@@ -102,10 +107,21 @@ const UserProfile: NextPage<Props> = ({ uaString }: { uaString?: string }) => {
     e.preventDefault()
     if (!user) return
 
-    const _name = name.trim()
+    const _firstName = firstName.trim()
+    const _lastName = lastName.trim()
     const _gender = gender.trim()
-    if (!_name || !majors?.length || !_gender || !school || !phone || !age)
+    if (
+      !_firstName ||
+      !_lastName ||
+      !levelOfStudy?.length ||
+      !majors?.length ||
+      !_gender ||
+      !school ||
+      !phone ||
+      !age
+    ) {
       return
+    }
 
     if (!isValidPhoneNumber(phone)) {
       setPhoneError(true)
@@ -119,8 +135,10 @@ const UserProfile: NextPage<Props> = ({ uaString }: { uaString?: string }) => {
     const [error, res] = await to(
       axios.patch(`/api/user`, {
         payload: {
-          preferredName: _name,
+          firstName: _firstName,
+          lastName: _lastName,
           hasFilledProfile: true,
+          levelOfStudy,
           gradYear,
           majors,
           gender: _gender,
@@ -240,7 +258,7 @@ const UserProfile: NextPage<Props> = ({ uaString }: { uaString?: string }) => {
                   {user && isFirst ? 'Create ' : ''}Profile
                 </Typography>
                 <Avatar
-                  alt={name || ''}
+                  alt={firstName || ''}
                   src={user.image || ''}
                   sx={{
                     width: 120,
@@ -250,13 +268,9 @@ const UserProfile: NextPage<Props> = ({ uaString }: { uaString?: string }) => {
                   }}
                 >
                   {/* get initials if image doesn't exist */}
-                  {user.image || !name
+                  {user.image || !firstName
                     ? ''
-                    : `${name.trim().split(' ')[0][0]} ${
-                        name.trim().split(' ')[
-                          name.trim().split(' ').length - 1
-                        ][0]
-                      }`}
+                    : `${firstName.trim()[0]} ${lastName.trim()[0]}`}
                 </Avatar>
 
                 <form onSubmit={onFormSubmit} style={{ width: '100%' }}>
@@ -267,13 +281,24 @@ const UserProfile: NextPage<Props> = ({ uaString }: { uaString?: string }) => {
                   >
                     <TextField
                       variant="standard"
-                      label="Preferred Full Name"
-                      value={name}
+                      label="First Name"
+                      value={firstName}
                       onChange={(e) => {
-                        setName(e.target.value)
+                        setFirstName(e.target.value)
                         setDidModify(true)
                       }}
-                      autoComplete="given-name"
+                      autoComplete="first-name"
+                      required
+                    />
+                    <TextField
+                      variant="standard"
+                      label="Last Name"
+                      value={lastName}
+                      onChange={(e) => {
+                        setLastName(e.target.value)
+                        setDidModify(true)
+                      }}
+                      autoComplete="last-name"
                       required
                     />
                     <TextField
@@ -318,7 +343,13 @@ const UserProfile: NextPage<Props> = ({ uaString }: { uaString?: string }) => {
                         setDidModify(true)
                       }}
                     />
-
+                    <LevelOfStudySelect
+                      value={levelOfStudy}
+                      setValue={(e) => {
+                        setLevelOfStudy(e)
+                        setDidModify(true)
+                      }}
+                    />
                     <Stack direction="row" spacing={2} pt={2}>
                       <FormControl
                         fullWidth
