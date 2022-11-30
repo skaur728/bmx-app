@@ -94,7 +94,7 @@ const TopNav = () => {
                 marginLeft: 1,
               }}
             >
-              {user.preferredName ?? user.name}
+              {user.firstName + user.lastName ?? user.name}
             </Typography>
           </Button>
           <Menu
