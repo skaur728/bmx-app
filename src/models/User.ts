@@ -22,7 +22,8 @@ export interface IUserDocument extends Document<ObjectId, any, IUser> {}
 export type LeanedUser = LeanDocument<IUser & { _id: Types.ObjectId }>
 
 const UserSchema = new Schema<IUser, IUserModel>({
-  preferredName: String,
+  firstName: String,
+  lastName: String,
   role: {
     type: String,
     enum: Role,
@@ -30,6 +31,7 @@ const UserSchema = new Schema<IUser, IUserModel>({
   hasFilledProfile: Boolean,
   majors: [String],
   gradYear: String,
+  levelOfStudy: String,
   gender: String,
   age: Number,
   school: String,

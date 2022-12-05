@@ -77,13 +77,14 @@ const TopNav = () => {
                 // border: '1px solid #b2b2b2',
               }}
             >
-              {user.image || !user.name
+              {user.image || (!user.firstName && !user.lastName)
                 ? ''
-                : `${user.name.trim().split(' ')[0][0]} ${
-                    user.name.trim().split(' ')[
-                      user.name.trim().split(' ').length - 1
-                    ][0]
-                  }`}
+                : `${user.firstName.trim()[0].toUpperCase()} ${user.lastName
+                    .trim()
+                    .split(' ')
+                    [
+                      user.lastName.trim().split(' ').length - 1
+                    ][0].toUpperCase()}`}
             </Avatar>
             <Typography
               variant="body2"
@@ -94,7 +95,7 @@ const TopNav = () => {
                 marginLeft: 1,
               }}
             >
-              {user.preferredName ?? user.name}
+              {user.firstName} {user.lastName}
             </Typography>
           </Button>
           <Menu

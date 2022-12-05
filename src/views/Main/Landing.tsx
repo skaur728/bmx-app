@@ -1,11 +1,11 @@
-import { Box, Button, Stack, Typography, styled } from '@mui/material'
+import { Box, Button, Link, Stack, Typography, styled } from '@mui/material'
 import { useUserAgent } from 'next-useragent'
 import Image from 'next/image'
 
 import useRedirect from '@/hooks/useRedirect'
 
 import Arrow from '../../../public/images/main/arrow.svg'
-import MLHImg from '../../../public/images/main/mlh.svg'
+import MLHImg from '../../../public/images/main/mlh-trust-badge-2023-white.svg'
 import TentImg from '../../../public/images/main/tent.svg'
 
 import type { NextPageContext } from 'next'
@@ -41,23 +41,41 @@ const Landing = ({ uaString }: { uaString?: string }) => {
         marginRight: { xs: '80vw', sm: 0 },
       }}
     >
-      <Box
+      <Stack
+        alignItems="center"
         sx={{
           position: 'absolute',
           left: 20,
           top: 26,
-          width: 70,
-          transition: 'transform 250ms ease',
-          '&:hover': {
-            transform: 'scale(1.04)',
-          },
-          cursor: 'pointer',
-          zIndex: 10,
         }}
-        onClick={() => window.open('https://mlh.io/', '_blank')}
       >
-        <Image src={MLHImg} layout="responsive" alt="mlh" />
-      </Box>
+        <Box
+          sx={{
+            width: { xs: 35, sm: 45 },
+            transition: 'transform 250ms ease',
+            '&:hover': {
+              transform: 'scale(1.04)',
+            },
+            cursor: 'pointer',
+            zIndex: 10,
+          }}
+          onClick={() => window.open('https://mlh.io/', '_blank')}
+        >
+          <Image src={MLHImg} layout="responsive" alt="mlh" />
+        </Box>
+        <Link
+          href="https://static.mlh.io/docs/mlh-code-of-conduct.pdf"
+          target="_blank"
+          sx={{
+            textDecoration: 'none',
+            color: '#ffffff',
+            zIndex: 10,
+            fontSize: { xs: '0.7rem', sm: '0.8rem' },
+          }}
+        >
+          Code of Conduct
+        </Link>
+      </Stack>
 
       <Stack
         direction={ua.isDesktop ? 'column' : 'row'}

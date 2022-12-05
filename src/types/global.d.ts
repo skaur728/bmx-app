@@ -45,11 +45,13 @@ declare global {
   }
 
   interface IUser extends User {
-    preferredName: string
+    firstName: string
+    lastName: string
     role: string
     hasFilledProfile: boolean
     majors: string[]
     gender: string
+    levelOfStudy: string
     gradYear: string
     school: string
     age: number
