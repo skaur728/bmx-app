@@ -13,10 +13,38 @@ export default NextAuth({
     GitHubProvider({
       clientId: process.env.GITHUB_ID || '',
       clientSecret: process.env.GITHUB_SECRET || '',
+      profile(profile) {
+        const { name, login }: { name: string; login: string } = profile
+        const [firstName, ...lastNameArr] = (name ?? login).split(' ')
+        const lastName = lastNameArr.join(' ')
+
+        return {
+          id: profile.id.toString(),
+          name: profile.name ?? profile.login,
+          firstName,
+          lastName,
+          email: profile.email,
+          image: profile.avatar_url,
+        }
+      },
     }),
     GoogleProvider({
       clientId: process.env.NEXTAUTH_CLIENT_ID || '',
       clientSecret: process.env.NEXTAUTH_CLIENT_SECRET || '',
+      async profile(profile) {
+        const { name }: { name: string } = profile
+        const [firstName, ...lastNameArr] = name.split(' ')
+        const lastName = lastNameArr.join(' ')
+
+        return {
+          id: profile.sub,
+          name: profile.name,
+          firstName,
+          lastName,
+          email: profile.email,
+          image: profile.picture,
+        }
+      },
     }),
     AzureADProvider({
       clientId: process.env.AZURE_AD_CLIENT_ID || '',
@@ -32,12 +60,15 @@ export default NextAuth({
           }
         )
 
-        const { name } = profile
+        const { name }: { name: string } = profile
         const commaIdx = name.indexOf(',')
         const newName =
           commaIdx !== -1
             ? `${name.substring(commaIdx + 1)} ${name.substring(0, commaIdx)}`
             : name
+
+        const [firstName, ...lastNameArr] = newName.split(' ')
+        const lastName = lastNameArr.join(' ')
 
         // Confirm that profile photo was returned
         if (profilePicture.ok) {
@@ -46,6 +77,8 @@ export default NextAuth({
           return {
             id: profile.sub,
             name: newName,
+            firstName,
+            lastName,
             email: profile.email,
             image: `data:image/jpeg;base64, ${pictureBase64}`,
           }
@@ -53,6 +86,8 @@ export default NextAuth({
         return {
           id: profile.sub,
           name: newName,
+          firstName,
+          lastName,
           email: profile.email,
         }
       },

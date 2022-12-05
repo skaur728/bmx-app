@@ -41,51 +41,41 @@ const Landing = ({ uaString }: { uaString?: string }) => {
         marginRight: { xs: '80vw', sm: 0 },
       }}
     >
-      <Box
+      <Stack
+        alignItems="center"
         sx={{
           position: 'absolute',
           left: 20,
           top: 26,
-          width: 70,
-          transition: 'transform 250ms ease',
-          '&:hover': {
-            transform: 'scale(1.04)',
-          },
-          cursor: 'pointer',
-          zIndex: 10,
         }}
-        onClick={() => window.open('https://mlh.io/', '_blank')}
       >
-        <Image src={MLHImg} layout="responsive" alt="mlh" />
-      </Box>
-
-      <Box
-        sx={{
-          position: 'absolute',
-          left: 100,
-          top: 26,
-          width: 300,
-          transition: 'transform 250ms ease',
-          '&:hover': {
-            transform: 'scale(1.04)',
-          },
-          cursor: 'pointer',
-          zIndex: 10,
-        }}
-        onClick={() =>
-          window.open(
-            'https://static.mlh.io/docs/mlh-code-of-conduct.pdf',
-            '_blank'
-          )
-        }
-      >
-        <Typography
-          sx={{ color: '#FFFFFF', fontSize: '2rem' }}
-          component="span"
+        <Box
+          sx={{
+            width: { xs: 35, sm: 45 },
+            transition: 'transform 250ms ease',
+            '&:hover': {
+              transform: 'scale(1.04)',
+            },
+            cursor: 'pointer',
+            zIndex: 10,
+          }}
+          onClick={() => window.open('https://mlh.io/', '_blank')}
+        >
+          <Image src={MLHImg} layout="responsive" alt="mlh" />
+        </Box>
+        <Link
+          href="https://static.mlh.io/docs/mlh-code-of-conduct.pdf"
+          target="_blank"
+          sx={{
+            textDecoration: 'none',
+            color: '#ffffff',
+            zIndex: 10,
+            fontSize: { xs: '0.7rem', sm: '0.8rem' },
+          }}
         >
           Code of Conduct
-        </Typography>
-      </Box>
+        </Link>
+      </Stack>
 
       <Stack
         direction={ua.isDesktop ? 'column' : 'row'}

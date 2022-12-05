@@ -21,10 +21,10 @@ import PhoneInput, { isValidPhoneNumber } from 'react-phone-number-input/input'
 
 import GenderSelect from '@/components/GenderSelect'
 import Head from '@/components/Head'
-import LevelOfStudySelect from '@/components/LevelOfStudySelect'
 import MajorSelect from '@/components/MajorSelect'
 import SchoolSelect from '@/components/SchoolSelect'
 import TopNav from '@/components/TopNav'
+import LEVEL_OF_STUDIES from '@/constants/levelofstudies'
 import useAuth from '@/hooks/useAuth'
 import { Button, TextField } from '@/styles/custom'
 import Background from '@/views/Main/Background'
@@ -70,7 +70,9 @@ const UserProfile: NextPage<Props> = ({ uaString }: { uaString?: string }) => {
   const [phone, setPhone] = useState<string>()
   const [phoneError, setPhoneError] = useState(false)
   const [age, setAge] = useState('')
-  const [levelOfStudy, setLevelOfStudy] = useState<string | null>(null)
+  const [levelOfStudy, setLevelOfStudy] = useState<string>(
+    'Undergraduate University (3+ year)'
+  )
   // check if user modified something in the page
   const [didModify, setDidModify] = useState(false)
 
@@ -96,7 +98,7 @@ const UserProfile: NextPage<Props> = ({ uaString }: { uaString?: string }) => {
     setLastName(user.lastName || '')
     setMajors(user.majors || [])
     setGender(user.gender || 'male')
-    setLevelOfStudy(user.levelOfStudy || '')
+    setLevelOfStudy(user.levelOfStudy || 'Undergraduate University (3+ year)')
     setGradYear(user.gradYear || '')
     setSchool(user.school || null)
     setPhone(user.phone || '')
@@ -113,7 +115,7 @@ const UserProfile: NextPage<Props> = ({ uaString }: { uaString?: string }) => {
     if (
       !_firstName ||
       !_lastName ||
-      !levelOfStudy?.length ||
+      !levelOfStudy ||
       !majors?.length ||
       !_gender ||
       !school ||
@@ -258,7 +260,7 @@ const UserProfile: NextPage<Props> = ({ uaString }: { uaString?: string }) => {
                   {user && isFirst ? 'Create ' : ''}Profile
                 </Typography>
                 <Avatar
-                  alt={firstName || ''}
+                  alt={user.firstName || ''}
                   src={user.image || ''}
                   sx={{
                     width: 120,
@@ -268,9 +270,14 @@ const UserProfile: NextPage<Props> = ({ uaString }: { uaString?: string }) => {
                   }}
                 >
                   {/* get initials if image doesn't exist */}
-                  {user.image || !firstName
+                  {user.image || (!user.firstName && !user.lastName)
                     ? ''
-                    : `${firstName.trim()[0]} ${lastName.trim()[0]}`}
+                    : `${user.firstName.trim()[0].toUpperCase()} ${user.lastName
+                        .trim()
+                        .split(' ')
+                        [
+                          user.lastName.trim().split(' ').length - 1
+                        ][0].toUpperCase()}`}
                 </Avatar>
 
                 <form onSubmit={onFormSubmit} style={{ width: '100%' }}>
@@ -343,13 +350,42 @@ const UserProfile: NextPage<Props> = ({ uaString }: { uaString?: string }) => {
                         setDidModify(true)
                       }}
                     />
-                    <LevelOfStudySelect
-                      value={levelOfStudy}
-                      setValue={(e) => {
-                        setLevelOfStudy(e)
-                        setDidModify(true)
-                      }}
-                    />
+
+                    <Stack direction="row" spacing={2} pt={2}>
+                      <FormControl
+                        fullWidth
+                        required
+                        variant="standard"
+                        sx={{
+                          '& .MuiInput-root': {
+                            fontSize: '1.4rem',
+                          },
+                          '& .MuiInputLabel-root': {
+                            fontSize: '1.4rem',
+                          },
+                          flex: 1,
+                        }}
+                      >
+                        <InputLabel sx={{ fontSize: '1.5rem' }}>
+                          Level of Study
+                        </InputLabel>
+                        <Select
+                          value={levelOfStudy}
+                          label="Level of Study"
+                          onChange={(e) => {
+                            setLevelOfStudy(e.target.value)
+                            setDidModify(true)
+                          }}
+                        >
+                          {LEVEL_OF_STUDIES.map((study) => (
+                            <MenuItem value={study} key={study}>
+                              {study}
+                            </MenuItem>
+                          ))}
+                        </Select>
+                      </FormControl>
+                    </Stack>
+
                     <Stack direction="row" spacing={2} pt={2}>
                       <FormControl
                         fullWidth
