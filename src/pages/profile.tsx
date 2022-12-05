@@ -70,9 +70,7 @@ const UserProfile: NextPage<Props> = ({ uaString }: { uaString?: string }) => {
   const [phone, setPhone] = useState<string>()
   const [phoneError, setPhoneError] = useState(false)
   const [age, setAge] = useState('')
-  const [levelOfStudy, setLevelOfStudy] = useState<string>(
-    'Undergraduate University (3+ year)'
-  )
+  const [levelOfStudy, setLevelOfStudy] = useState<string>('')
   // check if user modified something in the page
   const [didModify, setDidModify] = useState(false)
 
@@ -98,7 +96,7 @@ const UserProfile: NextPage<Props> = ({ uaString }: { uaString?: string }) => {
     setLastName(user.lastName || '')
     setMajors(user.majors || [])
     setGender(user.gender || 'male')
-    setLevelOfStudy(user.levelOfStudy || 'Undergraduate University (3+ year)')
+    setLevelOfStudy(user.levelOfStudy || '')
     setGradYear(user.gradYear || '')
     setSchool(user.school || null)
     setPhone(user.phone || '')
