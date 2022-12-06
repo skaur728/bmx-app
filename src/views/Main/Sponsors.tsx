@@ -2,7 +2,8 @@ import { Box, Link, Stack, Typography, styled } from '@mui/material'
 import Image from 'next/image'
 
 import PurdueImg from '../../../public/images/sponsors/CompSci_H-Full-RGB.svg'
-import EcolabImg from '../../../public/images/sponsors/ecolabLogo.png'
+import DagsHubImg from '../../../public/images/sponsors/dagshub_dark.svg'
+import EcolabImg from '../../../public/images/sponsors/Ecolab.png'
 import FordImg from '../../../public/images/sponsors/fordFundLogo.png'
 import GoogleImg from '../../../public/images/sponsors/google-cloud-logo.png'
 import JohnDeereImg from '../../../public/images/sponsors/john-deere-7.svg'
@@ -115,16 +116,28 @@ const Sponsors: NextPage = () => (
               />
             </StyledLink>
           </Stack>
-
-          {/* <StyledLink href="https://www.ecolab.com/" target="_blank">
-            <Image
-              src={EcolabImg}
-              alt="Ecolab logo"
-              layout="fixed"
-              height="50"
-              width="150"
-            />
-          </StyledLink> */}
+          <Stack justifyContent="center" sx={{ width: '250px' }}>
+            <StyledLink href="https://www.ecolab.com/" target="_blank">
+              <Image
+                src={EcolabImg}
+                alt="Ecolab logo"
+                layout="fixed"
+                height="50"
+                width="150"
+              />
+            </StyledLink>
+          </Stack>
+          <Stack justifyContent="center" sx={{ width: '250px' }}>
+            <StyledLink href="https://dagshub.com/" target="_blank">
+              <Image
+                src={DagsHubImg}
+                alt="DagsHub logo"
+                layout="fixed"
+                height="50"
+                width="175"
+              />
+            </StyledLink>
+          </Stack>
         </Stack>
       </Stack>
     </Box>
