@@ -77,14 +77,13 @@ const TopNav = () => {
                 // border: '1px solid #b2b2b2',
               }}
             >
-              {user.image || (!user.firstName && !user.lastName)
+              {user.image || !user.firstName || !user.lastName
                 ? ''
-                : `${user.firstName.trim()[0].toUpperCase()} ${user.lastName
-                    .trim()
-                    .split(' ')
-                    [
+                : `${user.firstName.trim()[0]} ${
+                    user.lastName.trim().split(' ')[
                       user.lastName.trim().split(' ').length - 1
-                    ][0].toUpperCase()}`}
+                    ][0]
+                  }`}
             </Avatar>
             <Typography
               variant="body2"

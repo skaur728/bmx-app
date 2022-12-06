@@ -20,7 +20,7 @@ if (!cached) {
   global.mongoose = { conn: null, promise: null }
 }
 
-async function dbConnect() {
+async function dbConnect(iteration = 0) {
   if (cached.conn) {
     return cached.conn
   }
@@ -30,12 +30,30 @@ async function dbConnect() {
       bufferCommands: false,
     }
 
-    cached.promise = mongoose.connect(MONGODB_URI, opts).then((_mongoose) => {
-      console.log('connected to mongodb!')
-      return _mongoose
-    })
+    cached.promise = mongoose
+      .connect(MONGODB_URI, opts)
+      .then((_mongoose) => {
+        console.log('connected to mongodb!')
+        return _mongoose
+      })
+      .catch(async (error) => {
+        // retry connection
+        cached.conn = null
+        cached.promise = null
+        if (iteration <= 20) await dbConnect(iteration + 1)
+        else console.log(error)
+      })
   }
-  cached.conn = await cached.promise
+
+  try {
+    cached.conn = await cached.promise
+  } catch (error) {
+    // retry connection
+    cached.conn = null
+    cached.promise = null
+    if (iteration <= 20) await dbConnect(iteration + 1)
+    else console.log(error)
+  }
   return cached.conn
 }
 
