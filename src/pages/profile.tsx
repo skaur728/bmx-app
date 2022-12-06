@@ -268,14 +268,13 @@ const UserProfile: NextPage<Props> = ({ uaString }: { uaString?: string }) => {
                   }}
                 >
                   {/* get initials if image doesn't exist */}
-                  {user.image || (!user.firstName && !user.lastName)
+                  {user.image || !user.firstName || !user.lastName
                     ? ''
-                    : `${user.firstName.trim()[0].toUpperCase()} ${user.lastName
-                        .trim()
-                        .split(' ')
-                        [
+                    : `${user.firstName.trim()[0]} ${
+                        user.lastName.trim().split(' ')[
                           user.lastName.trim().split(' ').length - 1
-                        ][0].toUpperCase()}`}
+                        ][0]
+                      }`}
                 </Avatar>
 
                 <form onSubmit={onFormSubmit} style={{ width: '100%' }}>
