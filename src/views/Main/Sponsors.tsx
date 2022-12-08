@@ -37,7 +37,7 @@ const Sponsors: NextPage = () => (
         border: '2px solid #ebca9f',
         p: 4,
         mx: 10,
-        pl: 10,
+        pl: 15,
       }}
     >
       <Stack alignItems="center">
@@ -47,18 +47,23 @@ const Sponsors: NextPage = () => (
           </Typography>
         </Stack>
 
-        <Stack direction="row" sx={{ mt: 5 }} justifyContent="center">
-          <Stack sx={{ width: '500px' }}>
-            <StyledLink href="https://ford.com" target="_blank">
-              <Image src={FordImg} alt="Ford logo" layout="responsive" />
-            </StyledLink>
-          </Stack>
+        <Stack
+          direction="row"
+          sx={{ mt: 5 }}
+          spacing={4}
+          justifyContent="center"
+        >
           <Stack sx={{ width: '350px' }}>
             <StyledLink
               href="https://boilerlink.purdue.edu/organization/SFAB"
               target="_blank"
             >
               <Image src={SFABImg} alt="SFAB logo" layout="responsive" />
+            </StyledLink>
+          </Stack>
+          <Stack sx={{ width: '500px' }}>
+            <StyledLink href="https://fordfund.org" target="_blank">
+              <Image src={FordImg} alt="Ford logo" layout="responsive" />
             </StyledLink>
           </Stack>
         </Stack>
