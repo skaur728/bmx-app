@@ -42,6 +42,7 @@ declare global {
     user?: ObjectId
     year?: number
     updatedAt?: string
+    rsvp?: boolean
   }
 
   interface IUser extends User {

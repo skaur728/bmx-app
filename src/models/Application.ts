@@ -43,6 +43,7 @@ const ApplicationSchema = new Schema<IApplication, IApplicationModel>(
     codeConduct: Boolean,
     termConditions: Boolean,
     optInEmail: Boolean,
+    rsvp: Boolean,
   },
   {
     timestamps: true,

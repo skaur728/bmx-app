@@ -309,6 +309,14 @@ const Application: NextPage<Props> = ({ uaString }: { uaString?: string }) => {
                 {!isFirst && application?.decision && (
                   <ApplicationStatus decision={application.decision} />
                 )}
+
+                {!isFirst && application?.decision === 'Accepted' && (
+                  <Box>
+                    <FormControlLabel control={<Checkbox />} label="RSVP" />
+                    <hr />
+                  </Box>
+                )}
+
                 <Box>
                   <Typography variant="h6" sx={{ mt: 2, textAlign: 'center' }}>
                     Want to build and create with other passionate people?
