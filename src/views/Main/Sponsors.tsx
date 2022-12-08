@@ -2,13 +2,15 @@ import { Box, Link, Stack, Typography, styled } from '@mui/material'
 import Image from 'next/image'
 
 import PurdueImg from '../../../public/images/sponsors/CompSci_H-Full-RGB.svg'
-import DagsHubImg from '../../../public/images/sponsors/dagshub_dark.svg'
+import DagsHubImg from '../../../public/images/sponsors/dagshub_light.svg'
 import EcolabImg from '../../../public/images/sponsors/Ecolab.png'
 import FordImg from '../../../public/images/sponsors/fordFundLogo.png'
 import GoogleImg from '../../../public/images/sponsors/google-cloud-logo.png'
 import JohnDeereImg from '../../../public/images/sponsors/john-deere-7.svg'
+import KlaviyoImg from '../../../public/images/sponsors/klaviyo_black.png'
 import BloombergImg from '../../../public/images/sponsors/New_Bloomberg_Logo.svg'
 import SandiaImg from '../../../public/images/sponsors/sandia-national-laboratories-logo.png'
+import SFABImg from '../../../public/images/sponsors/sfab.png'
 import WolframImg from '../../../public/images/sponsors/Wolfram_Alpha_2022.png'
 
 import type { NextPage } from 'next'
@@ -33,8 +35,9 @@ const Sponsors: NextPage = () => (
         borderRadius: '40px',
         fontSize: '1.2rem',
         border: '2px solid #ebca9f',
-        p: 10,
+        p: 4,
         mx: 10,
+        pl: 10,
       }}
     >
       <Stack alignItems="center">
@@ -48,6 +51,14 @@ const Sponsors: NextPage = () => (
           <Stack sx={{ width: '500px' }}>
             <StyledLink href="https://ford.com" target="_blank">
               <Image src={FordImg} alt="Ford logo" layout="responsive" />
+            </StyledLink>
+          </Stack>
+          <Stack sx={{ width: '350px' }}>
+            <StyledLink
+              href="https://boilerlink.purdue.edu/organization/SFAB"
+              target="_blank"
+            >
+              <Image src={SFABImg} alt="SFAB logo" layout="responsive" />
             </StyledLink>
           </Stack>
         </Stack>
@@ -83,7 +94,7 @@ const Sponsors: NextPage = () => (
           </Stack>
         </Stack>
 
-        <Stack direction="row" spacing={4} justifyContent="center">
+        <Stack direction="row" spacing={2} justifyContent="center">
           <Stack justifyContent="center" sx={{ width: '250px' }}>
             <StyledLink href="https://www.wolframalpha.com/" target="_blank">
               <Image
@@ -135,6 +146,17 @@ const Sponsors: NextPage = () => (
                 layout="fixed"
                 height="50"
                 width="175"
+              />
+            </StyledLink>
+          </Stack>
+          <Stack justifyContent="center" sx={{ width: '250px' }}>
+            <StyledLink href="https://www.klaviyo.com/" target="_blank">
+              <Image
+                src={KlaviyoImg}
+                alt="Klaviyo logo"
+                layout="fixed"
+                height="120"
+                width="120"
               />
             </StyledLink>
           </Stack>
