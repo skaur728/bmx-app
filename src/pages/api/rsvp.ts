@@ -2,7 +2,7 @@ import to from 'await-to-js'
 import { ReasonPhrases, StatusCodes } from 'http-status-codes'
 import { getToken } from 'next-auth/jwt'
 
-import { getApplications } from '@/controllers/application'
+import { updateApplicationByYear } from '@/controllers/application'
 import dbConnect from '@/utils/store/dbConnect'
 
 import type { NextApiRequest, NextApiResponse } from 'next'
@@ -25,14 +25,15 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
         .status(StatusCodes.BAD_REQUEST)
         .send({ message: ReasonPhrases.BAD_REQUEST })
 
-    const [error, application] = await to(getApplications(token.id, 2023))
+    const [error, application] = await to(
+      updateApplicationByYear(token.id, 2023, { rsvp })
+    )
     if (error) {
       return res
         .status(StatusCodes.INTERNAL_SERVER_ERROR)
         .send({ message: ReasonPhrases.INTERNAL_SERVER_ERROR })
     }
 
-    // TODO update application with RSVP
     return res.send({ application })
   }
 

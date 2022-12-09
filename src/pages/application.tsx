@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/naming-convention */
+import SendIcon from '@mui/icons-material/Send'
 import {
   Box,
   Checkbox,
@@ -13,11 +14,12 @@ import {
 } from '@mui/material'
 import to from 'await-to-js'
 import axios from 'axios'
+import debounce from 'lodash.debounce'
 import { useS3Upload } from 'next-s3-upload'
 import { useUserAgent } from 'next-useragent'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
-import { useEffect, useMemo, useState } from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 
 import ApplicationStatus from '@/components/ApplicationStatus'
 import Dropzone from '@/components/Dropzone'
@@ -62,6 +64,9 @@ const Application: NextPage<Props> = ({ uaString }: { uaString?: string }) => {
   const [missingResume, setMissingResume] = useState(false)
   const [codeConductMissing, setCodeConductMissing] = useState(false)
   const [termConditionsMissing, setTermConditionsMissing] = useState(false)
+
+  const [rsvp, setRsvp] = useState(false)
+
   // check if user modified something in the page
   const [didModify, setDidModify] = useState(false)
 
@@ -107,6 +112,7 @@ const Application: NextPage<Props> = ({ uaString }: { uaString?: string }) => {
     setOptInEmail(application.optInEmail)
     setResumeVersion(application.resumeVersion || 0)
     setResumeUrl(application.resume || '')
+    setRsvp(application.rsvp || false)
   }, [application])
 
   const onFormSubmit = async (e: FormEvent<HTMLFormElement>) => {
@@ -201,6 +207,15 @@ const Application: NextPage<Props> = ({ uaString }: { uaString?: string }) => {
 
     router.push({ pathname: '/dashboard' })
   }
+
+  const toggleRsvp = useCallback(
+    debounce(async (_rsvp: boolean) => {
+      await axios.post('/api/rsvp', {
+        rsvp: _rsvp,
+      })
+    }, 250),
+    []
+  )
 
   // Wait until after client-side hydration to show
   useEffect(() => {
@@ -311,10 +326,31 @@ const Application: NextPage<Props> = ({ uaString }: { uaString?: string }) => {
                 )}
 
                 {!isFirst && application?.decision === 'Accepted' && (
-                  <Box>
-                    <FormControlLabel control={<Checkbox />} label="RSVP" />
-                    <hr />
-                  </Box>
+                  <Stack
+                    direction="row"
+                    sx={{
+                      backgroundColor: '#fde2bd',
+                      borderRadius: '40px',
+                      padding: '2px 12px',
+                      fontSize: '1.2rem',
+                      border: '2px solid #ebca9f',
+                    }}
+                    alignItems="center"
+                  >
+                    <FormControlLabel
+                      control={
+                        <Checkbox
+                          size="small"
+                          checked={rsvp}
+                          onChange={(e) => {
+                            setRsvp(e.target.checked)
+                            toggleRsvp(e.target.checked)
+                          }}
+                        />
+                      }
+                      label="RSVP?"
+                    />
+                  </Stack>
                 )}
 
                 <Box>

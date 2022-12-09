@@ -9,9 +9,10 @@ enum Decision {
 
 type Props = {
   decision: Decision
+  rsvp?: boolean
 }
 
-const ApplicationStatus = ({ decision }: Props) => (
+const ApplicationStatus = ({ decision, rsvp }: Props) => (
   <Stack
     direction="row"
     sx={{
@@ -32,6 +33,7 @@ const ApplicationStatus = ({ decision }: Props) => (
         backgroundColor: (() => {
           switch (decision) {
             case Decision.Accepted: {
+              if (rsvp === undefined) return '#aeea00'
               return '#5daa60'
             }
             case Decision.Pending: {
@@ -50,7 +52,14 @@ const ApplicationStatus = ({ decision }: Props) => (
         mr: 1,
       }}
     />
-    {decision}
+    <Box>
+      {decision}
+      {rsvp === undefined && decision === Decision.Accepted ? (
+        <span style={{ fontSize: '0.75em' }}> (RSVP required)</span>
+      ) : (
+        ''
+      )}
+    </Box>
   </Stack>
 )
 

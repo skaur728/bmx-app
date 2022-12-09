@@ -205,7 +205,10 @@ const UserProfileDashboardPage: NextPage<Props> = ({
               onClick={() => router.push('/application')}
             >
               <Box sx={{ position: 'absolute', top: 10, left: 10, zIndex: 3 }}>
-                <ApplicationStatus decision={application?.decision} />
+                <ApplicationStatus
+                  decision={application?.decision}
+                  rsvp={application?.rsvp}
+                />
               </Box>
 
               <Box sx={{ height: 150, overflow: 'hidden' }}>
