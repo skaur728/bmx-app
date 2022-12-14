@@ -40,7 +40,7 @@ import type { FormEvent } from 'react'
 interface Props {}
 
 const Application: NextPage<Props> = ({ uaString }: { uaString?: string }) => {
-  const { user, applications, loading } = useApplication()
+  const { user, applications, loading, revalidate } = useApplication()
   const { uploadToS3 } = useS3Upload()
 
   const router = useRouter()
@@ -213,6 +213,8 @@ const Application: NextPage<Props> = ({ uaString }: { uaString?: string }) => {
       await axios.post('/api/rsvp', {
         rsvp: _rsvp,
       })
+
+      await revalidate()
     }, 250),
     []
   )
@@ -322,25 +324,35 @@ const Application: NextPage<Props> = ({ uaString }: { uaString?: string }) => {
                   </Typography>
                 </Box>
                 {!isFirst && application?.decision && (
-                  <ApplicationStatus decision={application.decision} />
+                  <ApplicationStatus
+                    decision={application.decision}
+                    rsvp={application.rsvp}
+                  />
                 )}
 
                 {!isFirst && application?.decision === 'Accepted' && (
                   <Stack
-                    direction="row"
+                    direction="column"
                     sx={{
+                      mt: 3,
+                      mb: 2,
                       backgroundColor: '#fde2bd',
-                      borderRadius: '40px',
-                      padding: '2px 12px',
+                      borderRadius: '12px',
+                      padding: '10px 16px',
                       fontSize: '1.2rem',
                       border: '2px solid #ebca9f',
+                      maxWidth: 500,
                     }}
                     alignItems="center"
                   >
+                    <Typography textAlign="center">
+                      Congratulations on being accepted as a participant to
+                      BoilerMake X! Please RVSP to confirm your attendance by{' '}
+                      <b>Jan 9, 2022, 11:59PM EST</b>.
+                    </Typography>
                     <FormControlLabel
                       control={
                         <Checkbox
-                          size="small"
                           checked={rsvp}
                           onChange={(e) => {
                             setRsvp(e.target.checked)
@@ -367,7 +379,7 @@ const Application: NextPage<Props> = ({ uaString }: { uaString?: string }) => {
                   </Typography>
 
                   <Typography variant="body1" sx={{ mt: 1 }}>
-                    <b>The deadline for applications is December 10th.</b> If
+                    <b>The deadline for applications is December 18th.</b> If
                     you have any questions, do not hesitate to reach out to us
                     at <b>team@boilermake.org</b>.
                   </Typography>

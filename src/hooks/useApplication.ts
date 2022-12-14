@@ -1,6 +1,6 @@
 import axios from 'axios'
 import { useMemo } from 'react'
-import useSWR from 'swr'
+import useSWR, { useSWRConfig } from 'swr'
 
 import useAuth from './useAuth'
 
@@ -10,6 +10,8 @@ const fetcher = (url: string, year: string) =>
   axios.get(url, { params: { year } }).then((res) => res.data)
 
 const useApplication = () => {
+  const { mutate } = useSWRConfig()
+
   const { user, status, error } = useAuth()
 
   const {
@@ -30,11 +32,14 @@ const useApplication = () => {
     [isValidating, status]
   )
 
+  const revalidate = () => mutate([`/api/application`, '2023'])
+
   return {
     user,
     applications,
     loading,
     error: applicationError || error,
+    revalidate,
   }
 }
 
