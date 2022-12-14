@@ -68,3 +68,25 @@ export const getApplicationById = <T extends LeanOption>(
   options?: { lean: boolean }
 ): LeanOptionResult<T, LeanedApplication | null, IApplicationDocument | null> =>
   Application.findById(applicationId).lean(options?.lean).exec() as any
+
+export const updateApplicationByYear = async (
+  userId: ObjectId,
+  year: number,
+  update: Partial<IApplication>
+) => {
+  const [findError, user] = await to(User.findById(userId).exec())
+  if (findError || !user) {
+    throw !user ? new Error('No user found') : findError!
+  }
+
+  const applicationId = user.applications
+    ? user.applications.get(String(year))
+    : ''
+
+  const [updateErr, application] = await to(
+    Application.findByIdAndUpdate(applicationId, update).exec()
+  )
+  if (updateErr) throw updateErr
+
+  return application
+}
