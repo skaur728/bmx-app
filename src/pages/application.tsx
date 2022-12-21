@@ -415,6 +415,7 @@ const Application: NextPage<Props> = ({ uaString }: { uaString?: string }) => {
                           setWhyBM(e.target.value.substring(0, 400))
                           setDidModify(true)
                         }}
+                        disabled
                         autoComplete="off"
                         multiline
                         rows={4}
@@ -449,6 +450,7 @@ const Application: NextPage<Props> = ({ uaString }: { uaString?: string }) => {
                         }}
                         autoComplete="off"
                         multiline
+                        disabled
                         rows={4}
                         sx={{
                           '& textarea': {
@@ -580,6 +582,7 @@ const Application: NextPage<Props> = ({ uaString }: { uaString?: string }) => {
                     <Stack alignItems="center" pt={2}>
                       <Button
                         type="submit"
+                        disabled
                         sx={{
                           fontSize: '1.2rem',
                           ...(loadingSubmission && {
