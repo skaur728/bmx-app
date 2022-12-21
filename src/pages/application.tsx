@@ -582,7 +582,6 @@ const Application: NextPage<Props> = ({ uaString }: { uaString?: string }) => {
                     <Stack alignItems="center" pt={2}>
                       <Button
                         type="submit"
-                        disabled
                         sx={{
                           fontSize: '1.2rem',
                           ...(loadingSubmission && {
