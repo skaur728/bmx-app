@@ -97,17 +97,17 @@ const Sponsors: NextPage = () => (
                 layout="responsive"
               />
             </StyledLink>
-           </Stack>
-           <Stack justifyContent="center" sx={{ width: '250px' }}>
+          </Stack>
+          <Stack justifyContent="center" sx={{ width: '250px' }}>
             <StyledLink href="https://www.cockroachlabs.com/" target="_blank">
               <Image
                 src={CockroachImg}
                 alt="Cockroach DB logo"
                 layout="responsive"
                 height="700"
-               />
+              />
             </StyledLink>
-           </Stack>
+          </Stack>
         </Stack>
 
         <Stack direction="row" spacing={2} justifyContent="center">
