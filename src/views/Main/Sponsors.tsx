@@ -1,6 +1,7 @@
 import { Box, Link, Stack, Typography, styled } from '@mui/material'
 import Image from 'next/image'
 
+import CockroachImg from '../../../public/images/sponsors/CockroachDBWebsiteLogo.svg'
 import PurdueImg from '../../../public/images/sponsors/CompSci_H-Full-RGB.svg'
 import DagsHubImg from '../../../public/images/sponsors/dagshub_light.svg'
 import EcolabImg from '../../../public/images/sponsors/Ecolab.png'
@@ -94,6 +95,16 @@ const Sponsors: NextPage = () => (
                 src={BloombergImg}
                 alt="Bloomberg logo"
                 layout="responsive"
+              />
+            </StyledLink>
+          </Stack>
+          <Stack justifyContent="center" sx={{ width: '250px' }}>
+            <StyledLink href="https://www.cockroachlabs.com/" target="_blank">
+              <Image
+                src={CockroachImg}
+                alt="Cockroach DB logo"
+                layout="responsive"
+                height="700"
               />
             </StyledLink>
           </Stack>
