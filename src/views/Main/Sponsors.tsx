@@ -10,6 +10,7 @@ import GoogleImg from '../../../public/images/sponsors/google-cloud-logo.png'
 import JohnDeereImg from '../../../public/images/sponsors/john-deere-7.svg'
 import KlaviyoImg from '../../../public/images/sponsors/klaviyo_black.png'
 import BloombergImg from '../../../public/images/sponsors/New_Bloomberg_Logo.svg'
+import PurdueEngImg from '../../../public/images/sponsors/Purdue_Logo_Engineering.png'
 import SandiaImg from '../../../public/images/sponsors/sandia-national-laboratories-logo.png'
 import SFABImg from '../../../public/images/sponsors/sfab.png'
 import WolframImg from '../../../public/images/sponsors/Wolfram_Alpha_2022.png'
@@ -173,6 +174,20 @@ const Sponsors: NextPage = () => (
                 layout="fixed"
                 height="120"
                 width="120"
+              />
+            </StyledLink>
+          </Stack>
+          <Stack justifyContent="center">
+            <StyledLink
+              href="https://engineering.purdue.edu/Engr"
+              target="_blank"
+            >
+              <Image
+                src={PurdueEngImg}
+                alt="Purdue Engineering logo"
+                layout="fixed"
+                height="60"
+                width="220"
               />
             </StyledLink>
           </Stack>
