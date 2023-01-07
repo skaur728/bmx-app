@@ -4,6 +4,8 @@ import Image from 'next/image'
 import CockroachImg from '../../../public/images/sponsors/CockroachDBWebsiteLogo.svg'
 import PurdueImg from '../../../public/images/sponsors/CompSci_H-Full-RGB.svg'
 import DagsHubImg from '../../../public/images/sponsors/dagshub_light.svg'
+import DigitalOceanImg from '../../../public/images/sponsors/DO_Logo_vertical_black.svg'
+import Echo3DImg from '../../../public/images/sponsors/echo3DLogo.png'
 import EcolabImg from '../../../public/images/sponsors/Ecolab.png'
 import FordImg from '../../../public/images/sponsors/fordFundLogo.png'
 import GoogleImg from '../../../public/images/sponsors/google-cloud-logo.png'
@@ -13,7 +15,7 @@ import BloombergImg from '../../../public/images/sponsors/New_Bloomberg_Logo.svg
 import PurdueEngImg from '../../../public/images/sponsors/Purdue_Logo_Engineering.png'
 import SandiaImg from '../../../public/images/sponsors/sandia-national-laboratories-logo.png'
 import SFABImg from '../../../public/images/sponsors/sfab.png'
-import WolframImg from '../../../public/images/sponsors/Wolfram_Alpha_2022.png'
+import WolframImg from '../../../public/images/sponsors/wolfram-language-text-logo.png'
 
 import type { NextPage } from 'next'
 
@@ -111,7 +113,12 @@ const Sponsors: NextPage = () => (
           </Stack>
         </Stack>
 
-        <Stack direction="row" spacing={2} justifyContent="center">
+        <Stack
+          direction="row"
+          spacing={-5}
+          justifyContent="center"
+          sx={{ mr: 10 }}
+        >
           <Stack justifyContent="center" sx={{ width: '250px' }}>
             <StyledLink href="https://www.wolframalpha.com/" target="_blank">
               <Image
@@ -119,7 +126,7 @@ const Sponsors: NextPage = () => (
                 alt="Wolfram logo"
                 layout="fixed"
                 height="50"
-                width="200"
+                width="190"
               />
             </StyledLink>
           </Stack>
@@ -188,6 +195,28 @@ const Sponsors: NextPage = () => (
                 layout="fixed"
                 height="60"
                 width="220"
+              />
+            </StyledLink>
+          </Stack>
+          <Stack justifyContent="center">
+            <StyledLink href="https://www.digitalocean.com/" target="_blank">
+              <Image
+                src={DigitalOceanImg}
+                alt="Digital Ocean logo"
+                layout="fixed"
+                height="80"
+                width="250"
+              />
+            </StyledLink>
+          </Stack>
+          <Stack justifyContent="center">
+            <StyledLink href="https://www.echo3d.com/" target="_blank">
+              <Image
+                src={Echo3DImg}
+                alt="Echo 3D logo"
+                layout="fixed"
+                height="45"
+                width="190"
               />
             </StyledLink>
           </Stack>
