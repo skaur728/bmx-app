@@ -8,5 +8,8 @@
   },
   "editor.formatOnSave": true,
   "editor.defaultFormatter": "esbenp.prettier-vscode",
-  "cSpell.words": ["hackathon", "Waitlisted"]
+  "cSpell.words": ["hackathon", "Waitlisted"],
+  "[typescript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  }
 }
