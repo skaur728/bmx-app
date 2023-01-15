@@ -8,13 +8,13 @@ export const createAnnouncement = async (message: string) => {
   if (!message) {
     throw new Error('Message is required')
   }
-  const [creationError, app] = await to<IAnnouncementDocument, Error>(
+  const [creationError, announcement] = await to<IAnnouncementDocument, Error>(
     Announcement.create({ message })
   )
-  if (creationError || !app) {
-    throw !app
+  if (creationError || !announcement) {
+    throw !announcement
       ? new Error('Announcement could not be created')
-      : new Error(creationError)
+      : new Error(announcement)
   }
 }
 
