@@ -4,6 +4,7 @@ import Image from 'next/image'
 import { useRouter } from 'next/router'
 import { useEffect, useMemo, useState } from 'react'
 import Countdown from 'react-countdown'
+import { toHTML } from 'slack-markdown'
 
 import Head from '@/components/Head'
 import TopNav from '@/components/TopNav'
@@ -173,7 +174,6 @@ const UserProfileDashboardPage: NextPage<Props> = ({
                   },
                 }}
                 title="View application"
-                onClick={() => router.push('/application')}
               >
                 <Box
                   sx={{
@@ -188,7 +188,12 @@ const UserProfileDashboardPage: NextPage<Props> = ({
                       fontSize: '1.3rem',
                     }}
                   >
-                    {announcement.message}
+                    <p
+                      dangerouslySetInnerHTML={{
+                        __html: toHTML(announcement.message),
+                      }}
+                    />
+
                     <span style={{ fontSize: '0.7em', display: 'block' }}>
                       {announcement.createdAt}
                     </span>

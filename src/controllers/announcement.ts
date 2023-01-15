@@ -20,7 +20,7 @@ export const createAnnouncement = async (message: string) => {
 
 export const getAnnouncements = async () => {
   const [findError, announcements] = await to(
-    Announcement.find({}).sort('createdAt').exec()
+    Announcement.find({}).sort({ createdAt: 'desc' }).exec()
   )
 
   if (findError || !announcements) {
