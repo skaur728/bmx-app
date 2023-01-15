@@ -1,13 +1,10 @@
 import axios from 'axios'
 import { useMemo } from 'react'
-import useSWR, { mutate, useSWRConfig } from 'swr'
+import useSWR, { useSWRConfig } from 'swr'
 
 import type { AxiosError } from 'axios'
 
-const fetcher = (url: string) =>
-  axios.get(url).then((res) => {
-    return res.data
-  })
+const fetcher = (url: string) => axios.get(url).then((res) => res.data)
 
 const useAnnouncement = () => {
   const { mutate } = useSWRConfig()

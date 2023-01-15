@@ -1,6 +1,8 @@
 import to from 'await-to-js'
 
-import Announcement, { IAnnouncementDocument } from '@/models/Announcement'
+import Announcement from '@/models/Announcement'
+
+import type { IAnnouncementDocument } from '@/models/Announcement'
 
 export const createAnnouncement = async (message: string) => {
   if (!message) {

@@ -5,10 +5,9 @@ import { useRouter } from 'next/router'
 import { useEffect, useMemo, useState } from 'react'
 import Countdown from 'react-countdown'
 
-import ApplicationStatus from '@/components/ApplicationStatus'
 import Head from '@/components/Head'
 import TopNav from '@/components/TopNav'
-import useApplication from '@/hooks/useApplication'
+import useAnnouncement from '@/hooks/useAnnouncement'
 import Background from '@/views/Main/Background'
 
 import Logo from '../../public/images/bmx-logo.png'
@@ -20,9 +19,8 @@ import FerrisWheel from '../../public/images/dashboard/ferris-wheel-cropped.svg'
 import TopBorderImg from '../../public/images/dashboard/top-border.svg'
 
 import type { NextPage, NextPageContext } from 'next'
-import useAnnouncement from '@/hooks/useAnnouncement'
 
-interface Props { }
+interface Props {}
 
 const UserProfileDashboardPage: NextPage<Props> = ({
   uaString,
@@ -145,7 +143,7 @@ const UserProfileDashboardPage: NextPage<Props> = ({
             />
           </Box>
 
-          <Stack alignItems="center" direction='column'>
+          <Stack alignItems="center" direction="column">
             <Box mt={9} mb={2}>
               <Typography
                 variant="h3"
@@ -155,51 +153,49 @@ const UserProfileDashboardPage: NextPage<Props> = ({
               </Typography>
               <Image src={TopBorderImg} layout="responsive" alt="top border" />
             </Box>
-            {
-              announcements.map((announcement) => (
+            {announcements.map((announcement) => (
+              <Stack
+                key={announcement.createdAt}
+                sx={{
+                  width: '250px',
+                  border: '1px solid black',
+                  borderRadius: 4,
+                  overflow: 'hidden',
+                  position: 'relative',
+                  cursor: 'pointer',
+                  boxShadow:
+                    '0px 11px 15px -7px rgb(0 0 0 / 20%), 0px 24px 38px 3px rgb(0 0 0 / 14%), 0px 9px 46px 8px rgb(0 0 0 / 12%)',
 
-                <Stack
+                  transition: 'transform 200ms ease, box-shadow 200ms ease',
+                  '&:hover, &:active': {
+                    boxShadow: 'none',
+                    transform: 'translateY(3px)',
+                  },
+                }}
+                title="View application"
+                onClick={() => router.push('/application')}
+              >
+                <Box
                   sx={{
-                    width: '250px',
-                    border: '1px solid black',
-                    borderRadius: 4,
-                    overflow: 'hidden',
-                    position: 'relative',
-                    cursor: 'pointer',
-                    boxShadow:
-                      '0px 11px 15px -7px rgb(0 0 0 / 20%), 0px 24px 38px 3px rgb(0 0 0 / 14%), 0px 9px 46px 8px rgb(0 0 0 / 12%)',
-
-                    transition: 'transform 200ms ease, box-shadow 200ms ease',
-                    '&:hover, &:active': {
-                      boxShadow: 'none',
-                      transform: 'translateY(3px)',
-                    },
+                    flex: 1,
+                    backgroundColor: '#ffe7ca',
                   }}
-                  title="View application"
-                  onClick={() => router.push('/application')}
                 >
-                  <Box
+                  <Typography
                     sx={{
-                      flex: 1,
-                      backgroundColor: '#ffe7ca',
+                      pt: 4,
+                      textAlign: 'center',
+                      fontSize: '1.3rem',
                     }}
                   >
-                    <Typography
-                      sx={{
-                        pt: 4,
-                        textAlign: 'center',
-                        fontSize: '1.3rem',
-                      }}
-                    >
-                      {announcement.message}
-                      <span style={{ fontSize: '0.7em', display: 'block' }}>
-                        {announcement.createdAt}
-                      </span>
-                    </Typography>
-                  </Box>
-                </Stack>
-              ))
-            }
+                    {announcement.message}
+                    <span style={{ fontSize: '0.7em', display: 'block' }}>
+                      {announcement.createdAt}
+                    </span>
+                  </Typography>
+                </Box>
+              </Stack>
+            ))}
           </Stack>
         </Box>
       </Container>

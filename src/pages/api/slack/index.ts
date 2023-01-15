@@ -1,13 +1,13 @@
+import to from 'await-to-js'
 import { ReasonPhrases, StatusCodes } from 'http-status-codes'
 
-import dbConnect from '@/utils/store/dbConnect'
-
-import type { NextApiRequest, NextApiResponse } from 'next'
 import {
   createAnnouncement,
   getAnnouncements,
 } from '@/controllers/announcement'
-import to from 'await-to-js'
+import dbConnect from '@/utils/store/dbConnect'
+
+import type { NextApiRequest, NextApiResponse } from 'next'
 
 const SLACK_TOKEN: string = process.env.SLACK_TOKEN || ''
 
@@ -34,7 +34,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
       if (event.type === 'message' && event.channel_type === 'channel') {
         // If a message is received, store it on MongoDB
         // TODO: Store the 'text' field and timestamp
-        const [error, _] = await to(createAnnouncement(event.text))
+        const [error] = await to(createAnnouncement(event.text))
         if (error) {
           return res
             .status(StatusCodes.BAD_REQUEST)
