@@ -59,6 +59,16 @@ const Schedule = [
     eventSixTime: '9:00 PM',
     eventSevenTime: '',
     eventEightTime: '',
+    eventsInfo: [
+      `Location:`,
+      'kdnkdf',
+      'three',
+      'four',
+      'five',
+      'six',
+      'seven',
+      'eight',
+    ],
   },
   {
     label: 'Saturday, January 21',
@@ -78,6 +88,16 @@ const Schedule = [
     eventSixTime: '3:00 PM',
     eventSevenTime: '6:00 PM',
     eventEightTime: '8:00 PM',
+    eventsInfo: [
+      `Location:`,
+      'kdnkdf',
+      'three',
+      'four',
+      'five',
+      'six',
+      'seven',
+      'eight',
+    ],
   },
   {
     label: 'Sunday, January 22',
@@ -97,6 +117,16 @@ const Schedule = [
     eventSixTime: '1:15 PM',
     eventSevenTime: '',
     eventEightTime: '',
+    eventsInfo: [
+      `Location:`,
+      'kdnkdf',
+      'three',
+      'four',
+      'five',
+      'six',
+      'seven',
+      'eight',
+    ],
   },
 ]
 
@@ -104,6 +134,7 @@ const DayOfSchedule = ({ uaString }: { uaString?: string }) => {
   const CollectionSize = Schedule.length
   const ua = useUserAgent(uaString || window.navigator.userAgent)
   const [index, setActiveStep] = React.useState(0)
+  const [selection, setSelection] = React.useState(0)
 
   const goToNext = () => {
     if (index < CollectionSize - 1) {
@@ -114,6 +145,30 @@ const DayOfSchedule = ({ uaString }: { uaString?: string }) => {
     if (index > 0) {
       setActiveStep((prevActiveStep) => prevActiveStep - 1)
     }
+  }
+  const eventOneHandler = () => {
+    setSelection(0)
+  }
+  const eventTwoHandler = () => {
+    setSelection(1)
+  }
+  const eventThreeHandler = () => {
+    setSelection(2)
+  }
+  const eventFourHandler = () => {
+    setSelection(3)
+  }
+  const eventFiveHandler = () => {
+    setSelection(4)
+  }
+  const eventSixHandler = () => {
+    setSelection(5)
+  }
+  const eventSevenHandler = () => {
+    setSelection(6)
+  }
+  const eventEightHandler = () => {
+    setSelection(7)
   }
   const { redirect } = useRedirect()
 
@@ -188,7 +243,7 @@ const DayOfSchedule = ({ uaString }: { uaString?: string }) => {
             transform: 'scale(1.04)',
           },
           cursor: 'pointer',
-          width: { xs: 50, sm: 75, md: 37 },
+          width: { xs: 25, sm: 30, md: 37 },
           mt: 18.3,
           ml: 127.4,
         }}
@@ -203,7 +258,7 @@ const DayOfSchedule = ({ uaString }: { uaString?: string }) => {
             transform: 'scale(1.04)',
           },
           cursor: 'pointer',
-          width: { xs: 50, sm: 75, md: 37 },
+          width: { xs: 25, sm: 30, md: 37 },
           mt: -5.9,
           ml: 96.5,
         }}
@@ -214,7 +269,7 @@ const DayOfSchedule = ({ uaString }: { uaString?: string }) => {
       <Box
         sx={{
           position: 'absolute',
-          width: { xs: 850, sm: 1000, md: 470 },
+          width: { xs: 400, sm: 430, md: 470 },
           height: 50,
           backgroundColor: '#FFC09D',
           border: 1,
@@ -229,7 +284,7 @@ const DayOfSchedule = ({ uaString }: { uaString?: string }) => {
             fontSize: { sm: '1rem', md: '2rem', lg: '2rem' },
             color: '#551600',
             textAlign: 'right',
-            mr: 2,
+            mr: 4,
           }}
         >
           {Schedule[index].eventOne}
@@ -250,7 +305,23 @@ const DayOfSchedule = ({ uaString }: { uaString?: string }) => {
       <Box
         sx={{
           position: 'absolute',
-          width: { xs: 850, sm: 1000, md: 470 },
+          transition: 'transform 250ms ease',
+          '&:hover': {
+            transform: 'scale(1.04)',
+          },
+          width: { xs: 20, sm: 25, md: 30 },
+          mt: 2,
+          ml: 72.4,
+          zIndex: 10,
+        }}
+        onClick={eventOneHandler}
+      >
+        <Image src={RightButton} layout="responsive" alt="right" />
+      </Box>
+      <Box
+        sx={{
+          position: 'absolute',
+          width: { xs: 400, sm: 430, md: 470 },
           height: 50,
           backgroundColor: '#FFC09D',
           border: 1,
@@ -265,7 +336,7 @@ const DayOfSchedule = ({ uaString }: { uaString?: string }) => {
             fontSize: { sm: '1rem', md: '2rem', lg: '2rem' },
             color: '#551600',
             textAlign: 'right',
-            mr: 2,
+            mr: 4,
           }}
         >
           {Schedule[index].eventTwo}
@@ -286,7 +357,23 @@ const DayOfSchedule = ({ uaString }: { uaString?: string }) => {
       <Box
         sx={{
           position: 'absolute',
-          width: { xs: 850, sm: 1000, md: 470 },
+          transition: 'transform 250ms ease',
+          '&:hover': {
+            transform: 'scale(1.04)',
+          },
+          width: { xs: 20, sm: 25, md: 30 },
+          mt: 8,
+          ml: 72.4,
+          zIndex: 10,
+        }}
+        onClick={eventTwoHandler}
+      >
+        <Image src={RightButton} layout="responsive" alt="right" />
+      </Box>
+      <Box
+        sx={{
+          position: 'absolute',
+          width: { xs: 400, sm: 430, md: 470 },
           height: 50,
           backgroundColor: '#FFC09D',
           border: 1,
@@ -301,7 +388,7 @@ const DayOfSchedule = ({ uaString }: { uaString?: string }) => {
             fontSize: { sm: '1rem', md: '2rem', lg: '2rem' },
             color: '#551600',
             textAlign: 'right',
-            mr: 2,
+            mr: 4,
           }}
         >
           {Schedule[index].eventThree}
@@ -322,7 +409,22 @@ const DayOfSchedule = ({ uaString }: { uaString?: string }) => {
       <Box
         sx={{
           position: 'absolute',
-          width: { xs: 850, sm: 1000, md: 470 },
+          transition: 'transform 250ms ease',
+          '&:hover': {
+            transform: 'scale(1.04)',
+          },
+          width: { xs: 20, sm: 25, md: 30 },
+          mt: 14,
+          ml: 72.4,
+        }}
+        onClick={eventThreeHandler}
+      >
+        <Image src={RightButton} layout="responsive" alt="right" />
+      </Box>
+      <Box
+        sx={{
+          position: 'absolute',
+          width: { xs: 400, sm: 430, md: 470 },
           height: 50,
           backgroundColor: '#FFC09D',
           border: 1,
@@ -337,7 +439,7 @@ const DayOfSchedule = ({ uaString }: { uaString?: string }) => {
             fontSize: { sm: '1rem', md: '2rem', lg: '2rem' },
             color: '#551600',
             textAlign: 'right',
-            mr: 2,
+            mr: 4,
           }}
         >
           {Schedule[index].eventFour}
@@ -358,7 +460,22 @@ const DayOfSchedule = ({ uaString }: { uaString?: string }) => {
       <Box
         sx={{
           position: 'absolute',
-          width: { xs: 850, sm: 1000, md: 470 },
+          transition: 'transform 250ms ease',
+          '&:hover': {
+            transform: 'scale(1.04)',
+          },
+          width: { xs: 20, sm: 25, md: 30 },
+          mt: 20,
+          ml: 72.4,
+        }}
+        onClick={eventFourHandler}
+      >
+        <Image src={RightButton} layout="responsive" alt="right" />
+      </Box>
+      <Box
+        sx={{
+          position: 'absolute',
+          width: { xs: 400, sm: 430, md: 470 },
           height: 50,
           backgroundColor: '#FFC09D',
           border: 1,
@@ -373,7 +490,7 @@ const DayOfSchedule = ({ uaString }: { uaString?: string }) => {
             fontSize: { sm: '1rem', md: '2rem', lg: '2rem' },
             color: '#551600',
             textAlign: 'right',
-            mr: 2,
+            mr: 4,
           }}
         >
           {Schedule[index].eventFive}
@@ -394,7 +511,22 @@ const DayOfSchedule = ({ uaString }: { uaString?: string }) => {
       <Box
         sx={{
           position: 'absolute',
-          width: { xs: 850, sm: 1000, md: 470 },
+          transition: 'transform 250ms ease',
+          '&:hover': {
+            transform: 'scale(1.04)',
+          },
+          width: { xs: 20, sm: 25, md: 30 },
+          mt: 26.3,
+          ml: 72.4,
+        }}
+        onClick={eventFiveHandler}
+      >
+        <Image src={RightButton} layout="responsive" alt="right" />
+      </Box>
+      <Box
+        sx={{
+          position: 'absolute',
+          width: { xs: 400, sm: 430, md: 470 },
           height: 50,
           backgroundColor: '#FFC09D',
           border: 1,
@@ -409,7 +541,7 @@ const DayOfSchedule = ({ uaString }: { uaString?: string }) => {
             fontSize: { sm: '1rem', md: '2rem', lg: '2rem' },
             color: '#551600',
             textAlign: 'right',
-            mr: 2,
+            mr: 4,
           }}
         >
           {Schedule[index].eventSix}
@@ -430,7 +562,22 @@ const DayOfSchedule = ({ uaString }: { uaString?: string }) => {
       <Box
         sx={{
           position: 'absolute',
-          width: { xs: 850, sm: 1000, md: 470 },
+          transition: 'transform 250ms ease',
+          '&:hover': {
+            transform: 'scale(1.04)',
+          },
+          width: { xs: 20, sm: 25, md: 30 },
+          mt: 32.5,
+          ml: 72.4,
+        }}
+        onClick={eventSixHandler}
+      >
+        <Image src={RightButton} layout="responsive" alt="right" />
+      </Box>
+      <Box
+        sx={{
+          position: 'absolute',
+          width: { xs: 400, sm: 430, md: 470 },
           height: 50,
           backgroundColor: '#FFC09D',
           border: 1,
@@ -445,7 +592,7 @@ const DayOfSchedule = ({ uaString }: { uaString?: string }) => {
             fontSize: { sm: '1rem', md: '2rem', lg: '2rem' },
             color: '#551600',
             textAlign: 'right',
-            mr: 2,
+            mr: 4,
           }}
         >
           {Schedule[index].eventSeven}
@@ -466,7 +613,22 @@ const DayOfSchedule = ({ uaString }: { uaString?: string }) => {
       <Box
         sx={{
           position: 'absolute',
-          width: { xs: 850, sm: 1000, md: 470 },
+          transition: 'transform 250ms ease',
+          '&:hover': {
+            transform: 'scale(1.04)',
+          },
+          width: { xs: 20, sm: 25, md: 30 },
+          mt: 38.3,
+          ml: 72.4,
+        }}
+        onClick={eventSevenHandler}
+      >
+        <Image src={RightButton} layout="responsive" alt="right" />
+      </Box>
+      <Box
+        sx={{
+          position: 'absolute',
+          width: { xs: 400, sm: 430, md: 470 },
           height: 50,
           backgroundColor: '#FFC09D',
           border: 1,
@@ -481,7 +643,7 @@ const DayOfSchedule = ({ uaString }: { uaString?: string }) => {
             fontSize: { sm: '1rem', md: '2rem', lg: '2rem' },
             color: '#551600',
             textAlign: 'right',
-            mr: 2,
+            mr: 4,
           }}
         >
           {Schedule[index].eventEight}
@@ -497,6 +659,43 @@ const DayOfSchedule = ({ uaString }: { uaString?: string }) => {
           }}
         >
           {Schedule[index].eventEightTime}
+        </Typography>
+      </Box>
+      <Box
+        sx={{
+          position: 'absolute',
+          transition: 'transform 250ms ease',
+          '&:hover': {
+            transform: 'scale(1.04)',
+          },
+          width: { xs: 20, sm: 25, md: 30 },
+          mt: 44.4,
+          ml: 72.4,
+        }}
+        onClick={eventEightHandler}
+      >
+        <Image src={RightButton} layout="responsive" alt="right" />
+      </Box>
+      <Box
+        sx={{
+          position: 'absolute',
+          width: { xs: 1200, sm: 1300, md: 1500 },
+          pt: 4,
+          pl: 1,
+          pr: 1,
+          pb: 4,
+          ml: -3,
+        }}
+      >
+        <Typography
+          variant="h1"
+          sx={{
+            fontSize: { sm: '1rem', md: '2rem', lg: '3rem' },
+            color: '#551600',
+            ml: 82.3,
+          }}
+        >
+          {Schedule[index].eventsInfo[selection]}
         </Typography>
       </Box>
     </Box>
