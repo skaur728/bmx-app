@@ -283,7 +283,7 @@ const DayOfLanding = ({ uaString }: { uaString?: string }) => {
             </Typography>
           </Box>
         )}
-      </Box> 
+      </Box>
     </Box>
   )
 }
