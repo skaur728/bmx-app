@@ -1,5 +1,5 @@
 export { default as Landing } from './Landing'
-export { default as DayOfLanding } from './DayOfLanding' 
+export { default as DayOfLanding } from './DayOfLanding'
 export { default as DayOfSchedule } from './DayOfSchedule'
 export { default as About } from './About'
 export { default as FAQ } from './FAQ'
