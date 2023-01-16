@@ -4,7 +4,7 @@ import { Navbar } from '@/components/Navbar'
 import TopNav from '@/components/TopNav'
 import {
   About,
-  DayOfLanding,
+  DayOfLand,
   DayOfSchedule,
   FAQ,
   Landing,
@@ -24,7 +24,7 @@ const Home: NextPage = () => (
     <Background />
     <HorizontalScroller>
       {/* <Landing /> */}
-      <DayOfLanding />
+      <DayOfLand />
       <DayOfSchedule />
       {/* <About /> */}
       {/* <Sponsors /> */}
