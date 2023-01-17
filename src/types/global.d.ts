@@ -60,4 +60,9 @@ declare global {
     country: string
     applications: Record<string, Application>
   }
+
+  interface IAnnouncement {
+    message: string
+    createdAt?: string
+  }
 }
