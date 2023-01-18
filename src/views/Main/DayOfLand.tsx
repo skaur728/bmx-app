@@ -27,6 +27,8 @@ import TicketBoothImg from '../../../public/images/testimonials/ticket-booth.png
 
 import type { NextPageContext } from 'next'
 
+const Booth = dynamic(() => import('@/components/DayOf/Booth'))
+
 const carnivalTheme = createTheme({
   typography: {
     fontFamily: '"Carnival", sans-serif',
@@ -102,122 +104,137 @@ const DayOfLand = ({ uaString }: { uaString?: string }) => {
       <Box
         sx={{
           position: 'absolute',
-          width: { xs: 160, sm: 200, md: 700 },
-          mt: 5,
-          ml: 5,
+          right: { xs: 0, md: '60%' },
+          bottom: 0,
+          width: { xs: 450, sm: 500 },
+          maxHeight: '90vh',
         }}
-      >
-        <Image
-          src={Arrow}
-          layout="responsive"
-          priority
-          alt="Countdown"
-          style={{ pointerEvents: 'none' }}
-        />
-      </Box>
-      <Box
-        sx={{
-          position: 'absolute',
-          mt: 26,
-          ml: 32,
-        }}
-      >
-        <Countdown
-          date="2023-01-22T11:00:00.000Z"
-          daysInHours
-          renderer={(props) => (
-            <Typography
-              sx={{ color: '#551600', textAlign: 'center', fontSize: 65 }}
-            >
-              {props.formatted.hours}&nbsp; :&nbsp; {props.formatted.minutes}{' '}
-              &nbsp;: &nbsp;{props.formatted.seconds}
-            </Typography>
-          )}
-        />
-      </Box>
-      <Box
-        sx={{
-          position: 'absolute',
-          width: { xs: 75, sm: 100, md: 250 },
-          mt: 60,
-          ml: 30,
-        }}
-      >
-        <Image
-          src={TicketBoothImg}
-          layout="responsive"
-          priority
-          alt="Submit Booth"
-          style={{ pointerEvents: 'none' }}
-        />
-      </Box>
-      <ThemeProvider theme={carnivalTheme}>
-        <CssBaseline />
+          >
+              <Box
+                  sx={{
+                      position: 'absolute',
+                      width: { sm: 270, md: '25vw', lg: '27vw' },
+                      left: { md: '27%', lg: '29%' },
+                      mt: { sm: 25, md: 30, lg: 29 },
+                      zIndex: 2,
+                  }}
+              >
+                  <Countdown
+                      date="2023-01-22T11:00:00.000Z"
+                      daysInHours
+                      renderer={(props) => (
+                          <Typography
+                              sx={{
+                                  color: '#551600',
+                                  textAlign: 'center',
+                                  fontSize: { sm: 60, md: 60, lg: 60 },
+                              }}
+                          >
+                              {props.formatted.hours}&nbsp; :&nbsp; {props.formatted.minutes}{' '}
+                              &nbsp;: &nbsp;{props.formatted.seconds}
+                          </Typography>
+                      )}
+                  />
+              </Box>
         <Box
           sx={{
-            position: 'absolute',
-            width: { xs: 75, sm: 100, md: 250 },
-            mt: 77,
-            ml: 37,
-            transition: 'transform 250ms ease',
-            '&:hover': {
-              transform: 'scale(1.04)',
-            },
+            position: 'relative',
+            width: { sm: 650, md: '60vw', lg: '40vw' },
+            top: 90,
+            left: '10%',
           }}
-          onClick={() =>
-            window.open(
-              'https://boilermake-x.devpost.com/?preview_token=TITPUBb%2BENHb4S6TUt2SdYVI9P5Jz7zv7%2FqlPn7G0Rs%3D',
-              '_blank'
-            )
-          }
         >
-          <Typography
-            variant="h3"
-            sx={{
-              fontFamily: 'Carnival, sans-serif',
-              fontSize: { sm: '1rem', md: '2rem', lg: '2rem' },
-              color: '#551600',
-            }}
-          >
-            SUBMIT PROJECT
-          </Typography>
-        </Box>
-      </ThemeProvider>
-      <Box
-        sx={{
-          position: 'absolute',
-          width: { xs: 75, sm: 100, md: 475 },
-          mt: 25,
-          ml: 105,
-          zIndex: 11,
-        }}
-      >
-        <InfoTent />
-      </Box>
+          <Image
+            src={Arrow}
+            layout="responsive"
+            priority
+            alt="Countdown"
+            style={{ pointerEvents: 'none' }}
+                  />
+                  
+              </Box>
 
-      <ThemeProvider theme={carnivalTheme}>
-        <CssBaseline />
+          </Box>
+          
+
+        
         <Box
           sx={{
-            position: 'absolute',
-            width: { xs: 75, sm: 100, md: 475 },
-            mt: 47,
-            ml: 110,
-            zIndex: 12,
+            position: 'relative',
+            width: { sm: 225, md: '20vw', lg: '20vw' },
+            bottom: 0,
+            left: { md: '29%', lg: '200%' },
           }}
         >
-          <Typography
-            variant="h3"
+          <Booth />
+        </Box>
+        <ThemeProvider theme={carnivalTheme}>
+          <CssBaseline />
+          <Box
             sx={{
-              fontFamily: 'Carnival, sans-serif',
-              fontSize: { sm: 18, md: 20, lg: 25 },
-              color: '#FFE7CA',
+              position: 'relative',
+              width: { sm: 100, md: 250 },
+              mt: { sm: 76, md: 77, lg: 104 },
+              ml: { sm: 35, md: 42, lg: 58 },
+              transition: 'transform 250ms ease',
+              '&:hover': {
+                transform: 'scale(1.04)',
+              },
+            }}
+            onClick={() =>
+              window.open(
+                'https://boilermake-x.devpost.com/?preview_token=TITPUBb%2BENHb4S6TUt2SdYVI9P5Jz7zv7%2FqlPn7G0Rs%3D',
+                '_blank'
+              )
+            }
+          >
+            <Typography
+              variant="h3"
+              sx={{
+                fontFamily: 'Carnival, sans-serif',
+                fontSize: { sm: '2rem', md: '2rem', lg: '3rem' },
+                color: '#551600',
+              }}
+            >
+              SUBMIT PROJECT
+            </Typography>
+          </Box>
+        </ThemeProvider>
+      <Box
+        sx={{
+          position: 'absolute',
+          right: { xs: 0, md: '10%' },
+          bottom: -10,
+          width: { xs: 450, sm: 500 },
+          maxHeight: '80vh',
+        }}
+      >
+        <Box sx={{ position: 'relative', width: '100%', height: '100%' }}>
+          <InfoTent />
+          <Box
+            sx={{
+              position: 'absolute',
+              top: { xs: '25%', sm: '31%' },
+              width: '87%',
+              left: '50%',
+              transform: 'translateX(-50%)',
+              color: 'white',
+              textAlign: 'center',
             }}
           >
-            LIVE ANNOUNCEMENTS:
-          </Typography>
+            <Typography
+              variant="h3"
+              sx={{
+                fontFamily: 'Carnival, sans-serif',
+                fontSize: { sm: 18, md: 20, lg: 25 },
+                color: '#FFE7CA',
+              }}
+            >
+              LIVE ANNOUNCEMENTS:
+            </Typography>
+          </Box>
         </Box>
-      </ThemeProvider>
+      </Box>
       <Box
         sx={{
           position: 'absolute',
@@ -245,9 +262,8 @@ const DayOfLand = ({ uaString }: { uaString?: string }) => {
           color: '#ffe8c9',
           pt: { xs: 20, sm: 12, md: 10 },
           position: 'absolute',
-          left: '50%',
-          transform: 'translateX(-50%)',
-          width: '100%',
+          ml: { xs: 40, sm: 50, md: 50 },
+          width: { xs: 625, sm: 650, md: 700 },
           zIndex: 1,
         }}
       >

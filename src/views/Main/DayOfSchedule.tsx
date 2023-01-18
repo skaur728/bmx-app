@@ -176,9 +176,9 @@ const DayOfSchedule = ({ uaString }: { uaString?: string }) => {
     <Box
       sx={{
         height: '100vh',
-        width: '100vw',
+        width: { xs: '140vw', sm: '275vw', md: '170vw' },
+        pl: { xs: 40, sm: 86, md: 50 },
         position: 'relative',
-        marginRight: { xs: '80vw', sm: 0 },
       }}
     >
       <Box
