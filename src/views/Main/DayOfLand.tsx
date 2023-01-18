@@ -138,50 +138,52 @@ const DayOfLand = ({ uaString }: { uaString?: string }) => {
       <Box
         sx={{
           position: 'absolute',
-          width: { xs: 75, sm: 100, md: 250 },
+          width: { xs: 75, sm: 100, md: 230 },
           mt: 60,
-          ml: 30,
+          ml: 34,
+          bottom: 0,
         }}
       >
-        <Image
-          src={TicketBoothImg}
-          layout="responsive"
-          priority
-          alt="Submit Booth"
-          style={{ pointerEvents: 'none' }}
-        />
+        <Box sx={{ position: 'relative', width: '100%', height: '100%' }}>
+          <Image
+            src={TicketBoothImg}
+            layout="responsive"
+            priority
+            alt="Submit Booth"
+            style={{ pointerEvents: 'none' }}
+          />
+          <Box
+            sx={{
+              position: 'absolute',
+              top: { xs: '25%', sm: '42%' },
+              textAlign: 'center',
+              transition: 'transform 250ms ease',
+              '&:hover': {
+                transform: 'scale(1.04)',
+              },
+            }}
+            onClick={() =>
+              window.open(
+                'https://boilermake-x.devpost.com/?preview_token=TITPUBb%2BENHb4S6TUt2SdYVI9P5Jz7zv7%2FqlPn7G0Rs%3D',
+                '_blank'
+              )
+            }
+          >
+            <Typography
+              variant="h3"
+              sx={{
+                fontFamily: 'Carnival, sans-serif',
+                fontSize: { sm: '1rem', md: '2rem', lg: '2rem' },
+                color: '#551600',
+              }}
+            >
+              SUBMIT PROJECT
+            </Typography>
+          </Box>
+        </Box>
       </Box>
       <ThemeProvider theme={carnivalTheme}>
         <CssBaseline />
-        <Box
-          sx={{
-            position: 'absolute',
-            width: { xs: 75, sm: 100, md: 250 },
-            mt: 77,
-            ml: 37,
-            transition: 'transform 250ms ease',
-            '&:hover': {
-              transform: 'scale(1.04)',
-            },
-          }}
-          onClick={() =>
-            window.open(
-              'https://boilermake-x.devpost.com/?preview_token=TITPUBb%2BENHb4S6TUt2SdYVI9P5Jz7zv7%2FqlPn7G0Rs%3D',
-              '_blank'
-            )
-          }
-        >
-          <Typography
-            variant="h3"
-            sx={{
-              fontFamily: 'Carnival, sans-serif',
-              fontSize: { sm: '1rem', md: '2rem', lg: '2rem' },
-              color: '#551600',
-            }}
-          >
-            SUBMIT PROJECT
-          </Typography>
-        </Box>
       </ThemeProvider>
       <Box
         sx={{
@@ -190,62 +192,66 @@ const DayOfLand = ({ uaString }: { uaString?: string }) => {
           mt: 25,
           ml: 105,
           zIndex: 11,
+          bottom: 0,
         }}
       >
-        <InfoTent />
-      </Box>
-
-      <ThemeProvider theme={carnivalTheme}>
-        <CssBaseline />
-        <Box
-          sx={{
-            position: 'absolute',
-            width: { xs: 75, sm: 100, md: 475 },
-            mt: 47,
-            ml: 110,
-            zIndex: 12,
-          }}
-        >
-          <Typography
-            variant="h3"
+        <Box sx={{ position: 'relative', width: '100%', height: '100%' }}>
+          <Box sx={{ zIndex: 20 }}>
+            <InfoTent />
+          </Box>
+          <Box
             sx={{
-              fontFamily: 'Carnival, sans-serif',
-              fontSize: { sm: 18, md: 20, lg: 25 },
-              color: '#FFE7CA',
+              position: 'absolute',
+              top: { xs: '25%', sm: '31%' },
+              width: '87%',
+              left: '50%',
+              transform: 'translateX(-50%)',
+              textAlign: 'center',
+              zIndex: 2,
             }}
           >
-            LIVE ANNOUNCEMENTS:
-          </Typography>
+            <Typography
+              variant="h3"
+              sx={{
+                fontFamily: 'Carnival, sans-serif',
+                fontSize: { sm: 18, md: 20, lg: 25 },
+                color: '#FFE7CA',
+              }}
+            >
+              LIVE ANNOUNCEMENTS:
+            </Typography>
+          </Box>
+          <Box
+            sx={{
+              position: 'absolute',
+              top: { sm: '-33%' },
+              width: '50%',
+              left: '60%',
+              zIndex: -1,
+              textAlign: 'center',
+              transition: 'transform 250ms ease',
+              '&:hover': {
+                transform: 'scale(1.04)',
+              },
+            }}
+          >
+            <Image
+              src={SlackImg}
+              layout="responsive"
+              alt="Slack"
+              onClick={() => window.open('https://boilermakex.slack.com')}
+            />
+          </Box>
         </Box>
-      </ThemeProvider>
-      <Box
-        sx={{
-          position: 'absolute',
-          width: { xs: 150, sm: 170, md: 200 },
-          mt: 5,
-          ml: 145,
-          zIndex: 10,
-          cursor: 'pointer',
-          transition: 'transform 250ms ease',
-          '&:hover': {
-            transform: 'scale(1.04)',
-          },
-        }}
-      >
-        <Image
-          src={SlackImg}
-          layout="responsive"
-          alt="Slack"
-          onClick={() => window.open('https://boilermakex.slack.com')}
-        />
       </Box>
+
       <Box
         sx={{
           textAlign: 'center',
           color: '#ffe8c9',
-          pt: { xs: 20, sm: 12, md: 10 },
           position: 'absolute',
-          left: '50%',
+          left: '49%',
+          top: '10%',
           transform: 'translateX(-50%)',
           width: '100%',
           zIndex: 1,
