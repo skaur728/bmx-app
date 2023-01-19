@@ -7,16 +7,22 @@ import {
   CardContent,
   CssBaseline,
   Link,
+  List,
   Stack,
   Typography,
   styled,
 } from '@mui/material'
+import ListItem from '@mui/material/ListItem'
+import ListItemText from '@mui/material/ListItemText'
 import { createTheme, responsiveFontSizes } from '@mui/material/styles'
 import { useUserAgent } from 'next-useragent'
 import dynamic from 'next/dynamic'
 import Image from 'next/image'
+import React from 'react'
 import Countdown from 'react-countdown'
+import { toHTML } from 'slack-markdown'
 
+import useAnnouncement from '@/hooks/useAnnouncement'
 import useRedirect from '@/hooks/useRedirect'
 
 import TentImg from '../../../public/images/about/info-tent.svg'
@@ -52,6 +58,7 @@ const DayOfLand = ({ uaString }: { uaString?: string }) => {
   const ua = useUserAgent(uaString || window.navigator.userAgent)
 
   const { redirect } = useRedirect()
+  const { announcements, error, loading } = useAnnouncement()
 
   return (
     <Box
@@ -220,6 +227,35 @@ const DayOfLand = ({ uaString }: { uaString?: string }) => {
             >
               LIVE ANNOUNCEMENTS:
             </Typography>
+            <List
+              sx={{
+                // TODO: get scroll bar working
+                overflow: 'auto',
+              }}
+            >
+              {announcements.map((announcement) => (
+                <ListItem key={announcement.createdAt}>
+                  <ListItemText
+                    primary={
+                      <Typography
+                        sx={{
+                          display: 'inline',
+                          href: '#FFE7CA',
+                          fontSize: { sm: 18, md: 20, lg: 25 },
+                        }}
+                        color="#FFE7CA"
+                      >
+                        <p
+                          dangerouslySetInnerHTML={{
+                            __html: toHTML(announcement.message),
+                          }}
+                        />
+                      </Typography>
+                    }
+                  />
+                </ListItem>
+              ))}
+            </List>
           </Box>
           <Box
             sx={{
