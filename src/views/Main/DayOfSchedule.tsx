@@ -63,10 +63,10 @@ const Schedule = [
     eventEightTime: '',
     eventNineTime: '',
     eventsInfo: [
-      `Location: Front of entrance doors\n connecting Co-Rec to outside`,
+      `Location: Front of west gym\n entrance doors connecting Co-Rec\n to outside`,
       'Location: Feature Gym',
       'Location: Feature Gym',
-      'Location: Feature Gym',
+      'Location: Gym 6',
       'Location: Gym 4 \nDinner from Christos: Fajita Bar',
       '',
       '',
@@ -95,14 +95,14 @@ const Schedule = [
     eventEightTime: '6:00 PM',
     eventNineTime: '8:00 PM',
     eventsInfo: [
-      `Location: Gym 4\n Breakfast from Christos`,
+      `Location: Gym 4\n Hot Breakfast from Christos`,
       'Join us for fun art activities!\n Origami, coloring, crafts, etc.',
       'Location: Conference Room\nCockroach DB Tech Talk: 10 AM\nDagsHub Tech Talk: 11 AM',
       'Location: Gym 4\n Lunch from Christos: \nStir-fry buffet, veggie potstickers,\n eggrolls ',
       'Location: Gym 6',
-      'Location: Gym 6\n Snyk Cybersecurity Challenge: 3PM\n Bob Ross Paint Challenge: 4PM',
+      'Location: Gym 6\n Snyk Cybersecurity Challenge:\n 3PM\n Bob Ross Paint Challenge: 4PM',
       'Location: Gyms 1-3',
-      'Location: Gym 6\nDinner from Hotbox: Pizza',
+      'Location: Gym 4\nDinner from Hotbox: Pizza',
       'Location: Feature Gym\n Join us for carnival activities!\nCornhole, Ring Toss, \nWheel of Fortune, etc.',
     ],
   },
@@ -120,19 +120,19 @@ const Schedule = [
     eventOneTime: '12:00 AM',
     eventTwoTime: '6:00 AM',
     eventThreeTime: '7:00 AM',
-    eventFourTime: '9:30 AM',
+    eventFourTime: '9:00 AM',
     eventFiveTime: '11:30 AM',
     eventSixTime: '1:15 PM',
     eventSevenTime: '',
     eventEightTime: '',
     eventNineTime: '',
     eventsInfo: [
-      `Location: Gym 6`,
+      `Location: Gym 6\nThe ultimate smash tournament!`,
       '',
-      'Location: Gym 4\n Breakfast from Christos',
-      '',
+      'Location: Gym 4\n Hot Breakfast from Christos',
+      'Location: At your individual tables\nGet ready to demo your projects!',
       'Location: Gym 4\n Lunch from Christos: \nBoxed Lunches - Sandwiches',
-      'Location: Gym 6',
+      'Location: Feature Gym',
       '',
       '',
       '',
@@ -258,6 +258,7 @@ const DayOfSchedule = ({ uaString }: { uaString?: string }) => {
               top: '9.5%',
               right: '6.5%',
               position: 'absolute',
+              cursor: 'pointer',
             }}
             onClick={goToNext}
           >
@@ -273,6 +274,7 @@ const DayOfSchedule = ({ uaString }: { uaString?: string }) => {
               top: '9.5%',
               right: '30.5%',
               position: 'absolute',
+              cursor: 'pointer',
             }}
             onClick={goToPrev}
           >
@@ -325,6 +327,7 @@ const DayOfSchedule = ({ uaString }: { uaString?: string }) => {
               top: '18%',
               right: '49.5%',
               zIndex: 10,
+              cursor: 'pointer',
             }}
             onClick={eventOneHandler}
           >
@@ -377,6 +380,7 @@ const DayOfSchedule = ({ uaString }: { uaString?: string }) => {
               top: '24%',
               right: '49.5%',
               zIndex: 10,
+              cursor: 'pointer',
             }}
             onClick={eventTwoHandler}
           >
@@ -429,6 +433,7 @@ const DayOfSchedule = ({ uaString }: { uaString?: string }) => {
               top: '31.2%',
               right: '49.8%',
               zIndex: 10,
+              cursor: 'pointer',
             }}
             onClick={eventThreeHandler}
           >
@@ -481,6 +486,7 @@ const DayOfSchedule = ({ uaString }: { uaString?: string }) => {
               top: '37.7%',
               right: '49.8%',
               zIndex: 10,
+              cursor: 'pointer',
             }}
             onClick={eventFourHandler}
           >
@@ -533,6 +539,7 @@ const DayOfSchedule = ({ uaString }: { uaString?: string }) => {
               top: '43.8%',
               right: '49.8%',
               zIndex: 10,
+              cursor: 'pointer',
             }}
             onClick={eventFiveHandler}
           >
@@ -585,6 +592,7 @@ const DayOfSchedule = ({ uaString }: { uaString?: string }) => {
               top: '49.5%',
               right: '49.8%',
               zIndex: 10,
+              cursor: 'pointer',
             }}
             onClick={eventSixHandler}
           >
@@ -637,6 +645,7 @@ const DayOfSchedule = ({ uaString }: { uaString?: string }) => {
               top: '56%',
               right: '49.8%',
               zIndex: 10,
+              cursor: 'pointer',
             }}
             onClick={eventSevenHandler}
           >
@@ -689,6 +698,7 @@ const DayOfSchedule = ({ uaString }: { uaString?: string }) => {
               top: '63%',
               right: '49.8%',
               zIndex: 10,
+              cursor: 'pointer',
             }}
             onClick={eventEightHandler}
           >
@@ -741,6 +751,7 @@ const DayOfSchedule = ({ uaString }: { uaString?: string }) => {
               top: '69.5%',
               right: '49.8%',
               zIndex: 10,
+              cursor: 'pointer',
             }}
             onClick={eventNineHandler}
           >
